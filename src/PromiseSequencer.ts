@@ -1,4 +1,4 @@
-import { getOrCreate } from '~/sbl/util/map.ts';
+import { getOrCreate } from 'scaffold/src/util/map.ts';
 
 export default class PromiseSequencer {
   private map: Map<string, Promise<void>> = new Map();

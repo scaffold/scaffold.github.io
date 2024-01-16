@@ -1,5 +1,5 @@
 import React from 'react';
-import CodeView from '~/ui/CodeView.tsx';
+import CodeView from '../CodeView.tsx';
 
 export default () => (
   <CodeView style={{ margin: 'auto' }}>

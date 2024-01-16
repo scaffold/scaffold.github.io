@@ -1,5 +1,5 @@
 import REGL from 'regl';
-import { getOrCreate } from '~/sbl/util/map.ts';
+import { getOrCreate } from 'scaffold/src/util/map.ts';
 
 interface Cell {
   material: number;

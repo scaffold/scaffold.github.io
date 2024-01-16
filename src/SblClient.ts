@@ -1,15 +1,15 @@
-import secp from '~/sbl/util/secp.ts';
-import Context from '~/sbl/Context.ts';
-import Config, { defaultNetwork, makeDefaultConfig } from '~/sbl/Config.ts';
-import ConnectionService from '~/sbl/ConnectionService.ts';
-import { bin2hex, hex2bin } from '~/sbl/util/hex.ts';
-import * as log from 'std-latest/log/mod.ts';
-import WebsocketClientProvider from '~/plugins/WebsocketClientProvider.ts';
-import WebrtcProvider from '~/plugins/WebrtcProvider.ts';
-import LocalStorageProvider from '~/plugins/LocalStorageProvider.ts';
-import NetworkService from '~/sbl/NetworkService.ts';
-import NullStorageProvider from '~/plugins/NullStorageProvider.ts';
-// import DefaultAppraisalProvider from '~/sbl/DefaultAppraisalProvider.ts';
+import secp from 'scaffold/src/util/secp.ts';
+import Context from 'scaffold/src/Context.ts';
+import Config, { defaultNetwork, makeDefaultConfig } from 'scaffold/src/Config.ts';
+import ConnectionService from 'scaffold/src/ConnectionService.ts';
+import { bin2hex, hex2bin } from 'scaffold/src/util/hex.ts';
+import * as log from '$std/log/mod.ts';
+import WebsocketClientProvider from 'scaffold/plugins/WebsocketClientProvider.ts';
+import WebrtcProvider from 'scaffold/plugins/WebrtcProvider.ts';
+import LocalStorageProvider from 'scaffold/plugins/LocalStorageProvider.ts';
+import NetworkService from 'scaffold/src/NetworkService.ts';
+import NullStorageProvider from 'scaffold/plugins/NullStorageProvider.ts';
+// import DefaultAppraisalProvider from 'scaffold/src/DefaultAppraisalProvider.ts';
 
 // window['Deno'] = {};
 

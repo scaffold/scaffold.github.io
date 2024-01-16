@@ -1,5 +1,5 @@
 import React from 'react';
-import observationMonitor from '~/ui/observationMonitor.ts';
+import observationMonitor from '../observationMonitor.ts';
 
 export default ({ title, desc }: { title: string; desc: string }) => {
   const ref = React.useRef<HTMLDivElement | null>(null);

@@ -1,11 +1,10 @@
 import React from 'react';
 import REGL from 'regl';
 import { mat4, vec2, vec3 } from 'gl-matrix';
-import * as thrustMessages from '~/graph/thrustMessages.ts';
 import bunny from 'bunny';
 import normals from 'angle-normals';
-import Hash from '~/sbl/util/Hash.ts';
-import SblContext from '~/sbl/Context.ts';
+import Hash from 'scaffold/src/util/Hash.ts';
+import SblContext from 'scaffold/src/Context.ts';
 import ThrustProvider from './ThrustProvider.ts';
 import VoxelMesher from './VoxelMesher.ts';
 import ArenaCellUpdater from './ArenaCellUpdater.ts';

@@ -1,5 +1,5 @@
-import { assert } from '~/sbl/util/functional.ts';
-import { RedBlackTree } from 'std-latest/data_structures/mod.ts';
+import { assert } from 'scaffold/src/util/functional.ts';
+import { RedBlackTree } from '$std/data_structures/mod.ts';
 
 interface CacheEntry {
   uses: number;

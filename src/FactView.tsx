@@ -6,16 +6,16 @@ import {
   BsQuestionCircle,
   BsTree,
 } from 'react-icons/bs';
-import Context from '../sbl/Context.ts';
-import Logger from '../sbl/Logger.ts';
-import FactService from '~/sbl/FactService.ts';
-import HashView from '~/ui/HashView.tsx';
-import Hash, { HashPrimitive, ZERO_HASH } from '~/sbl/util/Hash.ts';
-import { Fact, FactSource, FactType } from '~/sbl/FactMeta.ts';
-import { bin2hex } from '~/sbl/util/hex.ts';
-import { match } from '~/sbl/util/functional.ts';
-import { BlockInput } from '~/sbl/messages.ts';
-import CollateralUtil from '~/sbl/CollateralUtil.ts';
+import Context from 'scaffold/src/Context.ts';
+import Logger from 'scaffold/src/Logger.ts';
+import FactService from 'scaffold/src/FactService.ts';
+import HashView from './HashView.tsx';
+import Hash, { HashPrimitive, ZERO_HASH } from 'scaffold/src/util/Hash.ts';
+import { Fact, FactSource, FactType } from 'scaffold/src/FactMeta.ts';
+import { bin2hex } from 'scaffold/src/util/hex.ts';
+import { match } from 'scaffold/src/util/functional.ts';
+import { BlockInput } from 'scaffold/src/messages.ts';
+import CollateralUtil from 'scaffold/src/CollateralUtil.ts';
 
 const makeTypeIcon = (type: FactType) => {
   switch (type) {
