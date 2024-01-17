@@ -21,9 +21,10 @@
     "singleQuote": true
   },
   "tasks": {
-    "dev": "export DENO_FLAGS=--watch ; deno task fmt & deno task bundle-js & deno task bundle-worker & deno task serve-build",
+    "dev": "export DENO_FLAGS=--watch ; deno task cp-static & deno task fmt & deno task bundle-js & deno task bundle-worker & deno task serve-build",
     "fmt": "deno fmt $DENO_FLAGS",
     "lint": "deno lint $DENO_FLAGS",
+    "cp-static": "mkdir -p build/ ; cp static/* build/",
     "bundle-js": "deno bundle $DENO_FLAGS --check app.tsx build/index.js",
     "bundle-worker": "deno bundle $DENO_FLAGS --check ../scaffold/src/worker/worker.ts build/worker.js",
     "serve-build": "deno run --allow-net --allow-read https://deno.land/std@0.212.0/http/file_server.ts build/ --port 17542 --header 'Cross-Origin-Opener-Policy: same-origin' --header 'Cross-Origin-Embedder-Policy: credentialless'"

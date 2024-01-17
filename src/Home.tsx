@@ -16,7 +16,9 @@ import thrustMazeGenerator from '../../examples/ts/thrust_maze.generator.0.ts';
 import QaDebugger from 'scaffold/src/QaDebugger.ts';
 import Input from './Input.tsx';
 import LitigationService from 'scaffold/src/LitigationService.ts';
-import GenesisService, { sharedGenesisData } from 'scaffold/src/GenesisService.ts';
+import GenesisService, {
+  sharedGenesisData,
+} from 'scaffold/src/GenesisService.ts';
 import FactView from './FactView.tsx';
 import CodeView from './CodeView.tsx';
 import FrontierService2 from 'scaffold/src/FrontierService2.ts';

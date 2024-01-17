@@ -16,7 +16,11 @@ import QaDebugger from 'scaffold/src/QaDebugger.ts';
 import Hash, { HashPrimitive } from 'scaffold/src/util/Hash.ts';
 import { trunc } from 'scaffold/src/util/string.ts';
 import { BlockInput, BlockOutput } from 'scaffold/src/messages.ts';
-import { BlockFact, Collateralization, FactSource } from 'scaffold/src/FactMeta.ts';
+import {
+  BlockFact,
+  Collateralization,
+  FactSource,
+} from 'scaffold/src/FactMeta.ts';
 import FactService from 'scaffold/src/FactService.ts';
 import BlockService from 'scaffold/src/BlockService.ts';
 import HashView from './HashView.tsx';

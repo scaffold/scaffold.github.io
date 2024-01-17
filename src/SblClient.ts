@@ -1,6 +1,9 @@
 import secp from 'scaffold/src/util/secp.ts';
 import Context from 'scaffold/src/Context.ts';
-import Config, { defaultNetwork, makeDefaultConfig } from 'scaffold/src/Config.ts';
+import Config, {
+  defaultNetwork,
+  makeDefaultConfig,
+} from 'scaffold/src/Config.ts';
 import ConnectionService from 'scaffold/src/ConnectionService.ts';
 import { bin2hex, hex2bin } from 'scaffold/src/util/hex.ts';
 import * as log from '$std/log/mod.ts';
