@@ -2,18 +2,10 @@ import React from 'react';
 
 export default () => (
   <>
-    <h1 style={{ marginBottom: 0 }}>
+    <h1 className='text-balance text-6xl mt-10'>
       Next-generation architecture for the web
     </h1>
-    <h2
-      style={{
-        fontSize: '1.5rem',
-        fontStyle: 'italic',
-        marginTop: '0.5em',
-        color: '#888',
-        fontWeight: '300',
-      }}
-    >
+    <h2 className='text-balance text-2xl mt-5 mb-10 italic  text-gray'>
       Scaffold moves the cloud to the client
     </h2>
   </>

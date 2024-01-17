@@ -21,13 +21,14 @@
     "singleQuote": true
   },
   "tasks": {
-    "dev": "export DENO_FLAGS=--watch ; deno task cp-static & deno task fmt & deno task bundle-js & deno task bundle-worker & deno task serve-build",
+    "dev": "export DENO_FLAGS=--watch ; deno task init-build ; deno task bundle-css & deno task fmt & deno task bundle-js & deno task bundle-worker & deno task serve-build",
     "fmt": "deno fmt $DENO_FLAGS",
     "lint": "deno lint $DENO_FLAGS",
-    "cp-static": "mkdir -p build/ ; cp static/* build/",
-    "bundle-js": "deno bundle $DENO_FLAGS --check app.tsx build/index.js",
-    "bundle-worker": "deno bundle $DENO_FLAGS --check ../scaffold/src/worker/worker.ts build/worker.js",
-    "serve-build": "deno run --allow-net --allow-read https://deno.land/std@0.212.0/http/file_server.ts build/ --port 17542 --header 'Cross-Origin-Opener-Policy: same-origin' --header 'Cross-Origin-Embedder-Policy: credentialless'"
+    "init-build": "mkdir -p static/build/",
+    "bundle-css": "deno run --allow-all npm:tailwindcss --input main.css --output static/build/main.css $DENO_FLAGS",
+    "bundle-js": "deno bundle $DENO_FLAGS --check app.tsx static/build/index.js",
+    "bundle-worker": "deno bundle $DENO_FLAGS --check ../scaffold/src/worker/worker.ts static/build/worker.js",
+    "serve-build": "deno run --allow-net --allow-read https://deno.land/std@0.212.0/http/file_server.ts static/ --port 17542 --header 'Cross-Origin-Opener-Policy: same-origin' --header 'Cross-Origin-Embedder-Policy: credentialless'"
   },
   "imports": {
     "_scaffold/": "https://raw.githubusercontent.com/scaffold/scaffold/main/",
@@ -38,6 +39,7 @@
     "react-dom": "https://esm.sh/react-dom@18.2.0?target=esnext&pin=v135",
     "react-router-dom": "https://esm.sh/react-router-dom@6.4.4?target=esnext&pin=v135",
     "react-icons/bs": "https://esm.sh/react-icons@4.10.1/bs?target=esnext&pin=v135",
+    "tailwindcss": "https://esm.sh/tailwindcss@3.4.1?target=esnext&pin=v135",
     "tanstack-virtual": "https://esm.sh/@tanstack/react-virtual@3.0.0-alpha.0?target=esnext&pin=v135",
     "tanstack-table": "https://esm.sh/@tanstack/react-table@8.9.3?target=esnext&pin=v135",
     "threejs": "https://esm.sh/three@r139?target=esnext&pin=v135",

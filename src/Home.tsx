@@ -158,10 +158,30 @@ export default () => {
 
         <div style={{ flex: '1' }}></div>
 
-        <a href='/explorer' className='header-link'>Explorer</a>
-        <a href='/docs' className='header-link'>Docs</a>
-        <a href='/community' className='header-link'>Community</a>
-        <a href='/blog' className='header-link'>Blog</a>
+        <a
+          href='/explorer'
+          className='text-inherit no-underline m-4 self-center font-medium hover:underline'
+        >
+          Explorer
+        </a>
+        <a
+          href='/docs'
+          className='text-inherit no-underline m-4 self-center font-medium hover:underline'
+        >
+          Docs
+        </a>
+        <a
+          href='/community'
+          className='text-inherit no-underline m-4 self-center font-medium hover:underline'
+        >
+          Community
+        </a>
+        <a
+          href='/blog'
+          className='text-inherit no-underline m-4 self-center font-medium hover:underline'
+        >
+          Blog
+        </a>
 
         <div></div>
 

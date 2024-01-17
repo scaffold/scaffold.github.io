@@ -15,5 +15,5 @@ export default ({ title, desc }: { title: string; desc: string }) => {
     [],
   );
 
-  return <div ref={callback}>{title}: {desc}</div>;
+  return <div ref={callback} className=''>{title}: {desc}</div>;
 };
