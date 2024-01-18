@@ -59,7 +59,7 @@ export default (
     </head>
 
     <body className='bg-night text-sky font-sunflower font-light'>
-      <div id='root' className='flex flex-col items-center'>
+      <div className='flex flex-col items-center'>
         {children}
       </div>
     </body>
