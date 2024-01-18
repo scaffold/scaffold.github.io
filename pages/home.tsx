@@ -3,7 +3,7 @@ import Home from '../src/Home.tsx';
 import Html from '../src/Html.tsx';
 import { baseUrl } from '../config.ts';
 
-export const path = '/';
+export const path = '/home.html';
 
 export default () => (
   <Html title='Scaffold - Home' canonicalUrl={`${baseUrl}${path}`}>

@@ -1,10 +1,10 @@
 import React from 'react';
 import { renderToReadableStream } from 'react-server';
-import { copy, ensureDir, walk } from 'https://deno.land/std@0.212.0/fs/mod.ts';
-import { join } from 'https://deno.land/std@0.212.0/path/mod.ts';
+import { ensureDir, walk } from '$std/fs/mod.ts';
+import { join } from '$std/path/mod.ts';
+import { encodeHex } from '$std/encoding/hex.ts';
 import * as esbuild from 'npm:esbuild';
 import { denoPlugins } from 'https://deno.land/x/esbuild_deno_loader@0.8.3/mod.ts';
-import Hash from '../scaffold/src/util/Hash.ts';
 
 const outDir = './build/';
 
@@ -29,6 +29,7 @@ const buildHtml = async (
   { default: Component }: Page,
   jsPath: string,
 ) => {
+  await Deno.remove(htmlPath).catch((err) => {});
   const html = await renderToReadableStream(<Component />, {
     bootstrapModules: [jsPath],
   });
@@ -54,7 +55,9 @@ const buildPage = async (filepath: string) => {
   await initDir;
 
   const page: Page = await import('./' + filepath);
-  const hash = Hash.digest(page.path).toHex().slice(0, 16);
+  const hash = encodeHex(
+    await crypto.subtle.digest('SHA-256', new TextEncoder().encode(page.path)),
+  ).slice(0, 16);
 
   const entries = page.path.split('/');
   const filename = entries.pop() || 'index.html';
@@ -74,7 +77,7 @@ const buildPage = async (filepath: string) => {
 const walkOptions = { includeDirs: false, exts: ['.tsx'] };
 const tasks = [initDir];
 for await (const entry of walk('./pages/', walkOptions)) {
-  tasks.push(buildPage(entry.path));
+  tasks.push(buildPage(entry.path).catch((err) => console.error(err)));
 }
 
 await Promise.all(tasks);

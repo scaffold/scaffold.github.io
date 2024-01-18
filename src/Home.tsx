@@ -28,6 +28,9 @@ import CodeExample from './sections/CodeExample.tsx';
 import Nope from './sections/Nope.tsx';
 import FeatureCard from './sections/FeatureCard.tsx';
 import ScaffoldLogo from './ScaffoldLogo.tsx';
+import { path as explorerPath } from '../pages/explorer.tsx';
+import { path as docsPath } from '../pages/docs.tsx';
+import { path as faqPath } from '../pages/faq.tsx';
 
 // QJS
 // const initialContractHex =
@@ -160,29 +163,31 @@ export default () => {
         <div style={{ flex: '1' }}></div>
 
         <a
-          href='/explorer'
+          href={explorerPath}
           className='text-inherit no-underline m-4 self-center font-medium hover:underline'
         >
           Explorer
         </a>
         <a
-          href='/docs'
+          href={docsPath}
           className='text-inherit no-underline m-4 self-center font-medium hover:underline'
         >
           Docs
         </a>
         <a
-          href='/community'
+          href={faqPath}
           className='text-inherit no-underline m-4 self-center font-medium hover:underline'
         >
-          Community
+          FAQ
         </a>
-        <a
+        {
+          /* <a
           href='/blog'
           className='text-inherit no-underline m-4 self-center font-medium hover:underline'
         >
           Blog
-        </a>
+        </a> */
+        }
 
         <div></div>
 
