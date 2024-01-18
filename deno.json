@@ -37,6 +37,7 @@
     "$std/": "https://deno.land/std@0.212.0/",
     "react": "https://esm.sh/react@18.2.0?target=esnext&pin=v135",
     "react-dom": "https://esm.sh/react-dom@18.2.0?target=esnext&pin=v135",
+    "react-server": "https://esm.sh/react-dom@18.2.0/server?target=esnext&pin=v135",
     "react-router-dom": "https://esm.sh/react-router-dom@6.4.4?target=esnext&pin=v135",
     "react-icons/bs": "https://esm.sh/react-icons@4.10.1/bs?target=esnext&pin=v135",
     "tailwindcss": "https://esm.sh/tailwindcss@3.4.1?target=esnext&pin=v135",

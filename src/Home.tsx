@@ -27,7 +27,6 @@ import SplashHeader from './sections/SplashHeader.tsx';
 import CodeExample from './sections/CodeExample.tsx';
 import Nope from './sections/Nope.tsx';
 import FeatureCard from './sections/FeatureCard.tsx';
-import observationMonitor from './observationMonitor.ts';
 import ScaffoldLogo from './ScaffoldLogo.tsx';
 
 // QJS
@@ -108,7 +107,9 @@ const startGame = () => {
 };
 
 export default () => {
-  const [url, setUrl] = React.useState(new URL(window.location.href));
+  const [url, setUrl] = React.useState(
+    new URL(window.location ? window.location.href : 'http://localhost/'),
+  );
   const [network, setNetwork] = React.useState<string>(
     url.searchParams.get('network') ?? defaultNetwork,
   );

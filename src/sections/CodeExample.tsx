@@ -8,10 +8,11 @@ import Scaffold, { browserConfig } from 'https://github.com/scaffold/scaffold/ra
 
 const scaffold = new Scaffold(browserConfig);
 
+const contractHash = 'dda8ecfd22ea2b9fd670cd43cadd553ebfe35dac89a5552ab15fd1cf3eca21bd';
+
 scaffold.fetch(
-  'dda8ecfd22ea2b9fd670cd43cadd553ebfe35dac89a5552ab15fd1cf3eca21bd',
-  JSON.stringify({ name: 'Joel' }),
-  (response) => console.log(new TextDecoder().decode(response)),
+  \`scf://\${contractHash}/profile.id.123/post.id.456/get\`,
+  (response) => console.log(response),
 );
 `.trim()}
   </CodeView>

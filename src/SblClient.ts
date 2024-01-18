@@ -17,10 +17,13 @@ import NullStorageProvider from 'scaffold/plugins/NullStorageProvider.ts';
 // window['Deno'] = {};
 
 const getNetwork = () =>
-  new URLSearchParams(window.location.search).get('network') ?? defaultNetwork;
+  new URLSearchParams(window.location ? window.location.search : '')
+    .get('network') ?? defaultNetwork;
 
 const getPrivateKey = () => {
-  const pkid = new URLSearchParams(window.location.search).get('pkid') ?? '';
+  const pkid =
+    new URLSearchParams(window.location ? window.location.search : '')
+      .get('pkid') ?? '';
   const hex = localStorage.getItem(`sbl_pk_${pkid}`);
   if (hex) {
     return hex2bin(hex);
@@ -52,15 +55,17 @@ export default class SblClient {
 
     this.ctx = new Context(config);
 
-    const url = new URL(window.location.href);
-    url.protocol = { 'http:': 'ws:', 'https:': 'wss:' }[url.protocol]!;
-    url.port = '8314';
-    this.ctx.get(NetworkService).initConnection(
-      'websocket@0.0.1',
-      hex2bin(
-        '024148e8772a0a4ba2b8b4da9b609d224fd82b3cee0e7ea669ee6d7c306d7678e9',
-      ),
-    ).recvSignal(url.origin);
+    if (window.location) {
+      const url = new URL(window.location.href);
+      url.protocol = { 'http:': 'ws:', 'https:': 'wss:' }[url.protocol]!;
+      url.port = '8314';
+      this.ctx.get(NetworkService).initConnection(
+        'websocket@0.0.1',
+        hex2bin(
+          '024148e8772a0a4ba2b8b4da9b609d224fd82b3cee0e7ea669ee6d7c306d7678e9',
+        ),
+      ).recvSignal(url.origin);
+    }
 
     // const params = this.ctx.get(EpochContract).makeParams(10n);
     // this.ctx.get(QuestionService).getCanonical(
