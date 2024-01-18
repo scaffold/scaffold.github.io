@@ -1,5 +1,4 @@
 import React from 'react';
-import Home from './Home.tsx';
 
 export default (
   { title, canonicalUrl, children }: {
@@ -23,7 +22,7 @@ export default (
         rel='stylesheet'
       />
 
-      <link rel='stylesheet' href='/build/main.css' />
+      <link rel='stylesheet' href='/main.css' />
 
       <link
         rel='apple-touch-icon'
@@ -47,15 +46,17 @@ export default (
       <link
         rel='stylesheet'
         href='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css'
-        media='none'
+        media='all'
         onLoad={(e) => e.currentTarget.media = 'all'}
       />
       <link
         rel='stylesheet'
         href='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css'
-        media='none'
+        media='all'
         onLoad={(e) => e.currentTarget.media = 'all'}
       />
+
+      <script src='/load-highlight-js.js'></script>
     </head>
 
     <body className='bg-night text-sky font-sunflower font-light'>

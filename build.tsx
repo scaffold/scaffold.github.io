@@ -1,20 +1,21 @@
 import React from 'react';
 import { renderToReadableStream } from 'react-server';
-import { ensureDir, walk } from 'https://deno.land/std@0.212.0/fs/mod.ts';
+import { copy, ensureDir, walk } from 'https://deno.land/std@0.212.0/fs/mod.ts';
 import { join } from 'https://deno.land/std@0.212.0/path/mod.ts';
 import * as esbuild from 'npm:esbuild';
 import { denoPlugins } from 'https://deno.land/x/esbuild_deno_loader@0.8.3/mod.ts';
 import Hash from '../scaffold/src/util/Hash.ts';
 
-const outDir = './static/build/';
+const outDir = './build/';
 
 interface Page {
   default: React.ComponentType;
   path: string;
 }
 
-const emptyDir = Deno.remove(outDir, { recursive: true })
-  .catch((err) => console.warn(err));
+// const initDir = Deno.remove(outDir, { recursive: true })
+//   .catch((err) => console.warn(err));
+const initDir = Promise.resolve();
 
 const makeBootstrapTsx = (tsxPath: string) => `
   import React from 'react';
@@ -34,7 +35,7 @@ const buildHtml = async (
   await Deno.writeFile(htmlPath, html);
 };
 
-const buildJs = async (jsPath: string, page: Page, tsxPath: string) => {
+const buildJs = async (jsPath: string, tsxPath: string) => {
   const tmp = await Deno.makeTempFile({ suffix: '.tsx' });
   await Deno.writeTextFile(tmp, makeBootstrapTsx(tsxPath));
 
@@ -45,10 +46,12 @@ const buildJs = async (jsPath: string, page: Page, tsxPath: string) => {
     // format: 'esm',
     outfile: jsPath,
   });
+
+  await Deno.remove(tmp);
 };
 
 const buildPage = async (filepath: string) => {
-  await emptyDir;
+  await initDir;
 
   const page: Page = await import('./' + filepath);
   const hash = Hash.digest(page.path).toHex().slice(0, 16);
@@ -64,12 +67,12 @@ const buildPage = async (filepath: string) => {
 
   await Promise.all([
     buildHtml(htmlPath, page, join('/js', hash + '.js')),
-    buildJs(jsPath, page, './' + filepath),
+    buildJs(jsPath, './' + filepath),
   ]);
 };
 
 const walkOptions = { includeDirs: false, exts: ['.tsx'] };
-const tasks = [emptyDir];
+const tasks = [initDir];
 for await (const entry of walk('./pages/', walkOptions)) {
   tasks.push(buildPage(entry.path));
 }
