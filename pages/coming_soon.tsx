@@ -5,7 +5,7 @@ import { baseUrl } from '../config.ts';
 export const path = '/';
 
 export default () => (
-  <Html title='Scaffold - coming soon!' canonicalUrl={`${baseUrl}${path}`}>
+  <Html title='Scaffold' canonicalUrl={`${baseUrl}${path}`}>
     <div className='h-16 self-stretch flex flex-row bg-dark gap-8 p-2'>
       <a href='/'>
         <img

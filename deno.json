@@ -25,7 +25,7 @@
     "render": "export DENO_FLAGS= ; mkdir -p build/ ; cp static/* build/ ; deno task bundle-css & deno task bundle-js",
     "fmt": "deno fmt $DENO_FLAGS",
     "lint": "deno lint $DENO_FLAGS",
-    "bundle-css": "deno run --allow-all npm:tailwindcss --input main.css --output build/main.css $DENO_FLAGS",
+    "bundle-css": "deno run --allow-all npm:tailwindcss --input main.css --output build/main.css --minify $DENO_FLAGS",
     "bundle-js": "deno run $DENO_FLAGS --allow-all --check build.tsx",
     "old-bundle-js": "deno bundle $DENO_FLAGS --check app.tsx static/build/index.js",
     "bundle-worker": "deno bundle $DENO_FLAGS --check ../scaffold/src/worker/worker.ts build/worker.js",

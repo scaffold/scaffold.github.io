@@ -6,7 +6,7 @@ import { baseUrl } from '../config.ts';
 export const path = '/home.html';
 
 export default () => (
-  <Html title='Scaffold - Home' canonicalUrl={`${baseUrl}${path}`}>
+  <Html title='Scaffold' canonicalUrl={`${baseUrl}${path}`}>
     <Home />
   </Html>
 );
