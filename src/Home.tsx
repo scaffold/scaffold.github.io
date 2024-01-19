@@ -15,6 +15,8 @@ export default () => (
     <CodeExample />
     <Nope />
 
+    <div>&nbsp;</div>
+
     <FeatureCard title='Why?'>
       We created Scaffold to eliminate the hosting-related obstacles to building
       online services/platforms (commercial, social, multiplayer gaming, etc.).
@@ -104,6 +106,10 @@ export default () => (
       Yes. However,
       <ol className='list-disc pl-3'>
         <li>
+          It's not a blockchain, but a block tree. No one will ever download or
+          verify the entire tree. This means it's fast and energy-efficient.
+        </li>
+        <li>
           As stated in "Why?", Scaffold's #1 goal is computation. Not currency.
           The world has enough of those. However we believe a store of value is
           necessary: to perform computations (not just returning
@@ -118,10 +124,6 @@ export default () => (
           speed first and consensus second. Large transactions will be finalized
           much more slowly, but this isn't a problem because we're using
           extremely small transactions to incentivize computation.
-        </li>
-        <li>
-          It's not a blockchain, but a block tree. No one will ever download or
-          verify the entire tree. This means it's fast and energy-efficient.
         </li>
       </ol>
     </FeatureCard>
