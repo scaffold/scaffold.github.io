@@ -2,10 +2,11 @@ import React from 'react';
 import Html from '../src/Html.tsx';
 import { baseUrl } from '../config.ts';
 
-export const path = '/faq.html';
+import { faq as page } from '../src/pages.ts';
+export { page };
 
 export default () => (
-  <Html title='Scaffold - FAQ' canonicalUrl={`${baseUrl}${path}`}>
+  <Html title='Scaffold - FAQ' canonicalUrl={`${baseUrl}${page.path}`}>
     FAQ
   </Html>
 );

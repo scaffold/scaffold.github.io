@@ -20,17 +20,8 @@ import GenesisService, {
   sharedGenesisData,
 } from 'scaffold/src/GenesisService.ts';
 import FactView from './FactView.tsx';
-import CodeView from './CodeView.tsx';
 import FrontierService2 from 'scaffold/src/FrontierService2.ts';
 import { defaultNetwork } from 'scaffold/src/Config.ts';
-import SplashHeader from './sections/SplashHeader.tsx';
-import CodeExample from './sections/CodeExample.tsx';
-import Nope from './sections/Nope.tsx';
-import FeatureCard from './sections/FeatureCard.tsx';
-import ScaffoldLogo from './ScaffoldLogo.tsx';
-import { path as explorerPath } from '../pages/explorer.tsx';
-import { path as docsPath } from '../pages/docs.tsx';
-import { path as faqPath } from '../pages/faq.tsx';
 
 // QJS
 // const initialContractHex =

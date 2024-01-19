@@ -3,10 +3,14 @@ import Html from '../src/Html.tsx';
 import { baseUrl } from '../config.ts';
 import Explorer from '../src/Explorer.tsx';
 
-export const path = '/explorer.html';
+import { explorer as page } from '../src/pages.ts';
+export { page };
 
 export default () => (
-  <Html title='Scaffold - graph explorer' canonicalUrl={`${baseUrl}${path}`}>
+  <Html
+    title='Scaffold - graph explorer'
+    canonicalUrl={`${baseUrl}${page.path}`}
+  >
     <Explorer />
   </Html>
 );

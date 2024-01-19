@@ -3,79 +3,13 @@ import SplashHeader from './sections/SplashHeader.tsx';
 import CodeExample from './sections/CodeExample.tsx';
 import Nope from './sections/Nope.tsx';
 import FeatureCard from './sections/FeatureCard.tsx';
-import ScaffoldLogo from './ScaffoldLogo.tsx';
-import { path as comingSoonPath } from '../pages/coming_soon.tsx';
-import { path as explorerPath } from '../pages/explorer.tsx';
-import { path as docsPath } from '../pages/docs.tsx';
-import { path as faqPath } from '../pages/faq.tsx';
+import Header from './Header.tsx';
 
 const enableLinks = false;
 
 export default () => (
   <>
-    <div
-      style={{
-        minHeight: '4rem',
-        alignSelf: 'stretch',
-        display: 'flex',
-        flexDirection: 'row',
-        backgroundColor: '#111',
-        gap: '2rem',
-        padding: '0.5rem',
-      }}
-    >
-      <a href='/'>
-        <ScaffoldLogo
-          style={{ display: 'block', height: '100%' }}
-          color='#8CB3F2'
-        />
-      </a>
-
-      <div style={{ flex: '1' }}></div>
-
-      <a
-        href={comingSoonPath}
-        className='text-inherit no-underline m-4 self-center font-medium hover:underline'
-      >
-        Get started
-      </a>
-
-      {enableLinks
-        ? (
-          <>
-            <a
-              href={explorerPath}
-              className='text-inherit no-underline m-4 self-center font-medium hover:underline'
-            >
-              Explorer
-            </a>
-            <a
-              href={docsPath}
-              className='text-inherit no-underline m-4 self-center font-medium hover:underline'
-            >
-              Docs
-            </a>
-            <a
-              href={faqPath}
-              className='text-inherit no-underline m-4 self-center font-medium hover:underline'
-            >
-              FAQ
-            </a>
-            <a
-              href='https://github.com/scaffold/scaffold'
-              target='_blank'
-              className='text-inherit no-underline m-4 self-center font-medium hover:underline'
-            >
-              Github
-            </a>
-
-            <div></div>
-          </>
-        )
-        : undefined}
-
-      {/*Balance: ${Number(ctx.get(BalanceService).getLiquidBalance())}*/}
-    </div>
+    <Header />
 
     <SplashHeader />
     <CodeExample />

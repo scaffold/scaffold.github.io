@@ -2,10 +2,11 @@ import React from 'react';
 import Html from '../src/Html.tsx';
 import { baseUrl } from '../config.ts';
 
-export const path = '/';
+import { comingSoon as page } from '../src/pages.ts';
+export { page };
 
 export default () => (
-  <Html title='Scaffold' canonicalUrl={`${baseUrl}${path}`}>
+  <Html title='Scaffold' canonicalUrl={`${baseUrl}${page.path}`}>
     <div className='h-16 self-stretch flex flex-row bg-dark gap-8 p-2'>
       <a href='/'>
         <img

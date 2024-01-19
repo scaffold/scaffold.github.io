@@ -5,13 +5,9 @@ import { join } from '$std/path/mod.ts';
 import { encodeHex } from '$std/encoding/hex.ts';
 import * as esbuild from 'npm:esbuild';
 import { denoPlugins } from 'https://deno.land/x/esbuild_deno_loader@0.8.3/mod.ts';
+import { Page } from './src/pages.ts';
 
 const outDir = './build/';
-
-interface Page {
-  default: React.ComponentType;
-  path: string;
-}
 
 // const initDir = Deno.remove(outDir, { recursive: true })
 //   .catch((err) => console.warn(err));
@@ -26,7 +22,7 @@ const makeBootstrapTsx = (tsxPath: string) => `
 
 const buildHtml = async (
   htmlPath: string,
-  { default: Component }: Page,
+  Component: React.ComponentType,
   jsPath: string,
 ) => {
   await Deno.remove(htmlPath).catch((err) => {});
@@ -54,7 +50,10 @@ const buildJs = async (jsPath: string, tsxPath: string) => {
 const buildPage = async (filepath: string) => {
   await initDir;
 
-  const page: Page = await import('./' + filepath);
+  const { default: Component, page }: {
+    default: React.ComponentType;
+    page: Page;
+  } = await import('./' + filepath);
   const hash = encodeHex(
     await crypto.subtle.digest('SHA-256', new TextEncoder().encode(page.path)),
   ).slice(0, 16);
@@ -69,7 +68,7 @@ const buildPage = async (filepath: string) => {
   await ensureDir(dirPath);
 
   await Promise.all([
-    buildHtml(htmlPath, page, join('/js', hash + '.js')),
+    buildHtml(htmlPath, Component, join('/js', hash + '.js')),
     buildJs(jsPath, './' + filepath),
   ]);
 };

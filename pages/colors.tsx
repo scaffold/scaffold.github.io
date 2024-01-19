@@ -2,10 +2,11 @@ import React from 'react';
 import Html from '../src/Html.tsx';
 import { baseUrl } from '../config.ts';
 
-export const path = '/colors.html';
+import { colors as page } from '../src/pages.ts';
+export { page };
 
 export default () => (
-  <Html title='Scaffold' canonicalUrl={`${baseUrl}${path}`}>
+  <Html title='Scaffold' canonicalUrl={`${baseUrl}${page.path}`}>
     <div style={{ width: '40rem', backgroundColor: 'white', padding: '2rem' }}>
       <div
         style={{ height: '4rem', backgroundColor: '#15079C', color: 'white' }}
