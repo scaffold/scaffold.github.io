@@ -10,12 +10,12 @@ export default (
   },
 ) => (
   <div
+    className='rounded-lg'
     style={{
       width: 'max-content',
       height: 'max-content',
       background: '#22272E',
       boxShadow: `#8CB3F244 0 20px 50px -10px`,
-      borderRadius: 10,
       ...style,
     }}
   >

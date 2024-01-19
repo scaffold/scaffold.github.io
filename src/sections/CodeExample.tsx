@@ -2,7 +2,7 @@ import React from 'react';
 import CodeView from '../CodeView.tsx';
 
 export default () => (
-  <CodeView style={{ margin: 'auto' }}>
+  <CodeView style={{ margin: 'auto', marginBottom: '50px' }}>
     {`
 import Scaffold, { browserConfig } from 'https://github.com/scaffold/scaffold/raw/v1.0.0/index.ts';
 

@@ -59,7 +59,7 @@ export default (
       <script src='/load-highlight-js.js'></script>
     </head>
 
-    <body className='bg-night text-sky font-sunflower font-light flex flex-col items-center'>
+    <body className='bg-night text-sky font-sunflower font-light flex flex-col items-center gap-10'>
       {children}
     </body>
   </html>

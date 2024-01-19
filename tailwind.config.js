@@ -9,6 +9,8 @@ module.exports = {
       gray: '#888',
       navy: '#15079C',
       sky: '#8CB3F2',
+      cloud: '#B0CBF6',
+      mist: '#D4E3FA',
       sunbeam: '#EEF0AD',
       orange: '#D12D0E',
       dirt: '#372733',
@@ -17,7 +19,24 @@ module.exports = {
     fontFamily: {
       sunflower: ['Sunflower', 'sans-serif'],
     },
-    extend: {},
+    extend: {
+      backgroundImage: {
+        construction: `
+          repeating-linear-gradient(
+            -45deg,
+            #8CB3F2,
+            #8CB3F2 2rem,
+            #B0CBF6 2rem,
+            #B0CBF6 4rem
+          ) /* ,
+          linear-gradient(
+            to bottom,
+            #eee,
+            #999
+          ) */
+        `,
+      },
+    },
   },
   plugins: [],
 };

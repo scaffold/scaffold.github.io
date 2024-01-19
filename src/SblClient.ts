@@ -45,7 +45,11 @@ export default class SblClient {
       debugName: 'SblClient',
       selfPrivateKey: getPrivateKey(),
 
-      logLevel: log.LogLevels.DEBUG,
+      logLevel: 'Deno' in window ? log.LogLevels.WARNING : log.LogLevels.DEBUG,
+
+      workerPath: window.location
+        ? new URL('./worker.js', window.location.href).href
+        : undefined,
 
       networkProviders: [new WebsocketClientProvider(), new WebrtcProvider()],
       // storageProvider: new LocalStorageProvider(),
