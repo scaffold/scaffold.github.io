@@ -22,6 +22,7 @@ import GenesisService, {
 import FactView from './FactView.tsx';
 import FrontierService2 from 'scaffold/src/FrontierService2.ts';
 import { defaultNetwork } from 'scaffold/src/Config.ts';
+import CodeDemo from './CodeDemo.tsx';
 
 // QJS
 // const initialContractHex =
@@ -83,8 +84,6 @@ client.ctx.get(QaDebugger).addDebugger(
   (params) => thrustMessages.MazeParams.decode(params),
   (answer) => thrustMessages.MazeAnswer.decode(answer),
 );
-
-client.ctx.get(GenesisService).ingestGenesis(sharedGenesisData);
 
 const startGame = () => {
   const body = thrustMessages.InitAnswer.encode({
@@ -288,6 +287,8 @@ export default () => {
             }
           </>
         )}
+
+        <CodeDemo ctx={client.ctx} />
       </div>
     </>
   );

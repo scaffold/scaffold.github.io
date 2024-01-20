@@ -12,6 +12,9 @@ import WebrtcProvider from 'scaffold/plugins/WebrtcProvider.ts';
 import LocalStorageProvider from 'scaffold/plugins/LocalStorageProvider.ts';
 import NetworkService from 'scaffold/src/NetworkService.ts';
 import NullStorageProvider from 'scaffold/plugins/NullStorageProvider.ts';
+import GenesisService, {
+  sharedGenesisData,
+} from 'scaffold/src/GenesisService.ts';
 // import DefaultAppraisalProvider from 'scaffold/src/DefaultAppraisalProvider.ts';
 
 // window['Deno'] = {};
@@ -58,6 +61,8 @@ export default class SblClient {
     };
 
     this.ctx = new Context(config);
+
+    this.ctx.get(GenesisService).ingestGenesis(sharedGenesisData);
 
     if (window.location) {
       const url = new URL(window.location.href);
