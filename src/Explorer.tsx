@@ -288,7 +288,11 @@ export default () => {
           </>
         )}
 
-        <CodeDemo ctx={client.ctx} />
+        <CodeDemo
+          ctx={client.ctx}
+          setSelectedHash={setSelectedHash}
+          setHoveredHash={setHoveredHash}
+        />
       </div>
     </>
   );

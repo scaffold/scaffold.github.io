@@ -1,8 +1,9 @@
 import React from 'react';
 import ScaffoldLogo from './ScaffoldLogo.tsx';
 import * as pages from './pages.ts';
+import GithubLogo from './GithubLogo.tsx';
 
-const enableLinks = false;
+const enableLinks = true;
 
 export default () => (
   <div
@@ -56,9 +57,8 @@ export default () => (
           <a
             href='https://github.com/scaffold/scaffold'
             target='_blank'
-            className='text-inherit no-underline m-4 self-center font-medium hover:underline'
           >
-            Github
+            <GithubLogo color='white' className='block m-3 h-6' />
           </a>
 
           <div></div>

@@ -2,20 +2,21 @@ import React from 'react';
 import SblClient from './SblClient.ts';
 import FetchService from 'scaffold/src/FetchService.ts';
 import { rootHash } from 'scaffold/src/constants.ts';
-import Hash from 'scaffold/src/util/Hash.ts';
+import Hash, { HashPrimitive } from 'scaffold/src/util/Hash.ts';
 import FactService from 'scaffold/src/FactService.ts';
 import { BlockFact, FactType } from 'scaffold/src/FactMeta.ts';
 import WeightService from 'scaffold/src/WeightService.ts';
 import Context from 'scaffold/src/Context.ts';
 import { BlockInput } from 'scaffold/src/messages.ts';
 import BlockService from 'scaffold/src/BlockService.ts';
+import RootContract from 'scaffold/src/contracts/RootContract.ts';
+import { str2bin } from 'scaffold/src/util/buffer.ts';
+import HashView from './HashView.tsx';
 
 interface BlockOutput {
   block: BlockFact;
   outputIdx: number;
 }
-
-const client = new SblClient();
 
 const getBest = <OptionType extends { block: BlockFact }>(
   ctx: Context,
@@ -49,19 +50,25 @@ const tracePath = (ctx: Context, incentives: BlockOutput[]) => {
   // TODO: Trace path in one loop, by always choosing the highest-weight descendant, either a parent or frontier voter.
 
   while (output !== undefined) {
-    path.push(output.block);
     const claims = output.block.frontierVoters.map((x) => ({ block: x }));
     const best = getBest(ctx, claims);
     if (best === undefined) {
       break;
     }
     output = { block: best.block, outputIdx: best.block.frontierOutputIdx };
+    path.push(output.block);
   }
 
   return path;
 };
 
-export default ({ ctx }: { ctx: Context }) => {
+export default (
+  { ctx, setHoveredHash, setSelectedHash }: {
+    ctx: Context;
+    setHoveredHash: (primitive?: HashPrimitive) => void;
+    setSelectedHash: (primitive?: HashPrimitive) => void;
+  },
+) => {
   const [isRunning, setRunning] = React.useState(false);
   const [incentives, addIncentive] = React.useReducer<
     React.Reducer<BlockOutput[], BlockOutput>
@@ -90,7 +97,13 @@ export default ({ ctx }: { ctx: Context }) => {
           setRunning(!isRunning);
 
           if (!isRunning) {
-            client.ctx.get(FetchService).fetch(
+            for (const provider of ctx.config.contractProviders) {
+              if (provider instanceof RootContract) {
+                provider.addData(str2bin('abc'));
+              }
+            }
+
+            ctx.get(FetchService).fetch(
               { contract_hash: rootHash, params: Hash.digest('abc').toBytes() },
               {
                 onIncentiveBlock: (block, outputIdx) =>
@@ -105,7 +118,14 @@ export default ({ ctx }: { ctx: Context }) => {
       </button>
       <ol>
         {path.map((x) => (
-          <li>{x.hash.toHex().slice(0, 8)} @ {x.frontierParams.level}</li>
+          <li>
+            <HashView
+              hash={x.hash}
+              setHoveredHash={setHoveredHash}
+              setSelectedHash={setSelectedHash}
+            />{' '}
+            @ {x.frontierParams.level}
+          </li>
         ))}
       </ol>
     </div>
