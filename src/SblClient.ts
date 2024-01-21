@@ -15,7 +15,9 @@ import NullStorageProvider from 'scaffold/plugins/NullStorageProvider.ts';
 import GenesisService, {
   sharedGenesisData,
 } from 'scaffold/src/GenesisService.ts';
-// import DefaultAppraisalProvider from 'scaffold/src/DefaultAppraisalProvider.ts';
+
+import { enableDevtoolsFormatter } from 'scaffold/plugins/devtoolsFormatterPlugin.ts';
+enableDevtoolsFormatter();
 
 // window['Deno'] = {};
 
