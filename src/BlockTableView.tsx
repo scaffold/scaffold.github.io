@@ -105,7 +105,7 @@ export default (
       //   header: 'verifier contract hash',
       //   accessorFn: ({ val }) =>
       //     ctx.get(QaDebugger).debugQuestion(val.verifier)?.dbgContract ||
-      //     val.verifier.contract_hash.toHex(),
+      //     val.verifier.contractHash.toHex(),
       //   cell: (props) => <pre>{trunc(props.getValue<string>())}</pre>,
       // },
       // {
@@ -129,8 +129,8 @@ export default (
         cell: (props) => (
           <ol>
             {props.getValue<BlockInput[]>().map((input) => {
-              const output = ctx.get(BlockService).get(input.block_hash, false)
-                ?.outputs[input.output_idx];
+              const output = ctx.get(BlockService).get(input.blockHash, false)
+                ?.outputs[input.outputIdx];
               return (
                 <li>
                   <span
@@ -139,15 +139,15 @@ export default (
                     ${output ? Number(output.amount) : '?'}
                     {': '}
                     <HashView
-                      hash={input.block_hash}
+                      hash={input.blockHash}
                       setHoveredHash={setHoveredHash}
                       setSelectedHash={setSelectedHash}
-                    />.{input.output_idx}
+                    />.{input.outputIdx}
                     {output
                       ? `: ${
                         ctx.get(QaDebugger).debugQuestion(output.verifier)
                           ?.dbgContract ??
-                          output.verifier.contract_hash.toHex().slice(0, 10)
+                          output.verifier.contractHash.toHex().slice(0, 10)
                       }/${bin2hex(output.verifier.params).slice(0, 10)}`
                       : null}
                   </span>
@@ -179,7 +179,7 @@ export default (
                     {': '}
                     {ctx.get(QaDebugger).debugQuestion(output.verifier)
                       ?.dbgContract ??
-                      output.verifier.contract_hash.toHex().slice(0, 10)}/
+                      output.verifier.contractHash.toHex().slice(0, 10)}/
                     {bin2hex(output.verifier.params).slice(0, 10)}
                     {claims.length
                       ? (
@@ -208,20 +208,22 @@ export default (
           block.outputs.reduce((acc, output) => acc + output.amount, 0n),
       },
       {
-        header: 'body size',
-        accessorFn: (block) => block.body.byteLength,
+        header: 'body sizes',
+        accessorFn: (block) => block.bodies.map((x) => x.byteLength).join(','),
       },
       {
         header: 'body',
         accessorFn: (block) => {
           const dbg = ctx.get(QaDebugger).debugAnswer(block)?.dbgAnswer;
-          return dbg ? ctx.get(Logger).serialize(dbg, 0) : bin2hex(block.body);
+          return dbg
+            ? ctx.get(Logger).serialize(dbg, 0)
+            : block.bodies.map((x) => bin2hex(x)).join(', ');
         },
         cell: (props) => <pre>{trunc(props.getValue<string>(), 16)}</pre>,
       },
       {
-        header: 'frontier_vote',
-        accessorFn: (block) => block.frontier_vote,
+        header: 'frontier vote',
+        accessorFn: (block) => block.frontierVote,
         cell: (props) => (
           <HashView
             hash={props.getValue<Hash>()}
@@ -285,7 +287,7 @@ export default (
       {
         header: 'tree weights',
         accessorFn: wrapAccessor((block) =>
-          block.frontierDetail.tree_weights.join(',')
+          block.frontierDetail.treeWeights.join(',')
         ),
       },
       {

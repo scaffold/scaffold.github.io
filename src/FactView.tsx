@@ -111,8 +111,8 @@ export default (
     'RECV COUNT': 'fromNodes' in fact ? fact.fromNodes.length : undefined,
     'SEND COUNT': 'toNodes' in fact ? fact.toNodes.length : undefined,
     'TOTAL SIZE': formatByteLen(fact.data.byteLength),
-    'BODY SIZE': 'body' in fact
-      ? formatByteLen(fact.body.byteLength)
+    'BODY SIZES': 'bodies' in fact
+      ? fact.bodies.map((x) => formatByteLen(x.byteLength)).join(', ')
       : undefined,
     'SIGNATURE': fact.signature !== undefined
       ? bin2hex(fact.signature)
@@ -130,10 +130,10 @@ export default (
         ? 'yes'
         : 'no',
     'FRONTIER VOTE':
-      'frontier_vote' in fact && !Hash.equals(fact.frontier_vote, ZERO_HASH)
+      'frontierVote' in fact && !Hash.equals(fact.frontierVote, ZERO_HASH)
         ? (
           <HashView
-            hash={fact.frontier_vote}
+            hash={fact.frontierVote}
             setHoveredHash={setHoveredHash}
             setSelectedHash={setSelectedHash}
           />
@@ -159,7 +159,7 @@ export default (
             {fact.inputs.map((input) => (
               <div>
                 <HashView
-                  hash={input.block_hash}
+                  hash={input.blockHash}
                   setHoveredHash={setHoveredHash}
                   setSelectedHash={setSelectedHash}
                 />

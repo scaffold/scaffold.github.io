@@ -38,15 +38,15 @@ export default class ThrustProvider {
   constructor(private ctx: Context, public match: Hash, public player: Hash) {
     this.tracker = ctx.get(StateTracker).track(
       (idx) => ({
-        contract_hash: thrust_game_wasm_hash,
+        contractHash: thrust_game_wasm_hash,
         params: thrustMessages.GameParams.encode({ match, tick: idx }),
       }),
-      (idx, state) => {
-        console.log('STATE', state);
+      (idx, response) => {
+        console.log('RESPONSE', response);
         if (idx > this.latestStateIdx) {
           this.latestStateIdx = idx;
           this.latestStateTime = Date.now();
-          this.latestStateVal = thrustMessages.GameAnswer.decode(state.body);
+          this.latestStateVal = thrustMessages.GameAnswer.decode(response);
           console.log('got', idx, this.latestStateVal);
         }
       },
@@ -83,18 +83,18 @@ export default class ThrustProvider {
     return new Promise<thrustMessages.MazeAnswer['cell']>((resolve) =>
       this.ctx.get(FetchService).fetch(
         {
-          contract_hash: thrust_maze_wasm_hash,
+          contractHash: thrust_maze_wasm_hash,
           params: thrustMessages.MazeParams.encode({ match: this.match, x, y }),
         },
         { internalIncentive: 20n },
-        (block) => {
+        (response) => {
           if (hasResolved) {
             // This is fine; as long as the data doesn't change
             // throw new Error(`Cell resolved more than once!`);
             return;
           }
           hasResolved = true;
-          resolve(thrustMessages.MazeAnswer.decode(block.body).cell);
+          resolve(thrustMessages.MazeAnswer.decode(response).cell);
         },
       )
     );

@@ -102,7 +102,7 @@ export default ({ ctx, setHoveredHash, setSelectedHash }: {
             }
 
             ctx.get(FetchService).fetch(
-              { contract_hash: rootHash, params: Hash.digest('abc').toBytes() },
+              { contractHash: rootHash, params: Hash.digest('abc').toBytes() },
               {
                 onIncentiveBlock: (block, outputIdx) =>
                   addIncentive({ block, outputIdx }),

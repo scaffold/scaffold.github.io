@@ -92,10 +92,13 @@ const startGame = () => {
   });
   const match = Hash.digest(body);
   const verifier = {
-    contract_hash: moduleHashes.thrust_init_wasm_hash,
+    contractHash: moduleHashes.thrust_init_wasm_hash,
     params: match.toBytes(),
   };
-  client.ctx.get(BlockBuilder).publish({ body, satisfies: [verifier] });
+  client.ctx.get(BlockBuilder).publishPersistentDraft({
+    body,
+    satisfies: [verifier],
+  });
   return match;
 };
 
@@ -150,17 +153,17 @@ export default () => {
 
         <button
           onClick={() => {
-            client.ctx.get(BlockBuilder).publish({});
+            client.ctx.get(BlockBuilder).publishSingleDraft({});
           }}
         >
           Publish empty block
         </button>
         <button
           onClick={() => {
-            client.ctx.get(BlockBuilder).publish({
+            client.ctx.get(BlockBuilder).publishSingleDraft({
               body: str2bin('abc'),
               satisfies: [{
-                contract_hash: constants.rootHash,
+                contractHash: constants.rootHash,
                 params: Hash.digest('abc').toBytes(),
               }],
             });
@@ -170,13 +173,14 @@ export default () => {
         </button>
         <button
           onClick={async () => {
-            const badBlock = await client.ctx.get(BlockBuilder).publish({
-              body: str2bin('abc'),
-              satisfies: [{
-                contract_hash: constants.rootHash,
-                params: Hash.random().toBytes(),
-              }],
-            });
+            const badBlock = await client.ctx.get(BlockBuilder)
+              .publishSingleDraft({
+                body: str2bin('abc'),
+                satisfies: [{
+                  contractHash: constants.rootHash,
+                  params: Hash.random().toBytes(),
+                }],
+              });
             client.ctx.get(LitigationService)
               .litigate(badBlock, [], 'VALID_CHALLENGE');
           }}
@@ -202,7 +206,7 @@ export default () => {
           onClick={() =>
             client.ctx.get(FetchService).fetch(
               {
-                contract_hash: Hash.fromHex(selectedContract!),
+                contractHash: Hash.fromHex(selectedContract!),
                 params: str2bin(params),
               },
               // TODO: Why isn't this being picked up on the work queue?
@@ -210,7 +214,7 @@ export default () => {
               // Need to make a generatorHash and register them.
               // Does the same WASM act as both a generator and a contract?
               { internalIncentive: 1n, externalIncentive: 1n },
-              (block) => console.log(bin2str(block.body), block),
+              (body) => console.log(bin2str(body)),
             )}
         >
           REQUEST
@@ -219,10 +223,10 @@ export default () => {
         <Input label='Body' value={body} setValue={setBody} />
         <button
           onClick={() =>
-            client.ctx.get(BlockBuilder).publish({
+            client.ctx.get(BlockBuilder).publishSingleDraft({
               body: str2bin(body),
               satisfies: [{
-                contract_hash: Hash.fromHex(selectedContract!),
+                contractHash: Hash.fromHex(selectedContract!),
                 params: str2bin(params),
               }],
             })}
