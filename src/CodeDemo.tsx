@@ -1,15 +1,15 @@
 import React from 'react';
 import SblClient from './SblClient.ts';
-import FetchService from 'scaffold/src/FetchService.ts';
+import { FetchService } from 'scaffold/src/FetchService.ts';
 import { rootHash } from 'scaffold/src/constants.ts';
-import Hash, { HashPrimitive } from 'scaffold/src/util/Hash.ts';
-import FactService from 'scaffold/src/FactService.ts';
+import { Hash, HashPrimitive } from 'scaffold/src/util/Hash.ts';
+import { FactService } from 'scaffold/src/FactService.ts';
 import { BlockFact, FactType } from 'scaffold/src/FactMeta.ts';
-import WeightService from 'scaffold/src/WeightService.ts';
-import Context from 'scaffold/src/Context.ts';
+import { WeightService } from 'scaffold/src/WeightService.ts';
+import { Context } from 'scaffold/src/Context.ts';
 import { BlockInput } from 'scaffold/src/messages.ts';
-import BlockService from 'scaffold/src/BlockService.ts';
-import RootContract from 'scaffold/src/contracts/RootContract.ts';
+import { BlockService } from 'scaffold/src/BlockService.ts';
+import { RootContract } from 'scaffold/src/contracts/RootContract.ts';
 import { str2bin } from 'scaffold/src/util/buffer.ts';
 import HashView from './HashView.tsx';
 

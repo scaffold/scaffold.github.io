@@ -1,28 +1,26 @@
 import React from 'react';
 import SblClient from './SblClient.ts';
-import Hash, { HashPrimitive } from 'scaffold/src/util/Hash.ts';
+import { Hash, HashPrimitive } from 'scaffold/src/util/Hash.ts';
 import BlockTableView from './BlockTableView.tsx';
 import ThrustView from './ThrustView.tsx';
 import * as moduleHashes from './moduleHashes.ts';
 import * as constants from 'scaffold/src/constants.ts';
 import { bin2str, str2bin } from 'scaffold/src/util/buffer.ts';
-import FetchService from 'scaffold/src/FetchService.ts';
-import LocalGeneratorService from 'scaffold/src/LocalGeneratorService.ts';
+import { FetchService } from 'scaffold/src/FetchService.ts';
+import { LocalGeneratorService } from 'scaffold/src/LocalGeneratorService.ts';
 import * as thrustMessages from '../../examples/ts/thrustMessages.ts';
-import BlockBuilder from 'scaffold/src/BlockBuilder.ts';
+import { BlockBuilder } from 'scaffold/src/BlockBuilder.ts';
 import helloGenerator from '../../examples/ts/hello.generator.0.ts';
 import thrustGameGenerator from '../../examples/ts/thrust_game.generator.0.ts';
 import thrustMazeGenerator from '../../examples/ts/thrust_maze.generator.0.ts';
-import QaDebugger from 'scaffold/src/QaDebugger.ts';
+import { QaDebugger } from 'scaffold/src/QaDebugger.ts';
 import Input from './Input.tsx';
-import LitigationService from 'scaffold/src/LitigationService.ts';
-import GenesisService, {
-  sharedGenesisData,
-} from 'scaffold/src/GenesisService.ts';
+import { LitigationService } from 'scaffold/src/LitigationService.ts';
 import FactView from './FactView.tsx';
-import FrontierService2 from 'scaffold/src/FrontierService2.ts';
+import { FrontierService2 } from 'scaffold/src/FrontierService2.ts';
 import { defaultNetwork } from 'scaffold/src/Config.ts';
 import CodeDemo from './CodeDemo.tsx';
+import SvgRenderer from './SvgRenderer.tsx';
 
 // QJS
 // const initialContractHex =
@@ -293,6 +291,12 @@ export default () => {
         )}
 
         <CodeDemo
+          ctx={client.ctx}
+          setSelectedHash={setSelectedHash}
+          setHoveredHash={setHoveredHash}
+        />
+
+        <SvgRenderer
           ctx={client.ctx}
           setSelectedHash={setSelectedHash}
           setHoveredHash={setHoveredHash}

@@ -1,7 +1,7 @@
 import React from 'react';
-import Context from 'scaffold/src/Context.ts';
-import Logger from 'scaffold/src/Logger.ts';
-import Hash, { HashPrimitive } from 'scaffold/src/util/Hash.ts';
+import { Context } from 'scaffold/src/Context.ts';
+import { Logger } from 'scaffold/src/Logger.ts';
+import { Hash, HashPrimitive } from 'scaffold/src/util/Hash.ts';
 
 type ObjMap<T> = { [key: string]: T };
 

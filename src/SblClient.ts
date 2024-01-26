@@ -1,18 +1,20 @@
-import secp from 'scaffold/src/util/secp.ts';
-import Context from 'scaffold/src/Context.ts';
-import Config, {
+import { secp } from 'scaffold/src/util/secp.ts';
+import { Context } from 'scaffold/src/Context.ts';
+import {
+  Config,
   defaultNetwork,
   makeDefaultConfig,
 } from 'scaffold/src/Config.ts';
-import ConnectionService from 'scaffold/src/ConnectionService.ts';
+import { ConnectionService } from 'scaffold/src/ConnectionService.ts';
 import { bin2hex, hex2bin } from 'scaffold/src/util/hex.ts';
 import * as log from '$std/log/mod.ts';
-import WebsocketClientProvider from 'scaffold/plugins/WebsocketClientProvider.ts';
-import WebrtcProvider from 'scaffold/plugins/WebrtcProvider.ts';
-import LocalStorageProvider from 'scaffold/plugins/LocalStorageProvider.ts';
-import NetworkService from 'scaffold/src/NetworkService.ts';
-import NullStorageProvider from 'scaffold/plugins/NullStorageProvider.ts';
-import GenesisService, {
+import { WebsocketClientProvider } from 'scaffold/plugins/WebsocketClientProvider.ts';
+import { WebrtcProvider } from 'scaffold/plugins/WebrtcProvider.ts';
+import { LocalStorageProvider } from 'scaffold/plugins/LocalStorageProvider.ts';
+import { NetworkService } from 'scaffold/src/NetworkService.ts';
+import { NullStorageProvider } from 'scaffold/plugins/NullStorageProvider.ts';
+import {
+  GenesisService,
   sharedGenesisData,
 } from 'scaffold/src/GenesisService.ts';
 

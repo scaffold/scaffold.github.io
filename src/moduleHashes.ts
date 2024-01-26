@@ -1,4 +1,4 @@
-import Hash from 'scaffold/src/util/Hash.ts';
+import { Hash } from 'scaffold/src/util/Hash.ts';
 
 export const interface_wasm_hash = Hash.fromHex(
   'a4b7cedc8fc7e2c66be156a157733f16b998e1a2e92e5c53516458c11cdbe013',

@@ -1,12 +1,12 @@
 import React from 'react';
 import SblClient from './SblClient.ts';
-import Hash from 'scaffold/src/util/Hash.ts';
-import Context from 'scaffold/src/Context.ts';
+import { Hash } from 'scaffold/src/util/Hash.ts';
+import { Context } from 'scaffold/src/Context.ts';
 import ThrustInitContract from '~/graph/ThrustInitContract.ts';
 import ThrustGameContract from '~/graph/ThrustGameContract.ts';
 import * as thrustMessages from '~/graph/thrustMessages.ts';
-import StateTracker from 'scaffold/src/StateTracker.ts';
-import Logger from 'scaffold/src/Logger.ts';
+import { StateTracker } from 'scaffold/src/StateTracker.ts';
+import { Logger } from 'scaffold/src/Logger.ts';
 import ThrustView from './ThrustView.tsx';
 
 export default ({ sbl, match }: { sbl: Context; match: Hash }) => {

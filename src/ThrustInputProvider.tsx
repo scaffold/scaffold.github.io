@@ -1,6 +1,6 @@
-import Context from 'scaffold/src/Context.ts';
-import LocalGeneratorService from 'scaffold/src/LocalGeneratorService.ts';
-import Hash from 'scaffold/src/util/Hash.ts';
+import { Context } from 'scaffold/src/Context.ts';
+import { LocalGeneratorService } from 'scaffold/src/LocalGeneratorService.ts';
+import { Hash } from 'scaffold/src/util/Hash.ts';
 import * as thrustMessages from '../../examples/ts/thrustMessages.ts';
 import * as moduleHashes from './moduleHashes.ts';
 

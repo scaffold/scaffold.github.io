@@ -4,7 +4,7 @@ import CodeView from '../CodeView.tsx';
 export default () => (
   <CodeView style={{ margin: 'auto', marginBottom: '50px' }}>
     {`
-import Scaffold, { browserConfig } from 'https://github.com/scaffold/scaffold/raw/v1.0.0/index.ts';
+import { Scaffold, browserConfig } from 'https://github.com/scaffold/scaffold/raw/v1.0.0/index.ts';
 
 const scaffold = new Scaffold(browserConfig);
 

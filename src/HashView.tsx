@@ -1,5 +1,5 @@
 import React from 'react';
-import Hash, { HashPrimitive } from 'scaffold/src/util/Hash.ts';
+import { Hash, HashPrimitive } from 'scaffold/src/util/Hash.ts';
 
 // https://stackoverflow.com/questions/20993947/prevent-a-specific-child-div-from-expanding-the-parent-div
 // Fill container and highlight first 8 bytes

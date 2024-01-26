@@ -9,11 +9,11 @@ import {
   useReactTable,
 } from 'tanstack-table';
 import { useVirtual } from 'tanstack-virtual';
-import Context from 'scaffold/src/Context.ts';
-import Logger from 'scaffold/src/Logger.ts';
+import { Context } from 'scaffold/src/Context.ts';
+import { Logger } from 'scaffold/src/Logger.ts';
 import { bin2hex } from 'scaffold/src/util/hex.ts';
-import QaDebugger from 'scaffold/src/QaDebugger.ts';
-import Hash, { HashPrimitive } from 'scaffold/src/util/Hash.ts';
+import { QaDebugger } from 'scaffold/src/QaDebugger.ts';
+import { Hash, HashPrimitive } from 'scaffold/src/util/Hash.ts';
 import { trunc } from 'scaffold/src/util/string.ts';
 import { BlockInput, BlockOutput } from 'scaffold/src/messages.ts';
 import {
@@ -21,12 +21,12 @@ import {
   Collateralization,
   FactSource,
 } from 'scaffold/src/FactMeta.ts';
-import FactService from 'scaffold/src/FactService.ts';
-import BlockService from 'scaffold/src/BlockService.ts';
+import { FactService } from 'scaffold/src/FactService.ts';
+import { BlockService } from 'scaffold/src/BlockService.ts';
 import HashView from './HashView.tsx';
-import CollateralUtil from 'scaffold/src/CollateralUtil.ts';
-import WeightService from 'scaffold/src/WeightService.ts';
-import BalanceService from 'scaffold/src/BalanceService.ts';
+import { CollateralUtil } from 'scaffold/src/CollateralUtil.ts';
+import { WeightService } from 'scaffold/src/WeightService.ts';
+import { BalanceService } from 'scaffold/src/BalanceService.ts';
 
 const RowDetail = ({ name, val }: { name: string; val: string }) => (
   <div>

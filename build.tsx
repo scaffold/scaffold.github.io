@@ -7,6 +7,8 @@ import * as esbuild from 'npm:esbuild';
 import { denoPlugins } from 'https://deno.land/x/esbuild_deno_loader@0.8.3/mod.ts';
 import { Page } from './src/pages.ts';
 
+// TODO: Use https://nanojsx.io/ to build?
+
 const outDir = './build/';
 
 // const initDir = Deno.remove(outDir, { recursive: true })
@@ -78,5 +80,18 @@ const tasks = [initDir];
 for await (const entry of walk('./pages/', walkOptions)) {
   tasks.push(buildPage(entry.path).catch((err) => console.error(err)));
 }
+
+tasks.push(
+  new Deno.Command(Deno.execPath(), {
+    args: [
+      'doc',
+      '--html',
+      '--name=Scaffold',
+      `--output=${outDir}/docs/`,
+      '../scaffold/src/',
+      '../scaffold/plugins/',
+    ],
+  }).spawn().status.then(() => {}),
+);
 
 await Promise.all(tasks);
