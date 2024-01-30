@@ -2,17 +2,16 @@ import React from 'react';
 import SblClient from './SblClient.ts';
 import { Hash, HashPrimitive } from 'scaffold/src/util/Hash.ts';
 import BlockTableView from './BlockTableView.tsx';
-import ThrustView from './ThrustView.tsx';
 import * as moduleHashes from './moduleHashes.ts';
 import * as constants from 'scaffold/src/constants.ts';
 import { bin2str, str2bin } from 'scaffold/src/util/buffer.ts';
 import { FetchService } from 'scaffold/src/FetchService.ts';
 import { LocalGeneratorService } from 'scaffold/src/LocalGeneratorService.ts';
-import * as thrustMessages from '../../examples/ts/thrustMessages.ts';
+// import * as thrustMessages from '../../examples/ts/thrustMessages.ts';
+// import helloGenerator from '../../examples/ts/hello.generator.0.ts';
+// import thrustGameGenerator from '../../examples/ts/thrust_game.generator.0.ts';
+// import thrustMazeGenerator from '../../examples/ts/thrust_maze.generator.0.ts';
 import { BlockBuilder } from 'scaffold/src/BlockBuilder.ts';
-import helloGenerator from '../../examples/ts/hello.generator.0.ts';
-import thrustGameGenerator from '../../examples/ts/thrust_game.generator.0.ts';
-import thrustMazeGenerator from '../../examples/ts/thrust_maze.generator.0.ts';
 import { QaDebugger } from 'scaffold/src/QaDebugger.ts';
 import Input from './Input.tsx';
 import { LitigationService } from 'scaffold/src/LitigationService.ts';
@@ -29,6 +28,9 @@ import Tab from './Tab.tsx';
 import CountMetric from './CountMetric.tsx';
 import { multimapCall } from 'scaffold/src/util/map.ts';
 
+const client = new SblClient();
+
+/*
 // QJS
 // const initialContractHex =
 //   '2699c934e05e42c7937c17bfa8d0f70cb8b65f47a5330e512df5f3b621a99709';
@@ -48,7 +50,6 @@ const initialParams = 'joel';
 
 const contractHashes = Object.entries({ ...constants, ...moduleHashes });
 
-const client = new SblClient();
 const player = Hash.digest(client.ctx.config.selfPrivateKey);
 
 // If we comment either of these out, the server should pick up the slack
@@ -106,6 +107,7 @@ const startGame = () => {
   });
   return match;
 };
+*/
 
 const enum Section {
   Blocks,
