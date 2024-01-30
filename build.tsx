@@ -9,7 +9,7 @@ import { Page } from './src/pages.ts';
 
 // TODO: Use https://nanojsx.io/ to build?
 
-const outDir = './build/';
+const outDir = join(import.meta.dirname ?? '.', 'build');
 
 // const initDir = Deno.remove(outDir, { recursive: true })
 //   .catch((err) => console.warn(err));
@@ -86,15 +86,16 @@ for await (const entry of walk('./pages/', walkOptions)) {
   tasks.push(buildPage(entry.path).catch((err) => console.error(err)));
 }
 
-tasks.push(
+Deno.env.get('CI') || tasks.push(
   new Deno.Command(Deno.execPath(), {
+    cwd: '../scaffold/',
     args: [
       'doc',
       '--html',
       '--name=Scaffold',
       `--output=${outDir}/docs/`,
-      '../scaffold/src/',
-      '../scaffold/plugins/',
+      'src/',
+      'plugins/',
     ],
   }).spawn().status.then(() => {}),
 );

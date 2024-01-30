@@ -18,7 +18,7 @@ import { LitigationService } from 'scaffold/src/LitigationService.ts';
 import { FrontierService2 } from 'scaffold/src/FrontierService2.ts';
 import { defaultNetwork } from 'scaffold/src/Config.ts';
 import CodeDemo from './CodeDemo.tsx';
-import SvgRenderer from './SvgRenderer.tsx';
+import ReactiveSvgRenderer from './ReactiveSvgRenderer.tsx';
 import { FactService } from 'scaffold/src/FactService.ts';
 import * as pages from './pages.ts';
 import * as collatzMessages from 'scaffold/src/contracts/collatzMessages.ts';
@@ -188,6 +188,8 @@ export default () => {
       >
         Publish empty block
       </button>
+
+      <ReactiveSvgRenderer />
 
       <BlockTableView />
     </UiContext.Provider>

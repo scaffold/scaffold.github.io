@@ -1,13 +1,11 @@
 import React from 'react';
-import { HashPrimitive } from 'scaffold/src/util/Hash.ts';
-import { Context } from 'scaffold/src/Context.ts';
 import { RenderService } from 'scaffold/src/RenderService.ts';
+import { UiContext } from './context.ts';
+import { error } from 'scaffold/src/util/functional.ts';
 
-export default ({ ctx, setHoveredHash, setSelectedHash }: {
-  ctx: Context;
-  setHoveredHash: (primitive?: HashPrimitive) => void;
-  setSelectedHash: (primitive?: HashPrimitive) => void;
-}) => {
+export default ({}: {}) => {
+  const { ctx } = React.useContext(UiContext) ?? error('No context!');
+
   const [svgs, addSvg] = React.useReducer(
     (svgs: string[], add: string) => [...svgs, add],
     [],
@@ -21,7 +19,7 @@ export default ({ ctx, setHoveredHash, setSelectedHash }: {
   const clampedIdx = Math.max(0, Math.min(idx, svgs.length - 1));
 
   return (
-    <div>
+    <div style={{ width: '100%' }}>
       <button onClick={() => ctx.get(RenderService).renderSvg().then(addSvg)}>
         Take SVG snapshot
       </button>
