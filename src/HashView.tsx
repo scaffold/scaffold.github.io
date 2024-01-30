@@ -6,15 +6,15 @@ import { Hash, HashPrimitive } from 'scaffold/src/util/Hash.ts';
 
 export default ({ hash, setHoveredHash, setSelectedHash }: {
   hash: Hash;
-  setHoveredHash: (primitive?: HashPrimitive) => void;
-  setSelectedHash: (primitive?: HashPrimitive) => void;
+  setHoveredHash: (hash?: Hash) => void;
+  setSelectedHash: (hash?: Hash) => void;
 }) => (
   <span style={{ fontFamily: 'monospace' }}>
     <a
       href='#'
-      onMouseOver={() => setHoveredHash(hash.toPrimitive())}
+      onMouseOver={() => setHoveredHash(hash)}
       onMouseOut={() => setHoveredHash(undefined)}
-      onClick={() => setSelectedHash(hash.toPrimitive())}
+      onClick={() => setSelectedHash(hash)}
     >
       {hash.toHex().slice(0, 10)}
     </a>

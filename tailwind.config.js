@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     colors: {
       inherit: 'inherit',
-      night: '#080808',
+      night: '#080F11',
       dark: '#111',
       gray: '#888',
       navy: '#15079C',

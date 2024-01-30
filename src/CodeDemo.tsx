@@ -64,8 +64,8 @@ const tracePath = (ctx: Context, incentives: BlockOutput[]) => {
 
 export default ({ ctx, setHoveredHash, setSelectedHash }: {
   ctx: Context;
-  setHoveredHash: (primitive?: HashPrimitive) => void;
-  setSelectedHash: (primitive?: HashPrimitive) => void;
+  setHoveredHash: (hash?: Hash) => void;
+  setSelectedHash: (hash?: Hash) => void;
 }) => {
   const [isRunning, setRunning] = React.useState(false);
   const [incentives, addIncentive] = React.useReducer<

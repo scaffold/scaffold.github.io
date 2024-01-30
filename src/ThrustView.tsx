@@ -429,7 +429,7 @@ export default (
   }, [provider, canvas.current]);
 
   return (
-    <div>
+    <div style={{ backgroundColor: 'white' }}>
       <canvas
         width={750}
         height={500}

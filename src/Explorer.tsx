@@ -16,11 +16,18 @@ import thrustMazeGenerator from '../../examples/ts/thrust_maze.generator.0.ts';
 import { QaDebugger } from 'scaffold/src/QaDebugger.ts';
 import Input from './Input.tsx';
 import { LitigationService } from 'scaffold/src/LitigationService.ts';
-import FactView from './FactView.tsx';
 import { FrontierService2 } from 'scaffold/src/FrontierService2.ts';
 import { defaultNetwork } from 'scaffold/src/Config.ts';
 import CodeDemo from './CodeDemo.tsx';
 import SvgRenderer from './SvgRenderer.tsx';
+import { FactService } from 'scaffold/src/FactService.ts';
+import * as pages from './pages.ts';
+import * as collatzMessages from 'scaffold/src/contracts/collatzMessages.ts';
+import { collatzHash } from 'scaffold/src/constants.ts';
+import { UiContext } from './context.ts';
+import Tab from './Tab.tsx';
+import CountMetric from './CountMetric.tsx';
+import { multimapCall } from 'scaffold/src/util/map.ts';
 
 // QJS
 // const initialContractHex =
@@ -100,7 +107,91 @@ const startGame = () => {
   return match;
 };
 
+const enum Section {
+  Blocks,
+  Tasks,
+  Workers,
+  Contests,
+  Drafts,
+  Contracts,
+  Peers,
+  Connections,
+  Logs,
+  Configuration,
+}
+
+interface HoverState {
+  map: Map<HashPrimitive, ((hovered: boolean) => void)[]>;
+  update(hash?: Hash): void;
+}
+const makeHoverState = (): HoverState => {
+  const map = new Map<HashPrimitive, ((hovered: boolean) => void)[]>();
+  let cur: Hash | undefined;
+  const update = (hash?: Hash) => {
+    if (hash !== cur) {
+      if (cur !== undefined) {
+        multimapCall(map, cur.toPrimitive(), false);
+      }
+      cur = hash;
+      if (cur !== undefined) {
+        multimapCall(map, cur.toPrimitive(), true);
+      }
+    }
+  };
+  return { map, update };
+};
+
 export default () => {
+  const [section, setSection] = React.useState(Section.Blocks);
+  const [selectedHash, setSelectedHash] = React.useState<Hash | undefined>();
+  const hoverState = React.useRef<HoverState | undefined>();
+  hoverState.current ??= makeHoverState();
+
+  return (
+    <UiContext.Provider
+      value={{
+        ctx: client.ctx,
+        selectedHash,
+        setSelectedHash,
+        hashHoverCbs: hoverState.current.map,
+        setHoveredHash: hoverState.current.update,
+      }}
+    >
+      <div>
+        <Tab
+          text='Blocks'
+          onClick={() => setSection(Section.Blocks)}
+          getCount={() =>
+            client.ctx.get(FactService).hackyGetBlocksMatching().length}
+        />
+        <Tab text='Tasks' onClick={() => setSection(Section.Tasks)} />
+        <Tab text='Workers' onClick={() => setSection(Section.Workers)} />
+        <Tab text='Contests' onClick={() => setSection(Section.Contests)} />
+        <Tab text='Drafts' onClick={() => setSection(Section.Drafts)} />
+        <Tab text='Contracts' onClick={() => setSection(Section.Contracts)} />
+        <Tab text='Peers' onClick={() => setSection(Section.Peers)} />
+        <Tab
+          text='Connections'
+          onClick={() => setSection(Section.Connections)}
+        />
+        <Tab text='Logs' onClick={() => setSection(Section.Logs)} />
+        <Tab
+          text='Configuration'
+          onClick={() => setSection(Section.Configuration)}
+        />
+      </div>
+
+      <button
+        onClick={() => client.ctx.get(BlockBuilder).publishSingleDraft({})}
+      >
+        Publish empty block
+      </button>
+
+      <BlockTableView />
+    </UiContext.Provider>
+  );
+
+  /*
   const [url, setUrl] = React.useState(
     new URL(window.location ? window.location.href : 'http://localhost/'),
   );
@@ -124,6 +215,11 @@ export default () => {
   return (
     <>
       <div style={{ width: '100%' }}>
+        <a href={pages.explorer.path}>
+          Reset
+        </a>
+        <br />
+
         <Input label='Network' value={network} setValue={setNetwork} />
         <button
           onClick={() => {
@@ -185,6 +281,26 @@ export default () => {
         >
           Publish bad block
         </button>
+        <button
+          onClick={() => {
+            const start = Date.now();
+            let count = 0;
+            const cb = () => {
+              client.ctx.get(BlockBuilder).publishSingleDraft({});
+              count++;
+              const duration = Date.now() - start;
+              console.log(
+                `Published ${count} blocks in ${duration / 1000} seconds (${
+                  Math.round(count / duration * 1000)
+                } blocks/sec); ${client.ctx.get(FactService).getSize()} remain`,
+              );
+            };
+            const itvl = setInterval(cb, 1);
+            (window as any).clr = () => clearInterval(itvl);
+          }}
+        >
+          Run stress
+        </button>
         <button onClick={() => client.ctx.get(FrontierService2).mergeAll()}>
           Merge frontier
         </button>
@@ -204,15 +320,17 @@ export default () => {
           onClick={() =>
             client.ctx.get(FetchService).fetch(
               {
-                contractHash: Hash.fromHex(selectedContract!),
-                params: str2bin(params),
+                // contractHash: Hash.fromHex(selectedContract!),
+                // params: str2bin(params),
+                contractHash: collatzHash,
+                params: collatzMessages.Params.encode({ num: 10n }),
               },
               // TODO: Why isn't this being picked up on the work queue?
               // It's because there's no generators registered.
               // Need to make a generatorHash and register them.
               // Does the same WASM act as both a generator and a contract?
               { internalIncentive: 1n, externalIncentive: 1n },
-              (body) => console.log(bin2str(body)),
+              (body) => console.log(body),
             )}
         >
           REQUEST
@@ -233,29 +351,6 @@ export default () => {
         </button>
 
         <br />
-        {
-          /*
-        <a href='#' onClick={() => client.ctx.get(AccountService)}>
-          Start account loop
-        </a>
-        */
-        }
-
-        {
-          /*
-      <StoreSelector
-        ctx={client.ctx}
-        onSelectClass={(clz) => setShownStore({ key: Math.random(), clz })}
-      />
-      {shownStore.clz && (
-        <StoreView
-          key={shownStore.key}
-          ctx={client.ctx}
-          Table={shownStore.clz}
-        />
-      )}
-        */
-        }
 
         <button onClick={() => client.close()}>STOP</button>
         <br />
@@ -275,7 +370,6 @@ export default () => {
           hoveredHash={hoveredHash}
           setHoveredHash={setHoveredHash}
         />
-        {/*<JsonView name='WorkQueue' ctx={client.ctx} Table={WorkQueue} />*/}
 
         {gameHash && (
           <>
@@ -304,4 +398,5 @@ export default () => {
       </div>
     </>
   );
+  */
 };
