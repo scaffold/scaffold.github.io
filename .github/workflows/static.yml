@@ -29,19 +29,27 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout scaffold.github.io
         uses: actions/checkout@v4
+        with:
+          path: ./scaffold.github.io/
+      - name: Checkout scaffold
+        uses: actions/checkout@v4
+        with:
+          repository: scaffold/scaffold
+          ssh-key: ${{ secrets.SCAFFOLD_DEPLOY_PRIVATE_KEY }}
+          path: ./scaffold/
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Setup Deno
         uses: denoland/setup-deno@v1.1.3
-      - name: Render static site
-        run: deno task render
+      - name: Build static site
+        working-directory: ./scaffold.github.io/
+        run: deno task build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
-          path: 'build/'
+          path: ./scaffold.github.io/build/
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

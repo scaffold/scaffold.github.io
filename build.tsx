@@ -42,7 +42,12 @@ const buildJs = async (jsPath: string, tsxPath: string) => {
     plugins: denoPlugins({ configPath: join(Deno.cwd(), './deno.json') }),
     entryPoints: [tmp],
     bundle: true,
-    // format: 'esm',
+    format: 'iife',
+    // mangleProps: //i,
+    // mangleQuoted: true,
+    // reserveProps: /^__.*__$/,
+    minify: true,
+    target: 'esnext',
     outfile: jsPath,
   });
 

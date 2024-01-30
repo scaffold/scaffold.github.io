@@ -42,7 +42,7 @@
   },
   "tasks": {
     "dev": "export DENO_FLAGS=--watch ; mkdir -p build/ ; cp static/* build/ ; deno task fmt & deno task bundle-css & deno task bundle-js & deno task bundle-worker & deno task serve-build",
-    "render": "export DENO_FLAGS= ; mkdir -p build/ ; cp static/* build/ ; deno task bundle-css & deno task bundle-js",
+    "build": "export DENO_FLAGS= ; mkdir -p build/ ; cp static/* build/ ; deno task bundle-css & deno task bundle-js",
     "fmt": "deno fmt $DENO_FLAGS",
     "lint": "deno lint $DENO_FLAGS",
     "bundle-css": "deno run --allow-all npm:tailwindcss --input main.css --output build/main.css --minify $DENO_FLAGS",

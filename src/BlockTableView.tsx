@@ -27,7 +27,7 @@ import HashView from './HashView.tsx';
 import { CollateralUtil } from 'scaffold/src/CollateralUtil.ts';
 import { WeightService } from 'scaffold/src/WeightService.ts';
 import { BalanceService } from 'scaffold/src/BalanceService.ts';
-import { BlockRecordSet } from 'scaffold/src/BlockRecordSet.ts';
+import { BlockRecordSet } from 'scaffold/src/record_sets/BlockRecordSet.ts';
 import TableView from './TableView.tsx';
 import { UiContext } from './context.ts';
 import { error } from 'scaffold/src/util/functional.ts';
