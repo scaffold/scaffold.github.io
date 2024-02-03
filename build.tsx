@@ -46,7 +46,9 @@ const buildJs = async (jsPath: string, tsxPath: string) => {
     // mangleProps: //i,
     // mangleQuoted: true,
     // reserveProps: /^__.*__$/,
-    minify: true,
+    minify: ['1', 'true', 'yes'].includes(
+      Deno.env.get('MINIFY')?.toLowerCase() ?? '',
+    ),
     target: 'esnext',
     outfile: jsPath,
   });

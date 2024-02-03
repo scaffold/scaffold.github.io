@@ -1,12 +1,12 @@
 import { Hash } from 'scaffold/src/util/Hash.ts';
 import { Context } from 'scaffold/src/Context.ts';
 import ThrustInputProvider from './ThrustInputProvider.tsx';
-import * as thrustMessages from '../../examples/ts/thrustMessages.ts';
+import * as thrustMessages from '../../../examples/ts/thrustMessages.ts';
 import { StateTracker } from 'scaffold/src/StateTracker.ts';
 import {
   thrust_game_wasm_hash,
   thrust_maze_wasm_hash,
-} from './moduleHashes.ts';
+} from '../moduleHashes.ts';
 import { FetchService } from 'scaffold/src/FetchService.ts';
 
 // Must match the tickInterval in generator
@@ -14,17 +14,17 @@ const msPerTick = 100;
 
 export default class ThrustProvider {
   private curInputEntry: thrustMessages.InputEntry = {
-    pressing_fwd: false,
-    pressing_bwd: false,
-    pressing_left: false,
-    pressing_right: false,
-    pressing_fire: false,
+    pressingFwd: false,
+    pressingBwd: false,
+    pressingLeft: false,
+    pressingRight: false,
+    pressingFire: false,
   };
 
   private latestStateIdx = 0n;
   private latestStateTime = 0;
   private latestStateVal: thrustMessages.GameAnswer = {
-    game_state: {
+    gameState: {
       center: { x: 0, y: 0 },
       velocity: { x: 0, y: 0 },
       size: 0,
@@ -119,18 +119,18 @@ export default class ThrustProvider {
   }
 
   public setFwd(value: boolean) {
-    this.curInputEntry.pressing_fwd = value;
+    this.curInputEntry.pressingFwd = value;
   }
   public setBwd(value: boolean) {
-    this.curInputEntry.pressing_bwd = value;
+    this.curInputEntry.pressingBwd = value;
   }
   public setLeft(value: boolean) {
-    this.curInputEntry.pressing_left = value;
+    this.curInputEntry.pressingLeft = value;
   }
   public setRight(value: boolean) {
-    this.curInputEntry.pressing_right = value;
+    this.curInputEntry.pressingRight = value;
   }
   public setFire(value: boolean) {
-    this.curInputEntry.pressing_fire = value;
+    this.curInputEntry.pressingFire = value;
   }
 }

@@ -71,6 +71,15 @@ export default ({}: {}) => {
     {
       header: 'name',
       accessorFn: (block) => block.sillyName,
+      cell: (props) => (
+        <span
+          onClick={() => {
+            (window as any).selectedBlock = props.row.original;
+          }}
+        >
+          {props.getValue<string>()}
+        </span>
+      ),
     },
     // {
     //   header: 'timestamp',

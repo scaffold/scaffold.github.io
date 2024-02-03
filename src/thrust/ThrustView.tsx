@@ -278,17 +278,17 @@ const initView = (
     const state = provider.getRenderState();
 
     arenaCellUpdater.setArena(
-      Math.round(state.game_state.center.x),
-      Math.round(state.game_state.center.y),
-      Math.round(state.game_state.size),
+      Math.round(state.gameState.center.x),
+      Math.round(state.gameState.center.y),
+      Math.round(state.gameState.size),
     );
 
     if (state.players.length) {
       const players = state.players.map(
-        ({ hash, position, velocity, angle_rads }) => {
+        ({ hash, position, velocity, angleRads }) => {
           const pos = vec3.fromValues(position.x, position.y, 0);
           const vel = vec3.fromValues(velocity.x, velocity.y, 0);
-          return { hash, pos, vel, angle_rads };
+          return { hash, pos, vel, angleRads };
         },
       );
 
@@ -316,8 +316,8 @@ const initView = (
             [],
             selfPlayer.vel,
             vec3.fromValues(
-              Math.cos(selfPlayer.angle_rads) * 0.5,
-              Math.sin(selfPlayer.angle_rads) * 0.5,
+              Math.cos(selfPlayer.angleRads) * 0.5,
+              Math.sin(selfPlayer.angleRads) * 0.5,
               0,
             ),
           ),
@@ -326,8 +326,8 @@ const initView = (
       );
       // const target = selfPlayer.pos;
       // const target = vec3.fromValues(
-      //   state.game_state.center.x,
-      //   state.game_state.center.y,
+      //   state.gameState.center.x,
+      //   state.gameState.center.y,
       //   0,
       // );
 
@@ -344,7 +344,7 @@ const initView = (
             mat4.rotateZ(
               [],
               mat4.fromTranslation([], player.pos),
-              player.angle_rads,
+              player.angleRads,
             ),
             [0.1, 0.1, 0.1],
           ),
