@@ -150,6 +150,24 @@ export default () => {
           onClick={() => setSection(Section.Configuration)}
         />
       </div>
+
+      <button
+        onClick={() =>
+          ctx.get(FetchService).fetch(
+            {
+              contractHash: collatzHash,
+              params: collatzMessages.Params.encode({ num: 10n }),
+            },
+            {},
+            (body) =>
+              console.log(
+                'FETCH RESPONSE',
+                collatzMessages.Answer.decode(body),
+              ),
+          )}
+      >
+        REQUEST
+      </button>
     </>
   );
 

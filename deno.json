@@ -49,13 +49,13 @@
     "bundle-js": "deno run $DENO_FLAGS --allow-all --check build.tsx",
     "old-bundle-js": "deno bundle $DENO_FLAGS --check app.tsx static/build/index.js",
     "bundle-worker": "deno bundle $DENO_FLAGS --check ../scaffold/src/worker/worker.ts build/worker.js",
-    "serve-build": "deno run --allow-net --allow-read https://deno.land/std@0.213.0/http/file_server.ts build/ --port 17542 --header 'Cross-Origin-Opener-Policy: same-origin' --header 'Cross-Origin-Embedder-Policy: credentialless'"
+    "serve-build": "deno run --allow-net --allow-read https://deno.land/std@0.214.0/http/file_server.ts build/ --port 17542 --header 'Cross-Origin-Opener-Policy: same-origin' --header 'Cross-Origin-Embedder-Policy: credentialless'"
   },
   "imports": {
     "_scaffold/": "https://raw.githubusercontent.com/scaffold/scaffold/main/",
     "scaffold/": "../scaffold/",
 
-    "$std/": "https://deno.land/std@0.213.0/",
+    "$std/": "https://deno.land/std@0.214.0/",
     "react": "https://esm.sh/react@18.2.0?target=esnext&pin=v135",
     "react-dom": "https://esm.sh/react-dom@18.2.0?target=esnext&pin=v135",
     "react-server": "https://esm.sh/react-dom@18.2.0/server?target=esnext&pin=v135",
