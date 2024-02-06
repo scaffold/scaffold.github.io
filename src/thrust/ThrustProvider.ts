@@ -6,7 +6,7 @@ import { StateTracker } from 'scaffold/src/StateTracker.ts';
 import {
   thrust_game_wasm_hash,
   thrust_maze_wasm_hash,
-} from '../moduleHashes.ts';
+} from 'ts-examples/moduleHashes.ts';
 import { FetchService } from 'scaffold/src/FetchService.ts';
 
 // Must match the tickInterval in generator
@@ -43,6 +43,9 @@ export default class ThrustProvider {
       }),
       (idx, response) => {
         console.log('RESPONSE', response);
+        if (response === undefined) {
+          return;
+        }
         if (idx > this.latestStateIdx) {
           this.latestStateIdx = idx;
           this.latestStateTime = Date.now();
@@ -86,15 +89,18 @@ export default class ThrustProvider {
           contractHash: thrust_maze_wasm_hash,
           params: thrustMessages.MazeParams.encode({ match: this.match, x, y }),
         },
-        { internalIncentive: 20n },
-        (response) => {
-          if (hasResolved) {
-            // This is fine; as long as the data doesn't change
-            // throw new Error(`Cell resolved more than once!`);
-            return;
-          }
-          hasResolved = true;
-          resolve(thrustMessages.MazeAnswer.decode(response).cell);
+        {
+          onBody: (body) => {
+            if (body === undefined) {
+              return;
+            }
+            if (hasResolved) {
+              // This is fine; as long as the data doesn't change
+              throw new Error(`Cell resolved more than once!`);
+            }
+            hasResolved = true;
+            resolve(thrustMessages.MazeAnswer.decode(body).cell);
+          },
         },
       )
     );

@@ -14,9 +14,13 @@
     "jsx": "react"
   },
   "lint": {
-    "exclude": ["build"],
+    "exclude": [
+      "build"
+    ],
     "rules": {
-      "tags": ["recommended"],
+      "tags": [
+        "recommended"
+      ],
       "include": [
         "ban-untagged-todo",
         "camelCase",
@@ -37,7 +41,11 @@
     }
   },
   "fmt": {
-    "exclude": ["README.md", "build/"],
+    "exclude": [
+      "README.md",
+      "deno.json",
+      "build/"
+    ],
     "singleQuote": true
   },
   "tasks": {
@@ -54,7 +62,7 @@
   "imports": {
     "_scaffold/": "https://raw.githubusercontent.com/scaffold/scaffold/main/",
     "scaffold/": "../scaffold/",
-
+    "ts-examples/": "../examples/ts/",
     "$std/": "https://deno.land/std@0.214.0/",
     "react": "https://esm.sh/react@18.2.0?target=esnext&pin=v135",
     "react-dom": "https://esm.sh/react-dom@18.2.0?target=esnext&pin=v135",

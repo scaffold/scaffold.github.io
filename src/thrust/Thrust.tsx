@@ -1,7 +1,7 @@
 import React from 'react';
 import SblClient from '../SblClient.ts';
 import { Hash, HashPrimitive } from 'scaffold/src/util/Hash.ts';
-import * as moduleHashes from '../moduleHashes.ts';
+import * as moduleHashes from 'ts-examples/moduleHashes.ts';
 import * as constants from 'scaffold/src/constants.ts';
 import { bin2str, str2bin } from 'scaffold/src/util/buffer.ts';
 import { FetchService } from 'scaffold/src/FetchService.ts';

@@ -5,6 +5,7 @@ export interface Page {
 export const blog: Page = { path: '/blog.html' };
 export const colors: Page = { path: '/colors.html' };
 export const comingSoon: Page = { path: '/' };
+export const counter: Page = { path: '/counter.html' };
 export const docs: Page = { path: '/docs/index.html' };
 export const explorer: Page = { path: '/explorer.html' };
 export const faq: Page = { path: '/faq.html' };

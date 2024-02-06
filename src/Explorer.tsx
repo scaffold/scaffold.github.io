@@ -2,7 +2,7 @@ import React from 'react';
 import SblClient from './SblClient.ts';
 import { Hash, HashPrimitive } from 'scaffold/src/util/Hash.ts';
 import BlockTableView from './BlockTableView.tsx';
-import * as moduleHashes from './moduleHashes.ts';
+import * as moduleHashes from 'ts-examples/moduleHashes.ts';
 import * as constants from 'scaffold/src/constants.ts';
 import { bin2str, str2bin } from 'scaffold/src/util/buffer.ts';
 import { FetchService } from 'scaffold/src/FetchService.ts';
@@ -158,12 +158,13 @@ export default () => {
               contractHash: collatzHash,
               params: collatzMessages.Params.encode({ num: 10n }),
             },
-            {},
-            (body) =>
-              console.log(
-                'FETCH RESPONSE',
-                collatzMessages.Answer.decode(body),
-              ),
+            {
+              onBody: (body) =>
+                console.log(
+                  'FETCH RESPONSE',
+                  body ? collatzMessages.Answer.decode(body) : undefined,
+                ),
+            },
           )}
       >
         REQUEST

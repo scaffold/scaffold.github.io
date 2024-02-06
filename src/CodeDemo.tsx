@@ -106,8 +106,8 @@ export default ({ ctx, setHoveredHash, setSelectedHash }: {
               {
                 onIncentiveBlock: (block, outputIdx) =>
                   addIncentive({ block, outputIdx }),
+                onBody: (body) => console.log(body),
               },
-              (x) => console.log(x),
             );
           }
         }}
