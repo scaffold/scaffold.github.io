@@ -88,18 +88,18 @@ for await (const entry of walk('./pages/', walkOptions)) {
   tasks.push(buildPage(entry.path).catch((err) => console.error(err)));
 }
 
-Deno.env.get('CI') || tasks.push(
-  new Deno.Command(Deno.execPath(), {
-    cwd: '../scaffold/',
-    args: [
-      'doc',
-      '--html',
-      '--name=Scaffold',
-      `--output=${outDir}/docs/`,
-      'src/',
-      'plugins/',
-    ],
-  }).spawn().status.then(() => {}),
-);
+// Deno.env.get('CI') || tasks.push(
+//   new Deno.Command(Deno.execPath(), {
+//     cwd: '../scaffold/',
+//     args: [
+//       'doc',
+//       '--html',
+//       '--name=Scaffold',
+//       `--output=${outDir}/docs/`,
+//       'src/',
+//       'plugins/',
+//     ],
+//   }).spawn().status.then(() => {}),
+// );
 
 await Promise.all(tasks);

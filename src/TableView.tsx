@@ -55,9 +55,7 @@ export default <RecordType extends { hash?: Hash }>(
   },
 ) => {
   const { ctx } = React.useContext(UiContext) ?? error('No context!');
-  const [records, setRecords] = React.useState<RecordType[]>([
-    ...recordSet.getAll(),
-  ]);
+  const [records, setRecords] = React.useState<RecordType[]>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
   React.useEffect(() => {
@@ -65,6 +63,7 @@ export default <RecordType extends { hash?: Hash }>(
     const removeCb = (record: RecordType) =>
       setRecords((arr) => arr.filter((el) => el !== record));
 
+    setRecords([...recordSet.getAll()]);
     recordSet.onAdd(addCb);
     recordSet.onRemove(removeCb);
 

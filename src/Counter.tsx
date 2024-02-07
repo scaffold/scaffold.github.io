@@ -3,11 +3,13 @@ import * as moduleHashes from 'ts-examples/moduleHashes.ts';
 import * as counterMessages from 'ts-examples/counterMessages.ts';
 import counterStateGenerator from 'ts-examples/counter_state.generator.0.ts';
 import { EMPTY_ARR } from 'scaffold/src/util/buffer.ts';
-import { FetchService } from 'scaffold/src/FetchService.ts';
+import { FetchMode, FetchService } from 'scaffold/src/FetchService.ts';
 import { BlockBuilder } from 'scaffold/src/BlockBuilder.ts';
 import { LocalGeneratorService } from 'scaffold/src/LocalGeneratorService.ts';
 import { UiContext } from './context.ts';
 import { error } from 'scaffold/src/util/functional.ts';
+import { bin2str, str2bin } from 'scaffold/src/util/buffer.ts';
+import { QaDebugger } from 'scaffold/src/QaDebugger.ts';
 
 /*
 // QJS
@@ -97,11 +99,18 @@ export default () => {
       moduleHashes.counter_state_generator_0_js_hash,
       counterStateGenerator,
     );
+    ctx.get(QaDebugger).addDebugger(
+      'CounterState',
+      moduleHashes.counter_state_generator_0_js_hash,
+      (params) => bin2str(params),
+      (answer) => counterMessages.State.decode(answer),
+    );
 
     const { release } = ctx.get(FetchService).fetch({
       contractHash: moduleHashes.counter_state_generator_0_js_hash,
-      params: EMPTY_ARR,
+      params: str2bin('state'),
     }, {
+      mode: FetchMode.Latest,
       onBody: (body) =>
         body !== undefined &&
         setCount(Number(counterMessages.State.decode(body).total)),
@@ -122,11 +131,38 @@ export default () => {
         }}
         onClick={() =>
           ctx.get(BlockBuilder).publishPersistentDraft({
-            satisfies: [{
-              contractHash: moduleHashes.counter_input_generator_0_js_hash,
-              params: EMPTY_ARR,
+            outputs: [{
+              verifier: {
+                contractHash: moduleHashes.counter_state_generator_0_js_hash,
+                params: str2bin('state'),
+              },
+              amount: 1n,
+              detail: EMPTY_ARR,
             }],
-            body: counterMessages.Input.encode({ action: 'dec' }),
+          })}
+      >
+        init
+      </button>
+
+      <button
+        style={{
+          backgroundColor: '#333',
+          borderRadius: '4px',
+          margin: '8px',
+          padding: '4px 12px',
+          width: '50px',
+          height: '40px',
+        }}
+        onClick={() =>
+          ctx.get(BlockBuilder).publishPersistentDraft({
+            outputs: [{
+              verifier: {
+                contractHash: moduleHashes.counter_state_generator_0_js_hash,
+                params: str2bin('input'),
+              },
+              amount: 1n,
+              detail: counterMessages.Input.encode({ action: 'dec' }),
+            }],
           })}
       >
         -1
@@ -156,11 +192,14 @@ export default () => {
         }}
         onClick={() =>
           ctx.get(BlockBuilder).publishPersistentDraft({
-            satisfies: [{
-              contractHash: moduleHashes.counter_input_generator_0_js_hash,
-              params: EMPTY_ARR,
+            outputs: [{
+              verifier: {
+                contractHash: moduleHashes.counter_state_generator_0_js_hash,
+                params: str2bin('input'),
+              },
+              amount: 1n,
+              detail: counterMessages.Input.encode({ action: 'inc' }),
             }],
-            body: counterMessages.Input.encode({ action: 'inc' }),
           })}
       >
         +1
