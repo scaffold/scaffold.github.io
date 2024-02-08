@@ -31,6 +31,7 @@ import { BlockRecordSet } from 'scaffold/src/record_sets/BlockRecordSet.ts';
 import TableView from './TableView.tsx';
 import { UiContext } from './context.ts';
 import { error } from 'scaffold/src/util/functional.ts';
+import { VerifierHelper } from 'scaffold/src/VerifierHelper.ts';
 
 const getBlocks = (ctx: Context) =>
   ctx.get(FactService).hackyGetBlocksMatching();
@@ -143,11 +144,7 @@ export default ({}: {}) => {
                     setSelectedHash={setSelectedHash}
                   />.{input.outputIdx}
                   {output
-                    ? `: ${
-                      ctx.get(QaDebugger).debugQuestion(output.verifier)
-                        ?.dbgContract ??
-                        output.verifier.contractHash.toHex().slice(0, 10)
-                    }/${bin2hex(output.verifier.params).slice(0, 10)}`
+                    ? `: ${ctx.get(QaDebugger).debugVerifier(output.verifier)}`
                     : null}
                 </span>
               </li>
@@ -175,10 +172,8 @@ export default ({}: {}) => {
                 >
                   ${Number(output.amount)}
                   {': '}
-                  {ctx.get(QaDebugger).debugQuestion(output.verifier)
-                    ?.dbgContract ??
-                    output.verifier.contractHash.toHex().slice(0, 10)}/
-                  {bin2hex(output.verifier.params).slice(0, 10)}
+                  {ctx.get(QaDebugger).debugVerifier(output.verifier)}/
+                  {bin2hex(output.detail).slice(0, 10)}
                   {claims.length
                     ? (
                       <>
@@ -211,12 +206,10 @@ export default ({}: {}) => {
     },
     {
       header: 'body',
-      accessorFn: (block) => {
-        const dbg = ctx.get(QaDebugger).debugAnswer(block)?.dbgAnswer;
-        return dbg
-          ? ctx.get(Logger).serialize(dbg, 0)
-          : block.bodies.map((x) => bin2hex(x)).join(', ');
-      },
+      accessorFn: (block) =>
+        block.bodies.map((_, groupIdx) =>
+          ctx.get(QaDebugger).debugBody(block, groupIdx)
+        ).join(', '),
       cell: (props) => <pre>{trunc(props.getValue<string>(), 16)}</pre>,
     },
     {

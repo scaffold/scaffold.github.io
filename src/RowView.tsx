@@ -6,7 +6,7 @@ import { UiContext } from './context.ts';
 import { error } from 'scaffold/src/util/functional.ts';
 import { mapPut, multimapPut } from 'scaffold/src/util/map.ts';
 
-export default <RecordType extends { hash?: Hash }>({ set, row, expandRow }: {
+export default <RecordType extends object>({ set, row, expandRow }: {
   set: ReactiveRecordSet<RecordType>;
   row: Row<RecordType>;
   expandRow(row: RecordType): React.ReactNode;
@@ -21,10 +21,10 @@ export default <RecordType extends { hash?: Hash }>({ set, row, expandRow }: {
   }, [set, row.original, forceUpdate]);
 
   React.useEffect(() => {
-    if (row.original.hash !== undefined) {
-      multimapPut(hashHoverCbs, row.original.hash.toPrimitive(), setHovered);
-      return () =>
-        multimapPut(hashHoverCbs, row.original.hash!.toPrimitive(), setHovered);
+    if ('hash' in row.original && row.original.hash instanceof Hash) {
+      const key = row.original.hash.toPrimitive();
+      multimapPut(hashHoverCbs, key, setHovered);
+      return () => multimapPut(hashHoverCbs, key, setHovered);
     }
   }, [row.original, hashHoverCbs, setHovered]);
 

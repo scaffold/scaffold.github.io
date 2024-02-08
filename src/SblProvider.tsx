@@ -6,6 +6,7 @@ import { BlockBuilder } from 'scaffold/src/BlockBuilder.ts';
 import ReactiveSvgRenderer from './ReactiveSvgRenderer.tsx';
 import { UiContext } from './context.ts';
 import { multimapCall } from 'scaffold/src/util/map.ts';
+import WorkerTableView from './WorkerTableView.tsx';
 
 interface HoverState {
   map: Map<HashPrimitive, ((hovered: boolean) => void)[]>;
@@ -59,6 +60,8 @@ export default ({ children }: { children?: React.ReactNode }) => {
       <ReactiveSvgRenderer />
 
       <BlockTableView />
+
+      <WorkerTableView />
     </UiContext.Provider>
   );
 };

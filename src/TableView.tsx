@@ -47,13 +47,11 @@ const wrapAccessor =
 
 // TODO: Move ctx and hoveredHash to context
 // TODO: Pass Service in & subscribe to data here?
-export default <RecordType extends { hash?: Hash }>(
-  { recordSet, columns, expandRow }: {
-    recordSet: ReactiveRecordSet<RecordType>;
-    columns: ColumnDef<RecordType>[];
-    expandRow(row: RecordType): React.ReactNode;
-  },
-) => {
+export default <RecordType extends object>({ recordSet, columns, expandRow }: {
+  recordSet: ReactiveRecordSet<RecordType>;
+  columns: ColumnDef<RecordType>[];
+  expandRow(row: RecordType): React.ReactNode;
+}) => {
   const { ctx } = React.useContext(UiContext) ?? error('No context!');
   const [records, setRecords] = React.useState<RecordType[]>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
