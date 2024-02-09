@@ -39,6 +39,12 @@ jobs:
           repository: scaffold/scaffold
           ssh-key: ${{ secrets.SCAFFOLD_DEPLOY_PRIVATE_KEY }}
           path: ./scaffold/
+      - name: Checkout examples
+        uses: actions/checkout@v4
+        with:
+          repository: scaffold/examples
+          ssh-key: ${{ secrets.EXAMPLES_DEPLOY_PRIVATE_KEY }}
+          path: ./examples/
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Setup Deno
