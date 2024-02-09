@@ -296,7 +296,7 @@ export default ({}: {}) => {
     {
       header: 'descendant weight',
       accessorFn: wrapAccessor((block) =>
-        ctx.get(WeightService).getDescendantWeight(block).minWeight
+        ctx.get(WeightService).getDescendant(block).weight
       ),
     },
   ], []);

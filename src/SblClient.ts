@@ -66,6 +66,22 @@ export default class SblClient {
 
     this.ctx = new Context(config);
 
+    (window as any).ctx = this.ctx;
+    (window as any).get = (match: string) => {
+      match = match.toLowerCase();
+      const candidates = [...this.ctx.debugGetAll().entries()].filter((
+        [{ name }],
+      ) => name.toLowerCase().includes(match));
+      if (candidates.length !== 1) {
+        throw new Error(
+          `Not exactly one candidate module: ${
+            JSON.stringify(candidates.map(([{ name }]) => name))
+          }`,
+        );
+      }
+      return candidates[0][1];
+    };
+
     this.ctx.get(GenesisService).ingestGenesis(sharedGenesisData);
 
     if (window.location) {
