@@ -102,4 +102,7 @@ for await (const entry of walk('./pages/', walkOptions)) {
 //   }).spawn().status.then(() => {}),
 // );
 
+// Hacky deploy fix until we figure out where we have a never-ending interval.
+setTimeout(() => Deno.exit(), 10000);
+
 await Promise.all(tasks);
