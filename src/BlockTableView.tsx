@@ -46,6 +46,15 @@ const wrapAccessor =
     }
   };
 
+const formatRange = <MinKey extends string, MaxKey extends string>(
+  range: Record<MinKey | MaxKey, bigint>,
+  minKey: MinKey,
+  maxKey: MaxKey,
+) =>
+  range[minKey] !== range[maxKey]
+    ? `${range[minKey]}-${range[maxKey]}`
+    : `${range[minKey]}`;
+
 export default ({}: {}) => {
   const { ctx, setSelectedHash, setHoveredHash } =
     React.useContext(UiContext) ?? error('No context!');
@@ -282,16 +291,28 @@ export default ({}: {}) => {
       ),
     },
     {
-      header: 'self weight min',
+      header: 'self score',
       accessorFn: wrapAccessor((block) =>
-        ctx.get(WeightService).getSelfWeight(block).minWeight
+        ctx.get(WeightService).getSelfWeight(block)
       ),
+      cell: (props) =>
+        formatRange(
+          props.getValue<{ minScore: bigint; maxScore: bigint }>(),
+          'minScore',
+          'maxScore',
+        ),
     },
     {
-      header: 'self weight max',
+      header: 'self work',
       accessorFn: wrapAccessor((block) =>
-        ctx.get(WeightService).getSelfWeight(block).maxWeight
+        ctx.get(WeightService).getSelfWeight(block)
       ),
+      cell: (props) =>
+        formatRange(
+          props.getValue<{ minWork: bigint; maxWork: bigint }>(),
+          'minWork',
+          'maxWork',
+        ),
     },
     {
       header: 'descendant weight',

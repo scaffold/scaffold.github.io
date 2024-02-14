@@ -48,7 +48,7 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Setup Deno
-        uses: denoland/setup-deno@v1.1.3
+        uses: denoland/setup-deno@v1.1.4
       - name: Build static site
         working-directory: ./scaffold.github.io/
         run: deno task build

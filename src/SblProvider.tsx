@@ -7,6 +7,8 @@ import ReactiveSvgRenderer from './ReactiveSvgRenderer.tsx';
 import { UiContext } from './context.ts';
 import { multimapCall } from 'scaffold/src/util/map.ts';
 import WorkerTableView from './WorkerTableView.tsx';
+import { trueHash } from 'scaffold/src/constants.ts';
+import { EMPTY_ARR } from 'scaffold/src/util/buffer.ts';
 
 interface HoverState {
   map: Map<HashPrimitive, ((hovered: boolean) => void)[]>;
@@ -55,6 +57,30 @@ export default ({ children }: { children?: React.ReactNode }) => {
           client.current!.ctx.get(BlockBuilder).publishSingleDraft({})}
       >
         Publish empty block
+      </button>
+      <button
+        onClick={() => {
+          const incentive = client.current!.ctx.get(BlockBuilder)
+            .publishSingleDraft({
+              outputs: [{
+                verifier: { contractHash: trueHash, params: EMPTY_ARR },
+                amount: 100n,
+                detail: EMPTY_ARR,
+              }],
+            });
+
+          const claimA = client.current!.ctx.get(BlockBuilder)
+            .publishSingleDraft({
+              inputs: [{ block: incentive, outputIdx: 0, amount: 100n }],
+            });
+
+          const claimB = client.current!.ctx.get(BlockBuilder)
+            .publishSingleDraft({
+              inputs: [{ block: incentive, outputIdx: 0, amount: 100n }],
+            });
+        }}
+      >
+        Publish dup block
       </button>
 
       <ReactiveSvgRenderer />
