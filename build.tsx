@@ -104,6 +104,7 @@ for await (const entry of walk('./pages/', walkOptions)) {
 
 setTimeout(() => {
   for (let i = 0; i < 10000; i++) {
+    clearTimeout(i);
     clearInterval(i);
   }
 }, 10000);
