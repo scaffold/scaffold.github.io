@@ -107,6 +107,6 @@ setTimeout(() => {
     clearTimeout(i);
     clearInterval(i);
   }
-}, 10000);
+}, 60000);
 
 await Promise.all(tasks);
