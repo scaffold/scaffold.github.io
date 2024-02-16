@@ -46,14 +46,8 @@ const wrapAccessor =
     }
   };
 
-const formatRange = <MinKey extends string, MaxKey extends string>(
-  range: Record<MinKey | MaxKey, bigint>,
-  minKey: MinKey,
-  maxKey: MaxKey,
-) =>
-  range[minKey] !== range[maxKey]
-    ? `${range[minKey]}-${range[maxKey]}`
-    : `${range[minKey]}`;
+const formatRange = (range: { min: bigint; max: bigint }) =>
+  range.min !== range.max ? `${range.min}-${range.max}` : `${range.min}`;
 
 export default ({}: {}) => {
   const { ctx, setSelectedHash, setHoveredHash } =
@@ -296,11 +290,7 @@ export default ({}: {}) => {
         ctx.get(WeightService).getSelfWeight(block)
       ),
       cell: (props) =>
-        formatRange(
-          props.getValue<{ minScore: bigint; maxScore: bigint }>(),
-          'minScore',
-          'maxScore',
-        ),
+        formatRange(props.getValue<{ min: bigint; max: bigint }>()),
     },
     {
       header: 'self work',
@@ -308,11 +298,7 @@ export default ({}: {}) => {
         ctx.get(WeightService).getSelfWeight(block)
       ),
       cell: (props) =>
-        formatRange(
-          props.getValue<{ minWork: bigint; maxWork: bigint }>(),
-          'minWork',
-          'maxWork',
-        ),
+        formatRange(props.getValue<{ min: bigint; max: bigint }>()),
     },
     {
       header: 'descendant weight',

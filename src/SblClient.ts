@@ -52,7 +52,7 @@ export default class SblClient {
       debugName: 'SblClient',
       selfPrivateKey: getPrivateKey(),
 
-      logLevel: 'Deno' in window ? log.LogLevels.WARNING : log.LogLevels.DEBUG,
+      logLevel: 'Deno' in window ? log.LogLevels.WARN : log.LogLevels.DEBUG,
 
       workerPath: window.location
         ? new URL('./worker.js', window.location.href).href
