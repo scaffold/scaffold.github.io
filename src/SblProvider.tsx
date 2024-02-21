@@ -7,7 +7,7 @@ import ReactiveSvgRenderer from './ReactiveSvgRenderer.tsx';
 import { UiContext } from './context.ts';
 import { multimapCall } from 'scaffold/src/util/map.ts';
 import WorkerTableView from './WorkerTableView.tsx';
-import { trueHash } from 'scaffold/src/constants.ts';
+import { jackpotHash, trueHash } from 'scaffold/src/constants.ts';
 import { EMPTY_ARR } from 'scaffold/src/util/buffer.ts';
 
 interface HoverState {
@@ -77,6 +77,11 @@ export default ({ children }: { children?: React.ReactNode }) => {
           const claimB = client.current!.ctx.get(BlockBuilder)
             .publishSingleDraft({
               inputs: [{ block: incentive, outputIdx: 0, amount: 100n }],
+              outputs: [{
+                verifier: { contractHash: jackpotHash, params: EMPTY_ARR },
+                amount: 80n,
+                detail: EMPTY_ARR,
+              }],
             });
         }}
       >

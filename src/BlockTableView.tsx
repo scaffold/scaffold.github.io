@@ -275,7 +275,7 @@ export default ({}: {}) => {
     {
       header: 'ancestor weight',
       accessorFn: wrapAccessor((block) =>
-        ctx.get(WeightService).getAncestorWeight(block).minWeight
+        ctx.get(WeightService).getAncestorWeight(block)
       ),
     },
     {
@@ -285,7 +285,7 @@ export default ({}: {}) => {
       ),
     },
     {
-      header: 'self score',
+      header: 'self weight',
       accessorFn: wrapAccessor((block) =>
         ctx.get(WeightService).getSelfWeight(block)
       ),
@@ -293,17 +293,17 @@ export default ({}: {}) => {
         formatRange(props.getValue<{ min: bigint; max: bigint }>()),
     },
     {
-      header: 'self work',
+      header: 'self offset',
       accessorFn: wrapAccessor((block) =>
-        ctx.get(WeightService).getSelfWeight(block)
+        ctx.get(WeightService).getSelfOffset(block)
       ),
       cell: (props) =>
         formatRange(props.getValue<{ min: bigint; max: bigint }>()),
     },
     {
-      header: 'descendant weight',
+      header: 'total weight',
       accessorFn: wrapAccessor((block) =>
-        ctx.get(WeightService).getDescendant(block).weight
+        ctx.get(WeightService).getDescendant(block).total
       ),
     },
   ], []);
