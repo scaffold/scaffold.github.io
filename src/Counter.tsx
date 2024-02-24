@@ -92,7 +92,7 @@ const startGame = () => {
 
 export default () => {
   const { ctx } = React.useContext(UiContext) ?? error('No context!');
-  const [count, setCount] = React.useState<number | string>('?');
+  const [count, setCount] = React.useState(0);
 
   React.useEffect(() => {
     ctx.get(LocalGeneratorService).addGenerator(

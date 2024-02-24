@@ -9,6 +9,7 @@ import { multimapCall } from 'scaffold/src/util/map.ts';
 import WorkerTableView from './WorkerTableView.tsx';
 import { jackpotHash, trueHash } from 'scaffold/src/constants.ts';
 import { EMPTY_ARR } from 'scaffold/src/util/buffer.ts';
+import BalanceView from './BalanceView.tsx';
 
 interface HoverState {
   map: Map<HashPrimitive, ((hovered: boolean) => void)[]>;
@@ -51,6 +52,8 @@ export default ({ children }: { children?: React.ReactNode }) => {
       }}
     >
       {children}
+
+      <BalanceView />
 
       <button
         onClick={() =>

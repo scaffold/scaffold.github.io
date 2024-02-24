@@ -301,9 +301,9 @@ export default ({}: {}) => {
         formatRange(props.getValue<{ min: bigint; max: bigint }>()),
     },
     {
-      header: 'total weight',
+      header: 'desc weight',
       accessorFn: wrapAccessor((block) =>
-        ctx.get(WeightService).getDescendant(block).total
+        ctx.get(WeightService).getDescendant(block).weight
       ),
     },
   ], []);
