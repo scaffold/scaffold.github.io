@@ -103,16 +103,13 @@ export default () => (
     </FeatureCard>
 
     <FeatureCard title='Is this a cryptocurrency?'>
-      Yes. However,
+      It is built using similar concepts (distributed consensus; an emergent
+      store of value); however,
       <ol className='list-disc pl-3'>
         <li>
-          It's not a blockchain, but a block tree. No one will ever download or
-          verify the entire tree. This means it's fast and energy-efficient.
-        </li>
-        <li>
           As stated in "Why?", Scaffold's #1 goal is computation. Not currency.
-          The world has enough of those. However we believe a store of value is
-          necessary: to perform computations (not just returning
+          The world has enough of those. However a store of value is necessary:
+          to perform computations (as opposed to just returning
           easily-verifiable static content) on non-trusted platforms (browsers),
           you have to incentivize correct answers and disincentivize incorrect
           answers. This requires some kind of transferrable store of value.
@@ -124,6 +121,11 @@ export default () => (
           speed first and consensus second. Large transactions will be finalized
           much more slowly, but this isn't a problem because we're using
           extremely small transactions to incentivize computation.
+        </li>
+        <li>
+          It's not built using a blockchain (essentially a linked list), but a
+          tree of computation results. No one will ever download or verify the
+          entire tree. This means it's fast and energy-efficient.
         </li>
       </ol>
     </FeatureCard>

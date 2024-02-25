@@ -3,7 +3,7 @@ import ScaffoldLogo from './ScaffoldLogo.tsx';
 import * as pages from './pages.ts';
 import GithubLogo from './GithubLogo.tsx';
 
-const enableLinks = true;
+const enableLinks = false;
 
 export default () => (
   <div
@@ -26,16 +26,15 @@ export default () => (
 
     <div style={{ flex: '1' }}></div>
 
-    <a
-      href={pages.comingSoon.path}
-      className='text-inherit no-underline m-4 self-center font-medium hover:underline'
-    >
-      Get started
-    </a>
-
     {enableLinks
       ? (
         <>
+          <a
+            href={pages.comingSoon.path}
+            className='text-inherit no-underline m-4 self-center font-medium hover:underline'
+          >
+            Get started
+          </a>
           <a
             href={pages.explorer.path}
             className='text-inherit no-underline m-4 self-center font-medium hover:underline'

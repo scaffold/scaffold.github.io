@@ -28,17 +28,28 @@ const getNetwork = () =>
     .get('network') ?? defaultNetwork;
 
 const getPrivateKey = () => {
-  const pkid =
-    new URLSearchParams(window.location ? window.location.search : '')
-      .get('pkid') ?? '';
-  const hex = localStorage.getItem(`sbl_pk_${pkid}`);
-  if (hex) {
-    return hex2bin(hex);
-  } else {
-    const key = secp.utils.randomPrivateKey();
-    localStorage.setItem(`sbl_pk_${pkid}`, bin2hex(key));
-    return key;
+  const query = new URLSearchParams(
+    window.location ? window.location.search : '',
+  );
+
+  const pk = query.get('pk') ?? '';
+  if (pk) {
+    return hex2bin(pk);
   }
+
+  const pkId = query.get('pkid') ?? '';
+  if (pkId) {
+    const hex = localStorage.getItem(`sbl_pk_${pkId}`);
+    if (hex) {
+      return hex2bin(hex);
+    } else {
+      const key = secp.utils.randomPrivateKey();
+      localStorage.setItem(`sbl_pk_${pkId}`, bin2hex(key));
+      return key;
+    }
+  }
+
+  return secp.utils.randomPrivateKey();
 };
 
 export default class SblClient {
