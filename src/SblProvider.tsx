@@ -7,9 +7,11 @@ import ReactiveSvgRenderer from './ReactiveSvgRenderer.tsx';
 import { UiContext } from './context.ts';
 import { multimapCall } from 'scaffold/src/util/map.ts';
 import WorkerTableView from './WorkerTableView.tsx';
-import { jackpotHash, trueHash } from 'scaffold/src/constants.ts';
+import { collatzHash, jackpotHash, trueHash } from 'scaffold/src/constants.ts';
+import * as collatzMessages from 'scaffold/src/contracts/collatzMessages.ts';
 import { EMPTY_ARR } from 'scaffold/src/util/buffer.ts';
 import BalanceView from './BalanceView.tsx';
+import { FetchService } from 'scaffold/src/FetchService.ts';
 
 interface HoverState {
   map: Map<HashPrimitive, ((hovered: boolean) => void)[]>;
@@ -51,8 +53,6 @@ export default ({ children }: { children?: React.ReactNode }) => {
         setHoveredHash: hoverState.current.update,
       }}
     >
-      {children}
-
       <BalanceView />
 
       <button
@@ -90,12 +90,26 @@ export default ({ children }: { children?: React.ReactNode }) => {
       >
         Publish dup block
       </button>
+      <button
+        onClick={() =>
+          client.current!.ctx.get(FetchService).fetch(
+            {
+              contractHash: collatzHash,
+              params: collatzMessages.Params.encode({ num: 10n }),
+            },
+            {
+              onBody: (body) =>
+                console.log(
+                  'FETCH RESPONSE',
+                  body ? collatzMessages.Answer.decode(body) : undefined,
+                ),
+            },
+          )}
+      >
+        REQUEST
+      </button>
 
-      <ReactiveSvgRenderer />
-
-      <BlockTableView />
-
-      <WorkerTableView />
+      {children}
     </UiContext.Provider>
   );
 };

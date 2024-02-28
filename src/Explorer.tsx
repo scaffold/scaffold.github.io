@@ -29,6 +29,9 @@ import CountMetric from './CountMetric.tsx';
 import { multimapCall } from 'scaffold/src/util/map.ts';
 import SblProvider from './SblProvider.tsx';
 import { error } from 'scaffold/src/util/functional.ts';
+import { Context } from 'scaffold/src/Context.ts';
+import WorkerTableView from './WorkerTableView.tsx';
+import SignalingTableView from './SignalingTableView.tsx';
 
 /*
 // QJS
@@ -118,9 +121,29 @@ const enum Section {
   Contracts,
   Peers,
   Connections,
+  Signalers,
   Logs,
   Configuration,
 }
+
+const sectionRenderers = {
+  [Section.Blocks]: (ctx: Context) => (
+    <>
+      <ReactiveSvgRenderer />
+      <BlockTableView />
+    </>
+  ),
+  [Section.Tasks]: (ctx: Context) => undefined,
+  [Section.Workers]: (ctx: Context) => <WorkerTableView />,
+  [Section.Contests]: (ctx: Context) => undefined,
+  [Section.Drafts]: (ctx: Context) => undefined,
+  [Section.Contracts]: (ctx: Context) => undefined,
+  [Section.Peers]: (ctx: Context) => undefined,
+  [Section.Connections]: (ctx: Context) => undefined,
+  [Section.Signalers]: (ctx: Context) => <SignalingTableView />,
+  [Section.Logs]: (ctx: Context) => undefined,
+  [Section.Configuration]: (ctx: Context) => undefined,
+};
 
 export default () => {
   const { ctx } = React.useContext(UiContext) ?? error('No context!');
@@ -144,6 +167,7 @@ export default () => {
           text='Connections'
           onClick={() => setSection(Section.Connections)}
         />
+        <Tab text='Signalers' onClick={() => setSection(Section.Signalers)} />
         <Tab text='Logs' onClick={() => setSection(Section.Logs)} />
         <Tab
           text='Configuration'
@@ -151,24 +175,7 @@ export default () => {
         />
       </div>
 
-      <button
-        onClick={() =>
-          ctx.get(FetchService).fetch(
-            {
-              contractHash: collatzHash,
-              params: collatzMessages.Params.encode({ num: 10n }),
-            },
-            {
-              onBody: (body) =>
-                console.log(
-                  'FETCH RESPONSE',
-                  body ? collatzMessages.Answer.decode(body) : undefined,
-                ),
-            },
-          )}
-      >
-        REQUEST
-      </button>
+      {sectionRenderers[section](ctx)}
     </>
   );
 

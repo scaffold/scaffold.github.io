@@ -75,6 +75,11 @@ export default <RecordType extends object>({ recordSet, columns, expandRow }: {
     data: records,
     columns,
     state: { sorting },
+    defaultColumn: {
+      size: 150,
+      minSize: 50,
+      maxSize: 500,
+    },
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),

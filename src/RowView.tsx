@@ -43,7 +43,10 @@ export default <RecordType extends object>({ set, row, expandRow }: {
       >
         {row.getVisibleCells().map((cell) => {
           return (
-            <td key={cell.id} style={{ padding: '0 4px' }}>
+            <td
+              key={cell.id}
+              style={{ padding: '0 4px', overflowX: 'auto', maxWidth: 1000 }}
+            >
               <>
                 {flexRender(
                   cell.column.columnDef.cell,

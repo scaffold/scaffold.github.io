@@ -1,22 +1,27 @@
 import React from 'react';
 import { ColumnDef } from 'tanstack-table';
 import { Logger } from 'scaffold/src/Logger.ts';
+import { bin2hex } from 'scaffold/src/util/hex.ts';
 import TableView from './TableView.tsx';
 import { UiContext } from './context.ts';
 import { error } from 'scaffold/src/util/functional.ts';
-import { WorkerRecordSet } from 'scaffold/src/record_sets/WorkerRecordSet.ts';
-import { WorkerDriver } from 'scaffold/src/WorkerDriverService.ts';
+import { SignalingRecordSet } from 'scaffold/src/record_sets/SignalingRecordSet.ts';
 import { LogEntry } from 'scaffold/src/WorkerDriverService.ts';
+import { SignalingState } from 'scaffold/src/SignalingService.ts';
 
 export default ({}: {}) => {
   const { ctx, setSelectedHash, setHoveredHash } =
     React.useContext(UiContext) ?? error('No context!');
 
-  const columns = React.useMemo<ColumnDef<WorkerDriver>[]>(() => [
+  const columns = React.useMemo<ColumnDef<SignalingState>[]>(() => [
+    {
+      header: 'public key',
+      accessorFn: (state) => bin2hex(state.remotePublicKey),
+    },
     {
       header: 'logs',
-      accessorFn: (driver) =>
-        driver.log ?? [{ message: `Worker logging is not enabled!` }],
+      accessorFn: (state) =>
+        state.log ?? [{ message: `Signaling logging is not enabled!` }],
       cell: (props) => (
         <ol>
           {props.getValue<LogEntry[]>().map(({ message }) => (
@@ -31,11 +36,11 @@ export default ({}: {}) => {
 
   return (
     <TableView
-      recordSet={ctx.get(WorkerRecordSet)}
+      recordSet={ctx.get(SignalingRecordSet)}
       columns={columns}
-      expandRow={(worker) => (
+      expandRow={(state) => (
         <>
-          <pre>{ctx.get(Logger).serialize(worker, 2, 72)}</pre>
+          <pre>{ctx.get(Logger).serialize(state, 2, 72)}</pre>
           <pre>EXPAND</pre>
         </>
       )}
