@@ -61,6 +61,9 @@ export default class SblClient {
 
       network: getNetwork(),
       debugName: 'SblClient',
+      userdata: JSON.stringify({
+        name: window.location ? window.location.search : '',
+      }),
       selfPrivateKey: getPrivateKey(),
 
       logLevel: 'Deno' in window ? log.LogLevels.WARN : log.LogLevels.DEBUG,
@@ -99,9 +102,10 @@ export default class SblClient {
       const url = new URL(window.location.href);
       url.protocol = { 'http:': 'ws:', 'https:': 'wss:' }[url.protocol]!;
       url.port = '8314';
-      this.ctx.get(NetworkService)
-        .initConnection('websocket@0.0.1/client')
-        .recvSignal(url.origin, 0);
+      this.ctx.get(NetworkService).persistConnection(
+        'websocket@0.0.1/client',
+        url.origin,
+      );
     }
 
     // const params = this.ctx.get(EpochContract).makeParams(10n);

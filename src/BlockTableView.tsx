@@ -1,14 +1,4 @@
 import React from 'react';
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getSortedRowModel,
-  Row,
-  SortingState,
-  useReactTable,
-} from 'tanstack-table';
-import { useVirtual } from 'tanstack-virtual';
 import { Context } from 'scaffold/src/Context.ts';
 import { Logger } from 'scaffold/src/Logger.ts';
 import { bin2hex } from 'scaffold/src/util/hex.ts';
@@ -28,7 +18,7 @@ import { CollateralUtil } from 'scaffold/src/CollateralUtil.ts';
 import { WeightService } from 'scaffold/src/WeightService.ts';
 import { BalanceService } from 'scaffold/src/BalanceService.ts';
 import { BlockRecordSet } from 'scaffold/src/record_sets/BlockRecordSet.ts';
-import TableView from './TableView.tsx';
+import TableView, { Column } from './TableView.tsx';
 import { UiContext } from './context.ts';
 import { error } from 'scaffold/src/util/functional.ts';
 import { VerifierHelper } from 'scaffold/src/VerifierHelper.ts';
@@ -53,35 +43,26 @@ export default ({}: {}) => {
   const { ctx, setSelectedHash, setHoveredHash } =
     React.useContext(UiContext) ?? error('No context!');
 
-  const columns = React.useMemo<ColumnDef<BlockFact>[]>(() => [
+  const columns = React.useMemo<Column<BlockFact>[]>(() => [
     {
       header: 'hash',
-      accessorFn: (block) => block.hash.toHex(),
-      cell: (props) => (
-        <a
-          href='#'
-          onClick={() => {
-            !props.row.getIsExpanded() &&
-              setSelectedHash(props.row.original.hash);
-            props.row.toggleExpanded();
-          }}
-        >
+      cell: (block) => (
+        <a href='#' onClick={() => setSelectedHash(block.hash)}>
           <span style={{ fontFamily: 'monospace' }}>
-            {props.getValue<string>().slice(0, 10)}
+            {block.hash.toHex().slice(0, 10)}
           </span>
         </a>
       ),
     },
     {
       header: 'name',
-      accessorFn: (block) => block.sillyName,
-      cell: (props) => (
+      cell: (block) => (
         <span
           onClick={() => {
-            (window as any).selectedBlock = props.row.original;
+            (window as any).selectedBlock = block;
           }}
         >
-          {props.getValue<string>()}
+          {block.sillyName}
         </span>
       ),
     },
@@ -94,15 +75,14 @@ export default ({}: {}) => {
     // },
     {
       header: 'source',
-      accessorFn: (block) => block.source,
-      cell: (props) => ({
+      cell: (block) => ({
         [FactSource.Genesis]: 'genesis',
         [FactSource.Bootstrap]: 'bootstrap',
         // [FactSource.Building]: 'building',
         [FactSource.Local]: 'local',
         [FactSource.Remote]: 'remote',
         [FactSource.Storage]: 'storage',
-      }[props.getValue<FactSource>()]),
+      }[block.source]),
     },
     // {
     //   header: 'verifier contract hash',
@@ -128,10 +108,9 @@ export default ({}: {}) => {
 
     {
       header: 'inputs',
-      accessorFn: (block) => block.inputs,
-      cell: (props) => (
+      cell: (block) => (
         <ol>
-          {props.getValue<BlockInput[]>().map((input) => {
+          {block.inputs.map((input) => {
             const output = ctx.get(BlockService).get(input.blockHash, false)
               ?.outputs[input.outputIdx];
             return (
@@ -162,11 +141,10 @@ export default ({}: {}) => {
 
     {
       header: 'outputs',
-      accessorFn: (block) => block,
-      cell: (props) => (
+      cell: (block) => (
         <ol>
-          {props.getValue<BlockFact>().outputs.map((output, outputIdx) => {
-            const claims = props.getValue<BlockFact>().outputClaims[outputIdx];
+          {block.outputs.map((output, outputIdx) => {
+            const claims = block.outputClaims[outputIdx];
 
             return (
               <li>
@@ -200,27 +178,27 @@ export default ({}: {}) => {
     },
     {
       header: 'throughput',
-      accessorFn: (block) =>
-        block.outputs.reduce((acc, output) => acc + output.amount, 0n),
+      cell: (block) =>
+        Number(block.outputs.reduce((acc, output) => acc + output.amount, 0n)),
     },
     {
       header: 'body sizes',
-      accessorFn: (block) => block.bodies.map((x) => x.byteLength).join(','),
+      cell: (block) => block.bodies.map((x) => x.byteLength).join(','),
     },
     {
       header: 'body',
-      accessorFn: (block) =>
-        block.bodies.map((_, groupIdx) =>
+
+      cell: (block) => (
+        <pre>{trunc(block.bodies.map((_, groupIdx) =>
           ctx.get(QaDebugger).debugBody(block, groupIdx)
-        ).join(', '),
-      cell: (props) => <pre>{trunc(props.getValue<string>(), 16)}</pre>,
+        ).join(', '), 16)}</pre>
+      ),
     },
     {
       header: 'frontier vote',
-      accessorFn: (block) => block.frontierVote,
-      cell: (props) => (
+      cell: (block) => (
         <HashView
-          hash={props.getValue<Hash>()}
+          hash={block.frontierVote}
           setHoveredHash={setHoveredHash}
           setSelectedHash={setSelectedHash}
         />
@@ -228,14 +206,13 @@ export default ({}: {}) => {
     },
     {
       header: 'block size',
-      accessorFn: (block) => block.data.byteLength,
+      cell: (block) => block.data.byteLength,
     },
     {
       header: 'collateralizations',
-      accessorFn: (block) => block.collateralizations,
-      cell: (props) => (
+      cell: (block) => (
         <ol>
-          {props.getValue<Collateralization[]>().map((ctz) => (
+          {block.collateralizations.map((ctz) => (
             <li>
               <HashView
                 hash={ctz.collateralBlock.hash}
@@ -249,7 +226,7 @@ export default ({}: {}) => {
     },
     {
       header: 'is valid',
-      accessorFn: (block) =>
+      cell: (block) =>
         CollateralUtil.isValid(
             CollateralUtil.buildTree(block.collateralizations),
           )
@@ -258,55 +235,40 @@ export default ({}: {}) => {
     },
     {
       header: 'canonicality',
-      accessorFn: wrapAccessor((block) =>
-        ctx.get(WeightService).getCanonicality(block)
-      ),
-      cell: (props) => {
-        const x = props.getValue<bigint | string>();
-        if (typeof x === 'string') {
-          return x;
-        } else if (x >= 0) {
-          return <strong>{Number(x)}</strong>;
-        } else {
-          return Number(x);
-        }
-      },
+      cell: wrapAccessor((block) => {
+        const x = ctx.get(WeightService).getCanonicality(block);
+        return x >= 0n ? <strong>{Number(x)}</strong> : Number(x);
+      }),
     },
     {
       header: 'ancestor weight',
-      accessorFn: wrapAccessor((block) =>
-        ctx.get(WeightService).getAncestorWeight(block)
+      cell: wrapAccessor((block) =>
+        Number(ctx.get(WeightService).getAncestorWeight(block))
       ),
     },
     {
       header: 'tree weights',
-      accessorFn: wrapAccessor((block) =>
-        block.frontierDetail.treeWeights.join(',')
-      ),
+      cell: wrapAccessor((block) => block.frontierDetail.treeWeights.join(',')),
     },
     {
       header: 'self weight',
-      accessorFn: wrapAccessor((block) =>
-        ctx.get(WeightService).getSelfWeight(block)
+      cell: wrapAccessor((block) =>
+        formatRange(ctx.get(WeightService).getSelfWeight(block))
       ),
-      cell: (props) =>
-        formatRange(props.getValue<{ min: bigint; max: bigint }>()),
     },
     {
       header: 'self offset',
-      accessorFn: wrapAccessor((block) =>
-        ctx.get(WeightService).getSelfOffset(block)
+      cell: wrapAccessor((block) =>
+        formatRange(ctx.get(WeightService).getSelfOffset(block))
       ),
-      cell: (props) =>
-        formatRange(props.getValue<{ min: bigint; max: bigint }>()),
     },
     {
       header: 'desc weight',
-      accessorFn: wrapAccessor((block) =>
-        ctx.get(WeightService).getDescendant(block).weight
+      cell: wrapAccessor((block) =>
+        Number(ctx.get(WeightService).getDescendant(block).weight)
       ),
     },
-  ], []);
+  ], [ctx]);
 
   return (
     <TableView

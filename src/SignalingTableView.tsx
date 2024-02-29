@@ -1,8 +1,7 @@
 import React from 'react';
-import { ColumnDef } from 'tanstack-table';
 import { Logger } from 'scaffold/src/Logger.ts';
 import { bin2hex } from 'scaffold/src/util/hex.ts';
-import TableView from './TableView.tsx';
+import TableView, { Column } from './TableView.tsx';
 import { UiContext } from './context.ts';
 import { error } from 'scaffold/src/util/functional.ts';
 import { SignalingRecordSet } from 'scaffold/src/record_sets/SignalingRecordSet.ts';
@@ -13,22 +12,21 @@ export default ({}: {}) => {
   const { ctx, setSelectedHash, setHoveredHash } =
     React.useContext(UiContext) ?? error('No context!');
 
-  const columns = React.useMemo<ColumnDef<SignalingState>[]>(() => [
+  const columns = React.useMemo<Column<SignalingState>[]>(() => [
     {
       header: 'public key',
-      accessorFn: (state) => bin2hex(state.remotePublicKey),
+      cell: (state) => bin2hex(state.remotePublicKey),
     },
     {
       header: 'logs',
-      accessorFn: (state) =>
-        state.log ?? [{ message: `Signaling logging is not enabled!` }],
-      cell: (props) => (
+      cell: (state) => (
         <ol>
-          {props.getValue<LogEntry[]>().map(({ message }) => (
-            <li>
-              <pre>{message}</pre>
-            </li>
-          ))}
+          {(state.log ?? [{ message: `Signaling logging is not enabled!` }])
+            .map(({ message }) => (
+              <li>
+                <pre>{message}</pre>
+              </li>
+            ))}
         </ol>
       ),
     },

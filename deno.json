@@ -70,8 +70,6 @@
     "react-router-dom": "https://esm.sh/react-router-dom@6.4.4?target=esnext&pin=v135",
     "react-icons/bs": "https://esm.sh/react-icons@4.10.1/bs?target=esnext&pin=v135",
     "tailwindcss": "https://esm.sh/tailwindcss@3.4.1?target=esnext&pin=v135",
-    "tanstack-virtual": "https://esm.sh/@tanstack/react-virtual@3.0.0-alpha.0?target=esnext&pin=v135",
-    "tanstack-table": "https://esm.sh/@tanstack/react-table@8.9.3?target=esnext&pin=v135",
     "threejs": "https://esm.sh/three@r139?target=esnext&pin=v135",
     "regl": "https://esm.sh/regl@2.1.0?target=esnext&pin=v135",
     "react-regl": "https://esm.sh/react-regl@4.3.5?target=esnext&pin=v135",

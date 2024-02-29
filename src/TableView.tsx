@@ -1,14 +1,4 @@
 import React from 'react';
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getSortedRowModel,
-  Row,
-  SortingState,
-  useReactTable,
-} from 'tanstack-table';
-import { useVirtual } from 'tanstack-virtual';
 import { Context } from 'scaffold/src/Context.ts';
 import { Logger } from 'scaffold/src/Logger.ts';
 import { bin2hex } from 'scaffold/src/util/hex.ts';
@@ -32,29 +22,20 @@ import { UiContext } from './context.ts';
 import { error } from 'scaffold/src/util/functional.ts';
 import RowView from './RowView.tsx';
 
-const getBlocks = (ctx: Context) =>
-  ctx.get(FactService).hackyGetBlocksMatching();
-
-const wrapAccessor =
-  <T,>(fn: (block: BlockFact) => T) => (block: BlockFact) => {
-    try {
-      return fn(block);
-    } catch (err) {
-      console.error(err);
-      return '?';
-    }
-  };
+export interface Column<RecordType extends object> {
+  header: React.ReactNode;
+  cell(record: RecordType): React.ReactNode;
+}
 
 // TODO: Move ctx and hoveredHash to context
 // TODO: Pass Service in & subscribe to data here?
 export default <RecordType extends object>({ recordSet, columns, expandRow }: {
   recordSet: ReactiveRecordSet<RecordType>;
-  columns: ColumnDef<RecordType>[];
+  columns: Column<RecordType>[];
   expandRow(row: RecordType): React.ReactNode;
 }) => {
   const { ctx } = React.useContext(UiContext) ?? error('No context!');
   const [records, setRecords] = React.useState<RecordType[]>([]);
-  const [sorting, setSorting] = React.useState<SortingState>([]);
 
   React.useEffect(() => {
     const addCb = (record: RecordType) => setRecords((arr) => [...arr, record]);
@@ -71,68 +52,21 @@ export default <RecordType extends object>({ recordSet, columns, expandRow }: {
     };
   }, [recordSet]);
 
-  const table = useReactTable<RecordType>({
-    data: records,
-    columns,
-    state: { sorting },
-    defaultColumn: {
-      size: 150,
-      minSize: 50,
-      maxSize: 500,
-    },
-    onSortingChange: setSorting,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getRowCanExpand: () => true,
-    debugTable: true,
-  });
-
-  const { rows } = table.getRowModel();
-
   return (
     <table style={{ borderCollapse: 'collapse' }}>
       <thead>
-        {table.getHeaderGroups().map((headerGroup) => (
-          <tr key={headerGroup.id}>
-            {headerGroup.headers.map((header) => {
-              return (
-                <th
-                  key={header.id}
-                  colSpan={header.colSpan}
-                  style={{ width: header.getSize() }}
-                >
-                  {header.isPlaceholder ? null : (
-                    <div
-                      {...{
-                        className: header.column.getCanSort()
-                          ? 'cursor-pointer select-none'
-                          : '',
-                        onClick: header.column.getToggleSortingHandler(),
-                      }}
-                    >
-                      <>
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                      </>
-                      <>
-                        {{
-                          asc: ' 🔼',
-                          desc: ' 🔽',
-                        }[header.column.getIsSorted() as string] ?? null}
-                      </>
-                    </div>
-                  )}
-                </th>
-              );
-            })}
-          </tr>
-        ))}
+        <tr>
+          {columns.map((col, idx) => <th key={idx}>{col.header}</th>)}
+        </tr>
       </thead>
       <tbody>
-        {rows.map((row) => (
-          <RowView set={recordSet} row={row} expandRow={expandRow} />
+        {records.map((record) => (
+          <RowView
+            set={recordSet}
+            record={record}
+            columns={columns}
+            expandRow={expandRow}
+          />
         ))}
       </tbody>
     </table>

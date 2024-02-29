@@ -32,6 +32,7 @@ import { error } from 'scaffold/src/util/functional.ts';
 import { Context } from 'scaffold/src/Context.ts';
 import WorkerTableView from './WorkerTableView.tsx';
 import SignalingTableView from './SignalingTableView.tsx';
+import ConnectionTableView from './ConnectionTableView.tsx';
 
 /*
 // QJS
@@ -139,7 +140,7 @@ const sectionRenderers = {
   [Section.Drafts]: (ctx: Context) => undefined,
   [Section.Contracts]: (ctx: Context) => undefined,
   [Section.Peers]: (ctx: Context) => undefined,
-  [Section.Connections]: (ctx: Context) => undefined,
+  [Section.Connections]: (ctx: Context) => <ConnectionTableView />,
   [Section.Signalers]: (ctx: Context) => <SignalingTableView />,
   [Section.Logs]: (ctx: Context) => undefined,
   [Section.Configuration]: (ctx: Context) => undefined,
