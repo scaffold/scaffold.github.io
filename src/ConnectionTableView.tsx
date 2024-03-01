@@ -16,7 +16,15 @@ export default ({}: {}) => {
   const columns = React.useMemo<Column<Connection>[]>(() => [
     {
       header: 'public key',
-      cell: (conn) => bin2hex(conn.peer.publicKey ?? EMPTY_ARR),
+      // cell: (conn) => bin2hex(conn.peer.publicKey ?? EMPTY_ARR),
+      cell: (conn) =>
+        conn.remotePublicKey !== undefined
+          ? bin2hex(conn.remotePublicKey)
+          : '?',
+    },
+    {
+      header: 'client nonce',
+      cell: (conn) => conn.remoteClientNonce ?? '?',
     },
     {
       header: 'protocol',
