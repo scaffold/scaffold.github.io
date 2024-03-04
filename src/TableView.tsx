@@ -35,20 +35,29 @@ export default <RecordType extends object>({ recordSet, columns, expandRow }: {
   expandRow(row: RecordType): React.ReactNode;
 }) => {
   const { ctx } = React.useContext(UiContext) ?? error('No context!');
-  const [records, setRecords] = React.useState<RecordType[]>([]);
+  const records = React.useRef<Set<RecordType> | undefined>();
+  const [_, forceUpdate] = React.useReducer((x) => x + 1, 0);
 
   React.useEffect(() => {
-    const addCb = (record: RecordType) => setRecords((arr) => [...arr, record]);
-    const removeCb = (record: RecordType) =>
-      setRecords((arr) => arr.filter((el) => el !== record));
+    const addCb = (record: RecordType) => {
+      records.current!.add(record);
+      forceUpdate();
+    };
+    const removeCb = (record: RecordType) => {
+      records.current!.delete(record);
+      forceUpdate();
+    };
 
-    setRecords([...recordSet.getAll()]);
+    records.current = new Set(recordSet.getAll());
     recordSet.onAdd(addCb);
     recordSet.onRemove(removeCb);
 
+    forceUpdate();
+
     return () => {
-      recordSet.offAdd(addCb);
       recordSet.offRemove(removeCb);
+      recordSet.offAdd(addCb);
+      records.current = undefined;
     };
   }, [recordSet]);
 
@@ -60,14 +69,15 @@ export default <RecordType extends object>({ recordSet, columns, expandRow }: {
         </tr>
       </thead>
       <tbody>
-        {records.map((record) => (
-          <RowView
-            set={recordSet}
-            record={record}
-            columns={columns}
-            expandRow={expandRow}
-          />
-        ))}
+        {records.current !== undefined &&
+          [...records.current].map((record) => (
+            <RowView
+              set={recordSet}
+              record={record}
+              columns={columns}
+              expandRow={expandRow}
+            />
+          ))}
       </tbody>
     </table>
   );

@@ -20,11 +20,11 @@ export default ({}: {}) => {
       cell: (conn) =>
         conn.remotePublicKey !== undefined
           ? bin2hex(conn.remotePublicKey)
-          : '?',
+          : 'no auth',
     },
     {
       header: 'client nonce',
-      cell: (conn) => conn.remoteClientNonce ?? '?',
+      cell: (conn) => conn.remoteClientNonce ?? 'no auth',
     },
     {
       header: 'protocol',

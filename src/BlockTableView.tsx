@@ -23,9 +23,6 @@ import { UiContext } from './context.ts';
 import { error } from 'scaffold/src/util/functional.ts';
 import { VerifierHelper } from 'scaffold/src/VerifierHelper.ts';
 
-const getBlocks = (ctx: Context) =>
-  ctx.get(FactService).hackyGetBlocksMatching();
-
 const wrapAccessor =
   <T,>(fn: (block: BlockFact) => T) => (block: BlockFact) => {
     try {

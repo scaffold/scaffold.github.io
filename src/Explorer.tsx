@@ -33,6 +33,7 @@ import { Context } from 'scaffold/src/Context.ts';
 import WorkerTableView from './WorkerTableView.tsx';
 import SignalingTableView from './SignalingTableView.tsx';
 import ConnectionTableView from './ConnectionTableView.tsx';
+import EmitterTableView from './EmitterTableView.tsx';
 
 /*
 // QJS
@@ -123,6 +124,7 @@ const enum Section {
   Peers,
   Connections,
   Signalers,
+  Emitters,
   Logs,
   Configuration,
 }
@@ -142,6 +144,7 @@ const sectionRenderers = {
   [Section.Peers]: (ctx: Context) => undefined,
   [Section.Connections]: (ctx: Context) => <ConnectionTableView />,
   [Section.Signalers]: (ctx: Context) => <SignalingTableView />,
+  [Section.Emitters]: (ctx: Context) => <EmitterTableView />,
   [Section.Logs]: (ctx: Context) => undefined,
   [Section.Configuration]: (ctx: Context) => undefined,
 };
@@ -169,6 +172,7 @@ export default () => {
           onClick={() => setSection(Section.Connections)}
         />
         <Tab text='Signalers' onClick={() => setSection(Section.Signalers)} />
+        <Tab text='Emitters' onClick={() => setSection(Section.Emitters)} />
         <Tab text='Logs' onClick={() => setSection(Section.Logs)} />
         <Tab
           text='Configuration'

@@ -9,13 +9,12 @@ import { LogEntry } from 'scaffold/src/WorkerDriverService.ts';
 import { SignalingState } from 'scaffold/src/SignalingService.ts';
 
 export default ({}: {}) => {
-  const { ctx, setSelectedHash, setHoveredHash } =
-    React.useContext(UiContext) ?? error('No context!');
+  const { ctx } = React.useContext(UiContext) ?? error('No context!');
 
   const columns = React.useMemo<Column<SignalingState>[]>(() => [
     {
-      header: 'public key',
-      cell: (state) => bin2hex(state.remotePublicKey),
+      header: 'nonce',
+      cell: (state) => bin2hex(state.signalingNonce).slice(0, 10),
     },
     {
       header: 'logs',
