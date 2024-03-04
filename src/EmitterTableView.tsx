@@ -54,8 +54,17 @@ export default ({}: {}) => {
         record.item === emptyPoolSentinel
           ? 'empty sentinel'
           : record.item.type === factGeneratorType
-          ? record.item.name
+          ? record.item.describe().name
           : record.item.typeStr,
+    },
+    {
+      header: 'source',
+      cell: (record) =>
+        record.item === emptyPoolSentinel
+          ? ''
+          : record.item.type === factGeneratorType
+          ? ''
+          : record.item.sourceStr,
     },
     {
       header: 'fact hash / generator detail',
@@ -63,7 +72,7 @@ export default ({}: {}) => {
         record.item === emptyPoolSentinel
           ? ''
           : record.item.type === factGeneratorType
-          ? record.item.detail
+          ? record.item.describe().detail
           : `${
             record.item.hash.toHex().slice(0, 10)
           } / ${record.item.sillyName}`,
@@ -71,10 +80,11 @@ export default ({}: {}) => {
     {
       header: 'send count',
       cell: (record) =>
-        record.item !== emptyPoolSentinel &&
-          record.item.type !== factGeneratorType
-          ? record.item.toConnections.length
-          : '',
+        record.item === emptyPoolSentinel
+          ? ''
+          : record.item.type === factGeneratorType
+          ? record.item.describe().emits
+          : record.item.toConnections.length,
     },
     {
       header: 'value',
@@ -91,6 +101,10 @@ export default ({}: {}) => {
     {
       header: 'weight',
       cell: (record) => record.weight,
+    },
+    {
+      header: 'updates',
+      cell: (record) => record.updates,
     },
     {
       header: 'skips',

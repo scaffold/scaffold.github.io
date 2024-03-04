@@ -233,7 +233,7 @@ export default ({}: {}) => {
     {
       header: 'canonicality',
       cell: wrapAccessor((block) => {
-        const x = ctx.get(WeightService).getCanonicality(block);
+        const x = ctx.get(WeightService).getCanonicality(block).canonicality;
         return x >= 0n ? <strong>{Number(x)}</strong> : Number(x);
       }),
     },

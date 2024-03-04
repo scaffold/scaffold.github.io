@@ -25,7 +25,8 @@ const getBest = <OptionType extends { block: BlockFact }>(
   let bestScore: bigint | undefined;
   let bestDescendant: OptionType | undefined;
   for (const opt of options) {
-    const score = ctx.get(WeightService).getCanonicality(opt.block);
+    const score =
+      ctx.get(WeightService).getCanonicality(opt.block).canonicality;
     if (bestDescendant === undefined || score > bestScore!) {
       bestScore = score;
       bestDescendant = opt;
