@@ -1,6 +1,6 @@
 import React from 'react';
 import { Hash, HashPrimitive } from 'scaffold/src/util/Hash.ts';
-import { ReactiveRecordSet } from 'scaffold/src/util/ReactiveRecordSet.ts';
+import { ReactiveRecordSet } from 'scaffold/src/record_sets/ReactiveRecordSet.ts';
 import { UiContext } from './context.ts';
 import { error } from 'scaffold/src/util/functional.ts';
 import { mapPut, multimapPop, multimapPut } from 'scaffold/src/util/map.ts';

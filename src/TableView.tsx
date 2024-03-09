@@ -17,7 +17,7 @@ import HashView from './HashView.tsx';
 import { CollateralUtil } from 'scaffold/src/CollateralUtil.ts';
 import { WeightService } from 'scaffold/src/WeightService.ts';
 import { BalanceService } from 'scaffold/src/BalanceService.ts';
-import { ReactiveRecordSet } from 'scaffold/src/util/ReactiveRecordSet.ts';
+import { ReactiveRecordSet } from 'scaffold/src/record_sets/ReactiveRecordSet.ts';
 import { UiContext } from './context.ts';
 import { error } from 'scaffold/src/util/functional.ts';
 import RowView from './RowView.tsx';

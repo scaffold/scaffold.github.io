@@ -34,6 +34,7 @@ import WorkerTableView from './WorkerTableView.tsx';
 import SignalingTableView from './SignalingTableView.tsx';
 import ConnectionTableView from './ConnectionTableView.tsx';
 import EmitterTableView from './EmitterTableView.tsx';
+import UnspentOutputTableView from './UnspentOutputTableView.tsx';
 
 /*
 // QJS
@@ -121,6 +122,7 @@ const enum Section {
   Contests,
   Drafts,
   Contracts,
+  UnspentOutputs,
   Peers,
   Connections,
   Signalers,
@@ -141,6 +143,7 @@ const sectionRenderers = {
   [Section.Contests]: (ctx: Context) => undefined,
   [Section.Drafts]: (ctx: Context) => undefined,
   [Section.Contracts]: (ctx: Context) => undefined,
+  [Section.UnspentOutputs]: (ctx: Context) => <UnspentOutputTableView />,
   [Section.Peers]: (ctx: Context) => undefined,
   [Section.Connections]: (ctx: Context) => <ConnectionTableView />,
   [Section.Signalers]: (ctx: Context) => <SignalingTableView />,
@@ -166,6 +169,10 @@ export default () => {
         <Tab text='Contests' onClick={() => setSection(Section.Contests)} />
         <Tab text='Drafts' onClick={() => setSection(Section.Drafts)} />
         <Tab text='Contracts' onClick={() => setSection(Section.Contracts)} />
+        <Tab
+          text='Unspent outputs'
+          onClick={() => setSection(Section.UnspentOutputs)}
+        />
         <Tab text='Peers' onClick={() => setSection(Section.Peers)} />
         <Tab
           text='Connections'
