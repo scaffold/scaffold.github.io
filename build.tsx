@@ -4,10 +4,12 @@ import { ensureDir, walk } from '$std/fs/mod.ts';
 import { join } from '$std/path/mod.ts';
 import { encodeHex } from '$std/encoding/hex.ts';
 import * as esbuild from 'npm:esbuild';
-import { denoPlugins } from 'https://deno.land/x/esbuild_deno_loader@0.8.3/mod.ts';
+import { denoPlugins } from 'https://deno.land/x/esbuild_deno_loader@0.9.0/mod.ts';
 import { Page } from './src/pages.ts';
 
+// https://esbuild.github.io/getting-started/#wasm
 // TODO: Use https://nanojsx.io/ to build?
+// TODO: Use deno_emit to build?
 
 const outDir = join(import.meta.dirname ?? '.', 'build');
 
@@ -50,6 +52,7 @@ const buildJs = async (jsPath: string, tsxPath: string) => {
       Deno.env.get('MINIFY')?.toLowerCase() ?? '',
     ),
     target: 'esnext',
+    // treeShaking: true,
     outfile: jsPath,
   });
 

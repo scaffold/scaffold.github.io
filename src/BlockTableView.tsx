@@ -16,6 +16,7 @@ import { BlockService } from 'scaffold/src/BlockService.ts';
 import HashView from './HashView.tsx';
 import { CollateralUtil } from 'scaffold/src/CollateralUtil.ts';
 import { WeightService } from 'scaffold/src/WeightService.ts';
+import { BlockMetrics } from 'scaffold/src/BlockMetrics.ts';
 import { BalanceService } from 'scaffold/src/BalanceService.ts';
 import { BlockRecordSet } from 'scaffold/src/record_sets/BlockRecordSet.ts';
 import TableView, { Column } from './TableView.tsx';
@@ -221,49 +222,76 @@ export default ({}: {}) => {
         </ol>
       ),
     },
-    {
-      header: 'is valid',
-      cell: (block) =>
-        CollateralUtil.isValid(
-            CollateralUtil.buildTree(block.collateralizations),
-          )
-          ? 'yes'
-          : 'no',
-    },
-    {
-      header: 'canonicality',
-      cell: wrapAccessor((block) => {
-        const x = ctx.get(WeightService).getCanonicality(block).canonicality;
-        return x >= 0n ? <strong>{Number(x)}</strong> : Number(x);
-      }),
-    },
-    {
-      header: 'ancestor weight',
-      cell: wrapAccessor((block) =>
-        Number(ctx.get(WeightService).getAncestorWeight(block))
-      ),
-    },
+
+    // {
+    //   header: 'is valid',
+    //   cell: (block) =>
+    //     CollateralUtil.isValid(
+    //         CollateralUtil.buildTree(block.collateralizations),
+    //       )
+    //       ? 'yes'
+    //       : 'no',
+    // },
+    // {
+    //   header: 'canonicality',
+    //   cell: wrapAccessor((block) => {
+    //     const x = ctx.get(WeightService).getCanonicality(block).canonicality;
+    //     return x >= 0n ? <strong>{Number(x)}</strong> : Number(x);
+    //   }),
+    // },
+    // {
+    //   header: 'ancestor weight',
+    //   cell: wrapAccessor((block) =>
+    //     Number(ctx.get(WeightService).getAncestorWeight(block))
+    //   ),
+    // },
     {
       header: 'tree weights',
       cell: wrapAccessor((block) => block.frontierDetail.treeWeights.join(',')),
     },
+    // {
+    //   header: 'self',
+    //   cell: wrapAccessor((block) =>
+    //     formatRange(ctx.get(WeightService).getSelfWeight(block))
+    //   ),
+    // },
+    // {
+    //   header: 'self offset',
+    //   cell: wrapAccessor((block) =>
+    //     formatRange(ctx.get(WeightService).getSelfOffset(block))
+    //   ),
+    // },
+    // {
+    //   header: 'desc weight',
+    //   cell: wrapAccessor((block) =>
+    //     Number(ctx.get(WeightService).getDescendant(block).weight)
+    //   ),
+    // },
+
     {
-      header: 'self weight',
-      cell: wrapAccessor((block) =>
-        formatRange(ctx.get(WeightService).getSelfWeight(block))
-      ),
+      header: 'selfW',
+      cell: (block) => Number(ctx.get(BlockMetrics).get(block, 'selfWeight')),
     },
     {
-      header: 'self offset',
-      cell: wrapAccessor((block) =>
-        formatRange(ctx.get(WeightService).getSelfOffset(block))
-      ),
+      header: 'voterW',
+      cell: (block) =>
+        ctx.get(BlockMetrics).get(block, 'voterWeight').join(','),
     },
     {
-      header: 'desc weight',
-      cell: wrapAccessor((block) =>
-        Number(ctx.get(WeightService).getDescendant(block).weight)
-      ),
+      header: 'totalW',
+      cell: (block) => Number(ctx.get(BlockMetrics).get(block, 'totalWeight')),
+    },
+    {
+      header: 'selfP',
+      cell: (block) => Number(ctx.get(BlockMetrics).get(block, 'selfPenalty')),
+    },
+    {
+      header: 'treeP',
+      cell: (block) => Number(ctx.get(BlockMetrics).get(block, 'treePenalty')),
+    },
+    {
+      header: 'totalP',
+      cell: (block) => Number(ctx.get(BlockMetrics).get(block, 'totalPenalty')),
     },
   ], [ctx]);
 
