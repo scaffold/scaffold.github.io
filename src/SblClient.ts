@@ -56,6 +56,9 @@ export default class SblClient {
   public ctx: Context;
 
   constructor() {
+    const selfPrivateKey = getPrivateKey();
+    // console.log('Private key:', bin2hex(selfPrivateKey));
+
     const config: Config = {
       ...makeDefaultConfig(),
 
@@ -64,7 +67,7 @@ export default class SblClient {
       userdata: JSON.stringify({
         name: window.location ? window.location.search : '',
       }),
-      selfPrivateKey: getPrivateKey(),
+      selfPrivateKey,
 
       logLevel: 'Deno' in window ? log.LogLevels.WARN : log.LogLevels.DEBUG,
 
