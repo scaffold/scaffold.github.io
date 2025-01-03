@@ -70,8 +70,9 @@ export default <RecordType extends object>({ recordSet, columns, expandRow }: {
       </thead>
       <tbody>
         {records.current !== undefined &&
-          [...records.current].map((record) => (
+          [...records.current].map((record, idx) => (
             <RowView
+              key={idx}
               set={recordSet}
               record={record}
               columns={columns}

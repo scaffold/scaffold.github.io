@@ -7,7 +7,7 @@ import {
 } from 'scaffold/src/Config.ts';
 import { ConnectionService } from 'scaffold/src/ConnectionService.ts';
 import { bin2hex, hex2bin } from 'scaffold/src/util/hex.ts';
-import * as log from '$std/log/mod.ts';
+import * as log from '@std/log';
 import { WebsocketClientProvider } from 'scaffold/plugins/WebsocketClientProvider.ts';
 import { WebrtcProvider } from 'scaffold/plugins/WebrtcProvider.ts';
 import { LocalStorageProvider } from 'scaffold/plugins/LocalStorageProvider.ts';
@@ -22,6 +22,8 @@ import { enableDevtoolsFormatter } from 'scaffold/plugins/devtoolsFormatterPlugi
 enableDevtoolsFormatter();
 
 // window['Deno'] = {};
+
+const window = globalThis;
 
 const getNetwork = () =>
   new URLSearchParams(window.location ? window.location.search : '')

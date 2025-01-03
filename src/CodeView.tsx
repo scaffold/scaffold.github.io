@@ -77,8 +77,9 @@ export default (
           }}
         >
         </div>
-        {Object.keys(files).map((filename, idx) => (
+        {Object.keys(files).map((filename) => (
           <div
+            key={filename}
             style={{
               borderLeft: '1px solid #abb2bf',
               borderRight: '1px solid #abb2bf',

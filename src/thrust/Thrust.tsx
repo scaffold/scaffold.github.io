@@ -98,7 +98,9 @@ export default () => {
   }, [ctx]);
 
   const [url, setUrl] = React.useState(
-    new URL(window.location ? window.location.href : 'http://localhost/'),
+    new URL(
+      globalThis.location ? globalThis.location.href : 'http://localhost/',
+    ),
   );
   const gameHex = url.searchParams.get('game');
 
@@ -119,7 +121,7 @@ export default () => {
         onClick={() => {
           const newUrl = new URL(url);
           newUrl.searchParams.set('game', startGame(ctx).toHex());
-          window.history.pushState({}, '', newUrl);
+          globalThis.history.pushState({}, '', newUrl);
           setUrl(newUrl);
         }}
       >

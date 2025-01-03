@@ -45,11 +45,17 @@ export default ({}: {}) => {
     {
       header: 'hash',
       cell: (block) => (
-        <a href='#' onClick={() => setSelectedHash(block.hash)}>
-          <span style={{ fontFamily: 'monospace' }}>
-            {block.hash.toHex().slice(0, 10)}
-          </span>
-        </a>
+        <>
+          <a href='#' onClick={() => setSelectedHash(block.hash)}>
+            <span style={{ fontFamily: 'monospace' }}>
+              {block.hash.toHex().slice(0, 10)}
+            </span>
+          </a>
+          <br />
+          <a href='#' onClick={() => ctx.get(FactService).forget(block)}>
+            Forget
+          </a>
+        </>
       ),
     },
     {
@@ -175,15 +181,6 @@ export default ({}: {}) => {
       ),
     },
     {
-      header: 'throughput',
-      cell: (block) =>
-        Number(block.outputs.reduce((acc, output) => acc + output.amount, 0n)),
-    },
-    {
-      header: 'body sizes',
-      cell: (block) => block.bodies.map((x) => x.byteLength).join(','),
-    },
-    {
       header: 'body',
 
       cell: (block) => (
@@ -207,7 +204,7 @@ export default ({}: {}) => {
       cell: (block) => block.data.byteLength,
     },
     {
-      header: 'collateralizations',
+      header: 'colls',
       cell: (block) => (
         <ol>
           {block.collateralizations.map((ctz) => (

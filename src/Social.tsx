@@ -2,7 +2,7 @@ import React from 'react';
 import * as moduleHashes from 'ts-examples/moduleHashes.ts';
 import * as counterMessages from 'ts-examples/counterMessages.ts';
 import counterStateGenerator from 'ts-examples/counter_state.generator.0.ts';
-import { EMPTY_ARR } from 'scaffold/src/util/buffer.ts';
+import { arrConcat, EMPTY_ARR } from 'scaffold/src/util/buffer.ts';
 import { FetchMode, FetchService } from 'scaffold/src/FetchService.ts';
 import { BlockBuilder } from 'scaffold/src/BlockBuilder.ts';
 import { LocalGeneratorService } from 'scaffold/src/LocalGeneratorService.ts';
@@ -46,12 +46,12 @@ export default () => {
           onChange={(e) => {
             if (e.target.files?.length === 1) {
               e.target.files[0].arrayBuffer().then((buf) => {
-                const arr = new Uint8Array(buf);
-                const hash = Hash.digest(arr);
+                const body = new Uint8Array(buf);
+                const hash = Hash.digest(body);
                 setHash(hash.toHex());
 
                 ctx.get(BlockBuilder).publishSingleDraft({
-                  body: arr,
+                  body,
                   satisfies: [{
                     contractHash: rootHash,
                     params: hash.toBytes(),

@@ -1,10 +1,10 @@
 import React from 'react';
-import { renderToReadableStream } from 'react-server';
-import { ensureDir, walk } from '$std/fs/mod.ts';
-import { join } from '$std/path/mod.ts';
-import { encodeHex } from '$std/encoding/hex.ts';
-import * as esbuild from 'npm:esbuild';
-import { denoPlugins } from 'https://deno.land/x/esbuild_deno_loader@0.9.0/mod.ts';
+import { renderToReadableStream } from 'react-dom/server';
+import { ensureDir, walk } from '@std/fs';
+import { join } from '@std/path';
+import { encodeHex } from '@std/encoding';
+import * as esbuild from 'npm:esbuild@0.24.2';
+import { denoPlugins } from 'jsr:@luca/esbuild-deno-loader@^0.11.1';
 import { Page } from './src/pages.ts';
 
 // https://esbuild.github.io/getting-started/#wasm
@@ -19,9 +19,9 @@ const initDir = Promise.resolve();
 
 const makeBootstrapTsx = (tsxPath: string) => `
   import React from 'react';
-  import ReactDOM from 'react-dom';
+  import { hydrateRoot } from 'react-dom/client';
   import Component from '${join(Deno.cwd(), tsxPath)}';
-  ReactDOM.hydrate(<Component />, document);
+  hydrateRoot(document, <Component />);
 `;
 
 const buildHtml = async (
@@ -38,6 +38,7 @@ const buildHtml = async (
 
 const buildJs = async (jsPath: string, tsxPath: string) => {
   const tmp = await Deno.makeTempFile({ suffix: '.tsx' });
+
   await Deno.writeTextFile(tmp, makeBootstrapTsx(tsxPath));
 
   await esbuild.build({
@@ -105,11 +106,10 @@ for await (const entry of walk('./pages/', walkOptions)) {
 //   }).spawn().status.then(() => {}),
 // );
 
-setTimeout(() => {
-  for (let i = 0; i < 10000; i++) {
-    clearTimeout(i);
-    clearInterval(i);
-  }
-}, 60000);
-
 await Promise.all(tasks);
+
+await esbuild.stop();
+
+if (Deno.env.get('CI')) {
+  Deno.exit(0);
+}

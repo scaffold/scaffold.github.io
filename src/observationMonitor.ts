@@ -1,4 +1,4 @@
-export default 'IntersectionObserver' in window
+export default 'IntersectionObserver' in globalThis
   ? new IntersectionObserver((entries) => {
     for (const entry of entries) {
       if (entry.isIntersecting) {
