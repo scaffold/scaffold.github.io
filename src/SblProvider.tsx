@@ -7,7 +7,7 @@ import ReactiveSvgRenderer from './ReactiveSvgRenderer.tsx';
 import { UiContext } from './context.ts';
 import { multimapCall } from 'scaffold/src/util/map.ts';
 import WorkerTableView from './WorkerTableView.tsx';
-import { collatzHash, jackpotHash, trueHash } from 'scaffold/src/constants.ts';
+import { collatzHash, jackpotHash, trueHash } from 'scaffold/src/hashes.ts';
 import * as collatzMessages from 'scaffold/src/contracts/collatzMessages.ts';
 import { EMPTY_ARR } from 'scaffold/src/util/buffer.ts';
 import BalanceView from './BalanceView.tsx';

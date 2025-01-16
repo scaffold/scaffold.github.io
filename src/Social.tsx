@@ -11,7 +11,7 @@ import { error } from 'scaffold/src/util/functional.ts';
 import { bin2str, str2bin } from 'scaffold/src/util/buffer.ts';
 import { QaDebugger } from 'scaffold/src/QaDebugger.ts';
 import Explorer from './Explorer.tsx';
-import { rootHash } from 'scaffold/src/constants.ts';
+import { rootHash } from 'scaffold/src/hashes.ts';
 import { Hash, HASH_REGEX } from 'scaffold/src/util/Hash.ts';
 
 export default () => {

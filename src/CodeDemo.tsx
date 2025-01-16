@@ -1,7 +1,7 @@
 import React from 'react';
 import SblClient from './SblClient.ts';
 import { FetchService } from 'scaffold/src/FetchService.ts';
-import { rootHash } from 'scaffold/src/constants.ts';
+import { rootHash } from 'scaffold/src/hashes.ts';
 import { Hash, HashPrimitive } from 'scaffold/src/util/Hash.ts';
 import { FactService } from 'scaffold/src/FactService.ts';
 import { BlockFact, FactType } from 'scaffold/src/FactMeta.ts';

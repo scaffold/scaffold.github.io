@@ -128,7 +128,7 @@ export default ({}: {}) => {
                     hash={input.blockHash}
                     setHoveredHash={setHoveredHash}
                     setSelectedHash={setSelectedHash}
-                  />.{input.outputIdx}
+                  />.{input.outputIdx};{input.utxoIdx}
                   {output
                     ? `: ${ctx.get(QaDebugger).debugVerifier(output.verifier)}`
                     : null}
@@ -204,6 +204,18 @@ export default ({}: {}) => {
       cell: (block) => block.data.byteLength,
     },
     {
+      header: 'spent utxos',
+      cell: (block: BlockFact) => (
+        <ol>{block.frontierDetail.spentUtxoIdxs.join(',')}</ol>
+      ),
+    },
+    {
+      header: 'subtree output counts',
+      cell: (block: BlockFact) => (
+        <ol>{block.frontierDetail.subtreeNewUtxoCount.join(',')}</ol>
+      ),
+    },
+    {
       header: 'colls',
       cell: (block) => (
         <ol>
@@ -219,7 +231,6 @@ export default ({}: {}) => {
         </ol>
       ),
     },
-
     // {
     //   header: 'is valid',
     //   cell: (block) =>
@@ -242,10 +253,10 @@ export default ({}: {}) => {
     //     Number(ctx.get(WeightService).getAncestorWeight(block))
     //   ),
     // },
-    {
-      header: 'tree weights',
-      cell: wrapAccessor((block) => block.frontierDetail.treeWeights.join(',')),
-    },
+    // {
+    //   header: 'tree weights',
+    //   cell: wrapAccessor((block) => block.frontierDetail.treeWeights.join(',')),
+    // },
     // {
     //   header: 'self',
     //   cell: wrapAccessor((block) =>
@@ -265,31 +276,31 @@ export default ({}: {}) => {
     //   ),
     // },
 
-    {
-      header: 'selfW',
-      cell: (block) => Number(ctx.get(BlockMetrics).get(block, 'selfWeight')),
-    },
-    {
-      header: 'voterW',
-      cell: (block) =>
-        ctx.get(BlockMetrics).get(block, 'voterWeight').join(','),
-    },
-    {
-      header: 'totalW',
-      cell: (block) => Number(ctx.get(BlockMetrics).get(block, 'totalWeight')),
-    },
-    {
-      header: 'selfP',
-      cell: (block) => Number(ctx.get(BlockMetrics).get(block, 'selfPenalty')),
-    },
-    {
-      header: 'treeP',
-      cell: (block) => Number(ctx.get(BlockMetrics).get(block, 'treePenalty')),
-    },
-    {
-      header: 'totalP',
-      cell: (block) => Number(ctx.get(BlockMetrics).get(block, 'totalPenalty')),
-    },
+    // {
+    //   header: 'selfW',
+    //   cell: (block) => Number(ctx.get(BlockMetrics).get(block, 'selfWeight')),
+    // },
+    // {
+    //   header: 'voterW',
+    //   cell: (block) =>
+    //     ctx.get(BlockMetrics).get(block, 'voterWeight').join(','),
+    // },
+    // {
+    //   header: 'totalW',
+    //   cell: (block) => Number(ctx.get(BlockMetrics).get(block, 'totalWeight')),
+    // },
+    // {
+    //   header: 'selfP',
+    //   cell: (block) => Number(ctx.get(BlockMetrics).get(block, 'selfPenalty')),
+    // },
+    // {
+    //   header: 'treeP',
+    //   cell: (block) => Number(ctx.get(BlockMetrics).get(block, 'treePenalty')),
+    // },
+    // {
+    //   header: 'totalP',
+    //   cell: (block) => Number(ctx.get(BlockMetrics).get(block, 'totalPenalty')),
+    // },
   ], [ctx]);
 
   return (
