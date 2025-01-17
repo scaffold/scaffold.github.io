@@ -15,7 +15,6 @@ import { BlockBuilder } from 'scaffold/src/BlockBuilder.ts';
 import { QaDebugger } from 'scaffold/src/QaDebugger.ts';
 import Input from './Input.tsx';
 import { LitigationService } from 'scaffold/src/LitigationService.ts';
-import { FrontierService2 } from 'scaffold/src/FrontierService2.ts';
 import { defaultNetwork } from 'scaffold/src/Config.ts';
 import CodeDemo from './CodeDemo.tsx';
 import ReactiveSvgRenderer from './ReactiveSvgRenderer.tsx';

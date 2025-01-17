@@ -181,23 +181,46 @@ export default ({}: {}) => {
       ),
     },
     {
-      header: 'body',
-
-      cell: (block) => (
-        <pre>{trunc(block.bodies.map((_, groupIdx) =>
-          ctx.get(QaDebugger).debugBody(block, groupIdx)
-        ).join(', '), 16)}</pre>
-      ),
+      header: 'bodies',
+      cell: (block) =>
+        block.bodies.map((body, groupIdx) =>
+          body.byteLength
+            ? (
+              <>
+                {groupIdx}:{' '}
+                <pre>{trunc(ctx.get(QaDebugger).debugBody(block, groupIdx),16)}</pre>
+              </>
+            )
+            : null
+        ),
     },
     {
-      header: 'frontier vote',
+      header: 'parent',
       cell: (block) => (
         <HashView
-          hash={block.frontierVote}
+          hash={block.parent}
           setHoveredHash={setHoveredHash}
           setSelectedHash={setSelectedHash}
         />
       ),
+    },
+    {
+      header: 'squashes',
+      cell: (block) =>
+        block.squashes.map((squash, idx) => (
+          <div style={{ whiteSpace: 'nowrap' }}>
+            <HashView
+              hash={squash.blockHash}
+              setHoveredHash={setHoveredHash}
+              setSelectedHash={setSelectedHash}
+            />{' '}
+            +{squash.newUtxoCount}
+          </div>
+        )),
+    },
+    {
+      header: 'volume',
+      cell: (block) => block.volume,
     },
     {
       header: 'block size',
@@ -205,15 +228,7 @@ export default ({}: {}) => {
     },
     {
       header: 'spent utxos',
-      cell: (block: BlockFact) => (
-        <ol>{block.frontierDetail.spentUtxoIdxs.join(',')}</ol>
-      ),
-    },
-    {
-      header: 'subtree output counts',
-      cell: (block: BlockFact) => (
-        <ol>{block.frontierDetail.subtreeNewUtxoCount.join(',')}</ol>
-      ),
+      cell: (block: BlockFact) => <ol>{block.squashedUtxoIdxs.join(',')}</ol>,
     },
     {
       header: 'colls',
