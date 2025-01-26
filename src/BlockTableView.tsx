@@ -15,7 +15,6 @@ import { FactService } from 'scaffold/src/FactService.ts';
 import { BlockService } from 'scaffold/src/BlockService.ts';
 import HashView from './HashView.tsx';
 import { CollateralUtil } from 'scaffold/src/CollateralUtil.ts';
-import { WeightService } from 'scaffold/src/WeightService.ts';
 import { BlockMetrics } from 'scaffold/src/BlockMetrics.ts';
 import { BalanceService } from 'scaffold/src/BalanceService.ts';
 import { BlockRecordSet } from 'scaffold/src/record_sets/BlockRecordSet.ts';
@@ -244,6 +243,61 @@ export default ({}: {}) => {
             </li>
           ))}
         </ol>
+      ),
+    },
+
+    {
+      header: 'canon',
+      cell: (block) => block.isCanonical ? 'Y' : 'N',
+    },
+    {
+      header: 'clms',
+      cell: wrapAccessor((block) =>
+        [...block.claims.entries()].map(([k, v]) => <div>{k}:{v.length}</div>)
+      ),
+    },
+    {
+      header: 'cLen',
+      cell: wrapAccessor((block) => block.conflicts.size),
+    },
+    {
+      header: 'sWrk',
+      cell: wrapAccessor((block) =>
+        Number(ctx.get(BlockMetrics).get(block, 'selfWork'))
+      ),
+    },
+    {
+      header: 'tws',
+      cell: wrapAccessor((block) => block.treeWeights.join(',')),
+    },
+    {
+      header: 'cScr',
+      cell: wrapAccessor((block) =>
+        Number(ctx.get(BlockMetrics).get(block, 'conflictScore'))
+      ),
+    },
+    {
+      header: 'win',
+      cell: wrapAccessor((block) =>
+        ctx.get(BlockMetrics).get(block, 'isConflictWinner') ? 'Y' : 'N'
+      ),
+    },
+    {
+      header: 'cWgt',
+      cell: wrapAccessor((block) =>
+        Number(ctx.get(BlockMetrics).get(block, 'childWeight'))
+      ),
+    },
+    {
+      header: 'dsc',
+      cell: wrapAccessor((block) =>
+        Number(ctx.get(BlockMetrics).get(block, 'descendantWeight'))
+      ),
+    },
+    {
+      header: 'anc',
+      cell: wrapAccessor((block) =>
+        Number(ctx.get(BlockMetrics).get(block, 'ancestorWeight'))
       ),
     },
     // {

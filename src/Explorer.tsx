@@ -16,7 +16,6 @@ import { QaDebugger } from 'scaffold/src/QaDebugger.ts';
 import Input from './Input.tsx';
 import { LitigationService } from 'scaffold/src/LitigationService.ts';
 import { defaultNetwork } from 'scaffold/src/Config.ts';
-import CodeDemo from './CodeDemo.tsx';
 import ReactiveSvgRenderer from './ReactiveSvgRenderer.tsx';
 import { FactService } from 'scaffold/src/FactService.ts';
 import * as pages from './pages.ts';
@@ -33,7 +32,7 @@ import WorkerTableView from './WorkerTableView.tsx';
 import SignalingTableView from './SignalingTableView.tsx';
 import ConnectionTableView from './ConnectionTableView.tsx';
 import EmitterTableView from './EmitterTableView.tsx';
-import UnspentOutputTableView from './UnspentOutputTableView.tsx';
+import AvailableOutputTableView from './AvailableOutputTableView.tsx';
 
 /*
 // QJS
@@ -121,7 +120,7 @@ const enum Section {
   Contests,
   Drafts,
   Contracts,
-  UnspentOutputs,
+  AvailableOutputs,
   Peers,
   Connections,
   Signalers,
@@ -142,7 +141,7 @@ const sectionRenderers = {
   [Section.Contests]: (ctx: Context) => undefined,
   [Section.Drafts]: (ctx: Context) => undefined,
   [Section.Contracts]: (ctx: Context) => undefined,
-  [Section.UnspentOutputs]: (ctx: Context) => <UnspentOutputTableView />,
+  [Section.AvailableOutputs]: (ctx: Context) => <AvailableOutputTableView />,
   [Section.Peers]: (ctx: Context) => undefined,
   [Section.Connections]: (ctx: Context) => <ConnectionTableView />,
   [Section.Signalers]: (ctx: Context) => <SignalingTableView />,
@@ -169,8 +168,8 @@ export default () => {
         <Tab text='Drafts' onClick={() => setSection(Section.Drafts)} />
         <Tab text='Contracts' onClick={() => setSection(Section.Contracts)} />
         <Tab
-          text='Unspent outputs'
-          onClick={() => setSection(Section.UnspentOutputs)}
+          text='Available outputs'
+          onClick={() => setSection(Section.AvailableOutputs)}
         />
         <Tab text='Peers' onClick={() => setSection(Section.Peers)} />
         <Tab

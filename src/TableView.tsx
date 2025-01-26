@@ -1,22 +1,4 @@
 import React from 'react';
-import { Context } from 'scaffold/src/Context.ts';
-import { Logger } from 'scaffold/src/Logger.ts';
-import { bin2hex } from 'scaffold/src/util/hex.ts';
-import { QaDebugger } from 'scaffold/src/QaDebugger.ts';
-import { Hash, HashPrimitive } from 'scaffold/src/util/Hash.ts';
-import { trunc } from 'scaffold/src/util/string.ts';
-import { BlockInput, BlockOutput } from 'scaffold/src/messages.ts';
-import {
-  BlockFact,
-  Collateralization,
-  FactSource,
-} from 'scaffold/src/FactMeta.ts';
-import { FactService } from 'scaffold/src/FactService.ts';
-import { BlockService } from 'scaffold/src/BlockService.ts';
-import HashView from './HashView.tsx';
-import { CollateralUtil } from 'scaffold/src/CollateralUtil.ts';
-import { WeightService } from 'scaffold/src/WeightService.ts';
-import { BalanceService } from 'scaffold/src/BalanceService.ts';
 import { ReactiveRecordSet } from 'scaffold/src/record_sets/ReactiveRecordSet.ts';
 import { UiContext } from './context.ts';
 import { error } from 'scaffold/src/util/functional.ts';

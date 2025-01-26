@@ -59,7 +59,10 @@ export default (
       <script src='/load-highlight-js.js'></script>
     </head>
 
-    <body className='bg-night text-sky font-sunflower font-light flex flex-col items-center gap-10'>
+    <body
+      className='bg-night text-sky font-sunflower font-light text-xs flex flex-col gap-10'
+      style={{ alignItems: 'safe center' }}
+    >
       {children}
     </body>
   </html>

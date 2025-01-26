@@ -3,7 +3,7 @@ import { Logger } from 'scaffold/src/Logger.ts';
 import TableView, { Column } from './TableView.tsx';
 import { UiContext } from './context.ts';
 import { error } from 'scaffold/src/util/functional.ts';
-import { UnspentOutputRecordSet } from 'scaffold/src/record_sets/UnspentOutputRecordSet.ts';
+import { AvailableOutputRecordSet } from 'scaffold/src/record_sets/AvailableOutputRecordSet.ts';
 import { InputSpec } from 'scaffold/src/BlockBuilder.ts';
 import { Verifier } from 'scaffold/src/messages.ts';
 import { QueueRecord } from 'scaffold/src/record_sets/QueueRecordSet.ts';
@@ -37,7 +37,7 @@ export default ({}: {}) => {
 
   return (
     <TableView
-      recordSet={ctx.get(UnspentOutputRecordSet)}
+      recordSet={ctx.get(AvailableOutputRecordSet)}
       columns={columns}
       expandRow={(state) => (
         <>

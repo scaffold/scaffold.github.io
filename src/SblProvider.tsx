@@ -12,6 +12,7 @@ import * as collatzMessages from 'scaffold/src/contracts/collatzMessages.ts';
 import { EMPTY_ARR } from 'scaffold/src/util/buffer.ts';
 import BalanceView from './BalanceView.tsx';
 import { FetchService } from 'scaffold/src/FetchService.ts';
+import { BlockMetrics } from 'scaffold/src/BlockMetrics.ts';
 
 interface HoverState {
   map: Map<HashPrimitive, ((hovered: boolean) => void)[]>;
@@ -53,66 +54,75 @@ export default ({ children }: { children?: React.ReactNode }) => {
         setHoveredHash: hoverState.current.update,
       }}
     >
-      <BalanceView />
+      <div className='flex flex-row gap-4'>
+        <BalanceView />
 
-      <button
-        onClick={() =>
-          setTimeout(
-            () => client.current!.ctx.get(BlockBuilder).publishSingleDraft({}),
-            0,
-          )}
-      >
-        Publish empty block
-      </button>
-      <button
-        onClick={() =>
-          setTimeout(() => {
-            const incentive = client.current!.ctx.get(BlockBuilder)
-              .publishSingleDraft({
-                outputs: [{
-                  verifier: { contractHash: trueHash, params: EMPTY_ARR },
-                  amount: 100n,
-                  detail: EMPTY_ARR,
-                }],
-              });
+        <button
+          onClick={() =>
+            setTimeout(
+              () =>
+                client.current!.ctx.get(BlockBuilder).publishSingleDraft({}),
+              0,
+            )}
+        >
+          Publish empty block
+        </button>
 
-            const claimA = client.current!.ctx.get(BlockBuilder)
-              .publishSingleDraft({
-                inputs: [{ block: incentive, outputIdx: 0, amount: 100n }],
-              });
+        <button
+          onClick={() =>
+            setTimeout(() => {
+              const incentive = client.current!.ctx.get(BlockBuilder)
+                .publishSingleDraft({
+                  outputs: [{
+                    verifier: { contractHash: trueHash, params: EMPTY_ARR },
+                    amount: 100n,
+                    detail: EMPTY_ARR,
+                  }],
+                });
 
-            const claimB = client.current!.ctx.get(BlockBuilder)
-              .publishSingleDraft({
-                inputs: [{ block: incentive, outputIdx: 0, amount: 100n }],
-                outputs: [{
-                  verifier: { contractHash: jackpotHash, params: EMPTY_ARR },
-                  amount: 80n,
-                  detail: EMPTY_ARR,
-                }],
-              });
-          }, 0)}
-      >
-        Publish dup block
-      </button>
-      <button
-        onClick={() =>
-          setTimeout(() =>
-            client.current!.ctx.get(FetchService).fetch(
-              {
-                contractHash: collatzHash,
-                params: collatzMessages.Params.encode({ num: 10n }),
-              },
-              {
-                onBody: (body) =>
-                  console.log(
-                    'FETCH RESPONSE',
-                    body ? collatzMessages.Answer.decode(body) : undefined,
-                  ),
-              },
-            ), 0)}
-      >
-        REQUEST
-      </button>
+              const claimA = client.current!.ctx.get(BlockBuilder)
+                .publishSingleDraft({
+                  inputs: [{ block: incentive, outputIdx: 0, amount: 100n }],
+                });
+
+              const claimB = client.current!.ctx.get(BlockBuilder)
+                .publishSingleDraft({
+                  inputs: [{ block: incentive, outputIdx: 0, amount: 100n }],
+                  outputs: [{
+                    verifier: { contractHash: jackpotHash, params: EMPTY_ARR },
+                    amount: 80n,
+                    detail: EMPTY_ARR,
+                  }],
+                });
+            }, 0)}
+        >
+          Publish dup block
+        </button>
+
+        <button
+          onClick={() =>
+            setTimeout(() =>
+              client.current!.ctx.get(FetchService).fetch(
+                {
+                  contractHash: collatzHash,
+                  params: collatzMessages.Params.encode({ num: 10n }),
+                },
+                {
+                  onBody: (body) =>
+                    console.log(
+                      'FETCH RESPONSE',
+                      body ? collatzMessages.Answer.decode(body) : undefined,
+                    ),
+                },
+              ), 0)}
+        >
+          REQUEST
+        </button>
+
+        <button onClick={() => client.current!.ctx.get(BlockMetrics).reset()}>
+          Reset metrics
+        </button>
+      </div>
 
       {children}
     </UiContext.Provider>
