@@ -17,7 +17,7 @@ export default <RecordType extends object>({ recordSet, columns, expandRow }: {
   expandRow(row: RecordType): React.ReactNode;
 }) => {
   const { ctx } = React.useContext(UiContext) ?? error('No context!');
-  const records = React.useRef<Set<RecordType> | undefined>();
+  const records = React.useRef<Set<RecordType> | undefined>(undefined);
   const [_, forceUpdate] = React.useReducer((x) => x + 1, 0);
 
   React.useEffect(() => {

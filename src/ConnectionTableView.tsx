@@ -10,17 +10,15 @@ import { Connection } from 'scaffold/src/ConnectionService.ts';
 import { EMPTY_ARR } from 'scaffold/src/util/buffer.ts';
 
 export default ({}: {}) => {
-  const { ctx, setSelectedHash, setHoveredHash } =
-    React.useContext(UiContext) ?? error('No context!');
+  const { ctx, setSelectedHash, setHoveredHash } = React.useContext(UiContext) ??
+    error('No context!');
 
   const columns = React.useMemo<Column<Connection>[]>(() => [
     {
       header: 'public key',
       // cell: (conn) => bin2hex(conn.peer.publicKey ?? EMPTY_ARR),
       cell: (conn) =>
-        conn.remotePublicKey !== undefined
-          ? bin2hex(conn.remotePublicKey)
-          : 'no auth',
+        conn.remotePublicKey !== undefined ? bin2hex(conn.remotePublicKey) : 'no auth',
     },
     {
       header: 'client nonce',

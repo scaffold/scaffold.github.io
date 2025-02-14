@@ -6,39 +6,33 @@ import { QaDebugger } from 'scaffold/src/QaDebugger.ts';
 import { Hash, HashPrimitive } from 'scaffold/src/util/Hash.ts';
 import { trunc } from 'scaffold/src/util/string.ts';
 import { BlockInput, BlockOutput } from 'scaffold/src/messages.ts';
-import {
-  BlockFact,
-  Collateralization,
-  FactSource,
-} from 'scaffold/src/FactMeta.ts';
+import { BlockFact, Collateralization, FactSource } from 'scaffold/src/FactMeta.ts';
 import { FactService } from 'scaffold/src/FactService.ts';
 import { BlockService } from 'scaffold/src/BlockService.ts';
 import HashView from './HashView.tsx';
 import { CollateralUtil } from 'scaffold/src/CollateralUtil.ts';
 import { BlockMetrics } from 'scaffold/src/BlockMetrics.ts';
-import { BalanceService } from 'scaffold/src/BalanceService.ts';
 import { BlockRecordSet } from 'scaffold/src/record_sets/BlockRecordSet.ts';
 import TableView, { Column } from './TableView.tsx';
 import { UiContext } from './context.ts';
 import { error } from 'scaffold/src/util/functional.ts';
 import { VerifierHelper } from 'scaffold/src/VerifierHelper.ts';
 
-const wrapAccessor =
-  <T,>(fn: (block: BlockFact) => T) => (block: BlockFact) => {
-    try {
-      return fn(block);
-    } catch (err) {
-      console.error(err);
-      return '?';
-    }
-  };
+const wrapAccessor = <T,>(fn: (block: BlockFact) => T) => (block: BlockFact) => {
+  try {
+    return fn(block);
+  } catch (err) {
+    console.error(err);
+    return '?';
+  }
+};
 
 const formatRange = (range: { min: bigint; max: bigint }) =>
   range.min !== range.max ? `${range.min}-${range.max}` : `${range.min}`;
 
 export default ({}: {}) => {
-  const { ctx, setSelectedHash, setHoveredHash } =
-    React.useContext(UiContext) ?? error('No context!');
+  const { ctx, setSelectedHash, setHoveredHash } = React.useContext(UiContext) ??
+    error('No context!');
 
   const columns = React.useMemo<Column<BlockFact>[]>(() => [
     {
@@ -128,9 +122,7 @@ export default ({}: {}) => {
                     setHoveredHash={setHoveredHash}
                     setSelectedHash={setSelectedHash}
                   />.{input.outputIdx};{input.utxoIdx}
-                  {output
-                    ? `: ${ctx.get(QaDebugger).debugVerifier(output.verifier)}`
-                    : null}
+                  {output ? `: ${ctx.get(QaDebugger).debugVerifier(output.verifier)}` : null}
                 </span>
               </li>
             );
@@ -186,8 +178,7 @@ export default ({}: {}) => {
           body.byteLength
             ? (
               <>
-                {groupIdx}:{' '}
-                <pre>{trunc(ctx.get(QaDebugger).debugBody(block, groupIdx),16)}</pre>
+                {groupIdx}: <pre>{trunc(ctx.get(QaDebugger).debugBody(block, groupIdx),16)}</pre>
               </>
             )
             : null
@@ -262,9 +253,7 @@ export default ({}: {}) => {
     },
     {
       header: 'sWrk',
-      cell: wrapAccessor((block) =>
-        Number(ctx.get(BlockMetrics).get(block, 'selfWork'))
-      ),
+      cell: wrapAccessor((block) => Number(ctx.get(BlockMetrics).get(block, 'selfWork'))),
     },
     {
       header: 'tws',
@@ -272,9 +261,7 @@ export default ({}: {}) => {
     },
     {
       header: 'cScr',
-      cell: wrapAccessor((block) =>
-        Number(ctx.get(BlockMetrics).get(block, 'conflictScore'))
-      ),
+      cell: wrapAccessor((block) => Number(ctx.get(BlockMetrics).get(block, 'conflictScore'))),
     },
     {
       header: 'win',
@@ -284,21 +271,15 @@ export default ({}: {}) => {
     },
     {
       header: 'cWgt',
-      cell: wrapAccessor((block) =>
-        Number(ctx.get(BlockMetrics).get(block, 'childWeight'))
-      ),
+      cell: wrapAccessor((block) => Number(ctx.get(BlockMetrics).get(block, 'childWeight'))),
     },
     {
       header: 'dsc',
-      cell: wrapAccessor((block) =>
-        Number(ctx.get(BlockMetrics).get(block, 'descendantWeight'))
-      ),
+      cell: wrapAccessor((block) => Number(ctx.get(BlockMetrics).get(block, 'descendantWeight'))),
     },
     {
       header: 'anc',
-      cell: wrapAccessor((block) =>
-        Number(ctx.get(BlockMetrics).get(block, 'ancestorWeight'))
-      ),
+      cell: wrapAccessor((block) => Number(ctx.get(BlockMetrics).get(block, 'ancestorWeight'))),
     },
     // {
     //   header: 'is valid',

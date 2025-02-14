@@ -25,8 +25,7 @@ const getBest = <OptionType extends { block: BlockFact }>(
   let bestScore: bigint | undefined;
   let bestDescendant: OptionType | undefined;
   for (const opt of options) {
-    const score =
-      ctx.get(WeightService).getCanonicality(opt.block).canonicality;
+    const score = ctx.get(WeightService).getCanonicality(opt.block).canonicality;
     if (bestDescendant === undefined || score > bestScore!) {
       bestScore = score;
       bestDescendant = opt;
@@ -105,8 +104,7 @@ export default ({ ctx, setHoveredHash, setSelectedHash }: {
             ctx.get(FetchService).fetch(
               { contractHash: rootHash, params: Hash.digest('abc').toBytes() },
               {
-                onIncentiveBlock: (block, outputIdx) =>
-                  addIncentive({ block, outputIdx }),
+                onIncentiveBlock: (block, outputIdx) => addIncentive({ block, outputIdx }),
                 onBody: (body) => console.log(body),
               },
             );

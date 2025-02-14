@@ -1,10 +1,6 @@
 import { secp } from 'scaffold/src/util/secp.ts';
 import { Context } from 'scaffold/src/Context.ts';
-import {
-  Config,
-  defaultNetwork,
-  makeDefaultConfig,
-} from 'scaffold/src/Config.ts';
+import { Config, defaultNetwork, makeDefaultConfig } from 'scaffold/src/Config.ts';
 import { ConnectionService } from 'scaffold/src/ConnectionService.ts';
 import { bin2hex, hex2bin } from 'scaffold/src/util/hex.ts';
 import * as log from '@std/log';
@@ -13,10 +9,7 @@ import { WebrtcProvider } from 'scaffold/plugins/WebrtcProvider.ts';
 import { LocalStorageProvider } from 'scaffold/plugins/LocalStorageProvider.ts';
 import { NetworkService } from 'scaffold/src/NetworkService.ts';
 import { NullStorageProvider } from 'scaffold/plugins/NullStorageProvider.ts';
-import {
-  GenesisService,
-  sharedGenesisData,
-} from 'scaffold/src/GenesisService.ts';
+import { GenesisService, sharedGenesisData } from 'scaffold/src/GenesisService.ts';
 
 import { enableDevtoolsFormatter } from 'scaffold/plugins/devtoolsFormatterPlugin.ts';
 enableDevtoolsFormatter();
@@ -73,9 +66,7 @@ export default class SblClient {
 
       logLevel: 'Deno' in window ? log.LogLevels.WARN : log.LogLevels.DEBUG,
 
-      workerPath: window.location
-        ? new URL('./worker.js', window.location.href).href
-        : undefined,
+      workerPath: window.location ? new URL('./worker.js', window.location.href).href : undefined,
 
       networkProviders: [new WebsocketClientProvider(), new WebrtcProvider()],
       // storageProvider: new LocalStorageProvider(),
@@ -107,10 +98,7 @@ export default class SblClient {
       const url = new URL(window.location.href);
       url.protocol = { 'http:': 'ws:', 'https:': 'wss:' }[url.protocol]!;
       url.port = '8314';
-      this.ctx.get(NetworkService).persistConnection(
-        'websocket@0.0.1/client',
-        url.origin,
-      );
+      this.ctx.get(NetworkService).persistConnection('websocket@0.0.1/client', url.origin);
     }
 
     // const params = this.ctx.get(EpochContract).makeParams(10n);

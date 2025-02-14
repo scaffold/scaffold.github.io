@@ -11,8 +11,7 @@ export default ({}: {}) => {
     [],
   );
   const [idx, incIdx] = React.useReducer(
-    (idx: number, inc: number) =>
-      Math.max(0, Math.min(idx, svgs.length - 1)) + inc,
+    (idx: number, inc: number) => Math.max(0, Math.min(idx, svgs.length - 1)) + inc,
     Infinity,
   );
 

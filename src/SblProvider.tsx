@@ -60,8 +60,7 @@ export default ({ children }: { children?: React.ReactNode }) => {
         <button
           onClick={() =>
             setTimeout(
-              () =>
-                client.current!.ctx.get(BlockBuilder).publishSingleDraft({}),
+              () => client.current!.ctx.get(BlockBuilder).publishSingleDraft({}),
               0,
             )}
         >

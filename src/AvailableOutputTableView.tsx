@@ -10,8 +10,8 @@ import { QueueRecord } from 'scaffold/src/record_sets/QueueRecordSet.ts';
 import { QaDebugger } from 'scaffold/src/QaDebugger.ts';
 
 export default ({}: {}) => {
-  const { ctx, setSelectedHash, setHoveredHash } =
-    React.useContext(UiContext) ?? error('No context!');
+  const { ctx, setSelectedHash, setHoveredHash } = React.useContext(UiContext) ??
+    error('No context!');
 
   const columns = React.useMemo<Column<QueueRecord<Verifier, InputSpec>>[]>(
     () => [

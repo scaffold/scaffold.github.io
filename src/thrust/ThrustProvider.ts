@@ -3,10 +3,7 @@ import { Context } from 'scaffold/src/Context.ts';
 import ThrustInputProvider from './ThrustInputProvider.tsx';
 import * as thrustMessages from '../../../examples/ts/thrustMessages.ts';
 import { StateTracker } from 'scaffold/src/StateTracker.ts';
-import {
-  thrust_game_wasm_hash,
-  thrust_maze_wasm_hash,
-} from 'ts-examples/moduleHashes.ts';
+import { thrust_game_wasm_hash, thrust_maze_wasm_hash } from 'ts-examples/moduleHashes.ts';
 import { FetchService } from 'scaffold/src/FetchService.ts';
 
 // Must match the tickInterval in generator

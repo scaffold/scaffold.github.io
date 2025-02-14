@@ -92,12 +92,8 @@ export default class ArenaCellUpdater {
       });
     }
 
-    entry.exits.forEach(({ ox, oy }) =>
-      this.onCellExit(this.curX + ox, this.curY + oy)
-    );
-    entry.enters.forEach(({ ox, oy }) =>
-      this.onCellEnter(this.curX + ox, this.curY + oy)
-    );
+    entry.exits.forEach(({ ox, oy }) => this.onCellExit(this.curX + ox, this.curY + oy));
+    entry.enters.forEach(({ ox, oy }) => this.onCellEnter(this.curX + ox, this.curY + oy));
 
     this.curX += dx;
     this.curY += dy;
@@ -145,17 +141,19 @@ export default class ArenaCellUpdater {
     const enters: { ox: number; oy: number }[] = [];
     const exits: { ox: number; oy: number }[] = [];
 
-    const queue: RedBlackTree<{ x: number; y: number; isEnter: boolean }> =
-      new RedBlackTree((a, b) =>
-        // Order first by euclidean distance
-        a.x * a.x + a.y * a.y - b.x * b.x - b.y * b.y ||
-        // Then by the X coordinate, so the same cell will be processed sequentially
-        a.x - b.x ||
-        // Then by the Y coordinate
-        a.y - b.y ||
-        // Then by: exit < enter
-        (a.isEnter ? 1 : 0) - (b.isEnter ? 1 : 0)
-      );
+    const queue: RedBlackTree<{ x: number; y: number; isEnter: boolean }> = new RedBlackTree((
+      a,
+      b,
+    ) =>
+      // Order first by euclidean distance
+      a.x * a.x + a.y * a.y - b.x * b.x - b.y * b.y ||
+      // Then by the X coordinate, so the same cell will be processed sequentially
+      a.x - b.x ||
+      // Then by the Y coordinate
+      a.y - b.y ||
+      // Then by: exit < enter
+      (a.isEnter ? 1 : 0) - (b.isEnter ? 1 : 0)
+    );
 
     ArenaCellUpdater.drawCircle(
       curRad,

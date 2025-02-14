@@ -46,7 +46,8 @@
       "deno.json",
       "build/"
     ],
-    "singleQuote": true
+    "singleQuote": true,
+    "lineWidth": 100
   },
   "tasks": {
     "dev": "export DENO_FLAGS=\"--watch --watch-exclude=build/\" ; mkdir -p build/ ; cp static/* build/ ; deno task fmt & deno task bundle-css & deno task bundle-js & deno task bundle-worker & deno task serve-build",
@@ -71,10 +72,14 @@
     "regl": "https://esm.sh/regl@2.1.0?target=esnext&pin=v135",
     "tailwindcss": "https://esm.sh/tailwindcss@3.4.1?target=esnext&pin=v135",
     "threejs": "https://esm.sh/three@r139?target=esnext&pin=v135",
-    "react": "npm:react@19.0.0",
-    "react-dom": "npm:react-dom@19.0.0",
-    "react-icons": "npm:react-icons@4.10.1",
-    "react-router-dom": "npm:react-router-dom@6.4.4",
+    "react": "https://esm.sh/react@19.0.0?target=esnext&pin=v135",
+    "react/": "https://esm.sh/react@19.0.0&target=esnext&pin=v135/",
+    "react-dom": "https://esm.sh/react-dom@19.0.0?target=esnext&pin=v135",
+    "react-dom/": "https://esm.sh/react-dom@19.0.0&target=esnext&pin=v135/",
+    "react-icons": "https://esm.sh/react-icons@4.10.1?target=esnext&pin=v135",
+    "react-icons/": "https://esm.sh/react-icons@4.10.1&target=esnext&pin=v135/",
+    "react-router-dom": "https://esm.sh/react-router-dom@6.4.4?target=esnext&pin=v135",
+    "react-router-dom/": "https://esm.sh/react-router-dom@6.4.4&target=esnext&pin=v135/",
     "scaffold/": "../scaffold/",
     "ts-examples/": "../examples/ts/",
 

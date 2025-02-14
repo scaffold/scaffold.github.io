@@ -3,3 +3,4 @@ Thumbs.db
 vendor/
 node_modules/
 build/
+.aider*

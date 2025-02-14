@@ -44,9 +44,7 @@ export default <RecordType extends object>(
     <>
       <tr
         key={getKey(record)}
-        style={isHovered
-          ? { ...rowBorderStyle, backgroundColor: '#DDD' }
-          : rowBorderStyle}
+        style={isHovered ? { ...rowBorderStyle, backgroundColor: '#DDD' } : rowBorderStyle}
       >
         {columns.map((col, idx) => (
           <td

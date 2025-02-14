@@ -9,8 +9,8 @@ import { LogEntry } from 'scaffold/src/WorkerDriverService.ts';
 import { Column } from './TableView.tsx';
 
 export default ({}: {}) => {
-  const { ctx, setSelectedHash, setHoveredHash } =
-    React.useContext(UiContext) ?? error('No context!');
+  const { ctx, setSelectedHash, setHoveredHash } = React.useContext(UiContext) ??
+    error('No context!');
 
   const columns = React.useMemo<Column<WorkerDriver>[]>(() => [
     {

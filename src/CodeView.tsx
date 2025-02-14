@@ -20,9 +20,7 @@ export default (
   const codeRef = (el: HTMLElement | null) => {
     if (el !== null) {
       el.removeAttribute('data-highlighted');
-      (window as any).hljsPromise.then((hljs: any) =>
-        hljs.highlightElement(el)
-      );
+      (window as any).hljsPromise.then((hljs: any) => hljs.highlightElement(el));
     }
   };
 
@@ -87,9 +85,7 @@ export default (
               padding: '0.5em 1em',
               fontFamily: 'monospace',
               color: '#abb2bf',
-              textDecoration: filename === selectedFile
-                ? 'underline'
-                : undefined,
+              textDecoration: filename === selectedFile ? 'underline' : undefined,
               textUnderlineOffset: '0.5em',
             }}
             onClick={() => setSelectedFile(filename)}

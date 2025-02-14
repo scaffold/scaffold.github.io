@@ -8,11 +8,12 @@ export default ({}: {}) => {
   const [balance, setBalance] = React.useState(0n);
 
   React.useEffect(() => {
-    const itvl = setInterval(
-      () => setBalance(ctx.get(BalanceService).getLiquidBalance()),
-      500,
+    const controller = new AbortController();
+    ctx.get(BalanceService).onBalanceChange(
+      (balance) => setBalance(balance),
+      controller.signal,
     );
-    return () => clearInterval(itvl);
+    return () => controller.abort();
   }, [ctx]);
 
   return <>Balance: {Number(balance)}</>;

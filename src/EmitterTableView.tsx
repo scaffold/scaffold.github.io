@@ -4,14 +4,8 @@ import { bin2hex } from 'scaffold/src/util/hex.ts';
 import TableView, { Column } from './TableView.tsx';
 import { UiContext } from './context.ts';
 import { error } from 'scaffold/src/util/functional.ts';
-import {
-  EmitterRecord,
-  EmitterRecordSet,
-} from 'scaffold/src/record_sets/EmitterRecordSet.ts';
-import {
-  emptyPoolSentinel,
-  factGeneratorType,
-} from 'scaffold/src/FactEmitter.ts';
+import { EmitterRecord, EmitterRecordSet } from 'scaffold/src/record_sets/EmitterRecordSet.ts';
+import { emptyPoolSentinel, factGeneratorType } from 'scaffold/src/FactEmitter.ts';
 import { FactEmitter } from 'scaffold/src/FactEmitter.ts';
 
 const FactEmitterStats = () => {
@@ -44,8 +38,8 @@ const FactEmitterStats = () => {
 };
 
 export default ({}: {}) => {
-  const { ctx, setSelectedHash, setHoveredHash } =
-    React.useContext(UiContext) ?? error('No context!');
+  const { ctx, setSelectedHash, setHoveredHash } = React.useContext(UiContext) ??
+    error('No context!');
 
   const columns = React.useMemo<Column<EmitterRecord>[]>(() => [
     {
@@ -73,9 +67,7 @@ export default ({}: {}) => {
           ? ''
           : record.item.type === factGeneratorType
           ? record.item.describe().detail
-          : `${
-            record.item.hash.toHex().slice(0, 10)
-          } / ${record.item.sillyName}`,
+          : `${record.item.hash.toHex().slice(0, 10)} / ${record.item.sillyName}`,
     },
     {
       header: 'send count',

@@ -162,15 +162,13 @@ const initView = (
             1000.0,
           ),
 
-        view: ({}: Context, { eye, target }: Props) =>
-          mat4.lookAt([], eye, target, [0, 0, 1]),
+        view: ({}: Context, { eye, target }: Props) => mat4.lookAt([], eye, target, [0, 0, 1]),
 
         eye: regl.prop<Props, 'eye'>('eye'),
       },
 
       uniforms: {
-        u_modelview: ({ view }: Context, { model }: Props) =>
-          mat4.multiply([], view, model),
+        u_modelview: ({ view }: Context, { model }: Props) => mat4.multiply([], view, model),
         u_invView: ({ view }: Context) => mat4.inverse([], view),
         u_normal: ({ view }: Context, { model }: Props) =>
           mat4.transpose([], mat4.invert([], mat4.multiply([], view, model))),
@@ -292,9 +290,7 @@ const initView = (
         },
       );
 
-      const selfPlayer = players.find(({ hash }) =>
-        Hash.equals(hash, provider.player)
-      ) ||
+      const selfPlayer = players.find(({ hash }) => Hash.equals(hash, provider.player)) ||
         players[Number(provider.getRenderIdx() / 10n) % players.length];
 
       eyeVel = vec3.scaleAndAdd(
