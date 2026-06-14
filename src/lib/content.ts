@@ -1,0 +1,53 @@
+export interface MdModule {
+  frontmatter: Record<string, unknown>;
+  html: string;
+  toc: { level: 2 | 3; id: string; text: string }[];
+}
+
+function bySlug(modules: Record<string, unknown>): Map<string, MdModule> {
+  const map = new Map<string, MdModule>();
+  for (const [path, mod] of Object.entries(modules)) {
+    const slug = path.split('/').pop()!.replace(/\.md$/, '');
+    map.set(slug, mod as MdModule);
+  }
+  return map;
+}
+
+export const docs = bySlug(import.meta.glob('../../content/docs/*.md', { eager: true }));
+export const posts = bySlug(import.meta.glob('../../content/blog/*.md', { eager: true }));
+
+/** Sidebar order + grouping. Titles come from each doc's frontmatter. */
+export const DOCS_NAV: { label: string; slugs: string[] }[] = [
+  { label: 'Start', slugs: ['getting-started'] },
+  { label: 'Understand', slugs: ['concepts', 'faq'] },
+  { label: 'Build', slugs: ['writing-contracts'] },
+];
+
+export function docTitle(slug: string): string {
+  const doc = docs.get(slug);
+  return (doc?.frontmatter.title as string) ?? slug;
+}
+
+export interface PostMeta {
+  slug: string;
+  title: string;
+  date: string;
+  description: string;
+}
+
+export function sortedPosts(): PostMeta[] {
+  return [...posts.entries()]
+    .map(([slug, mod]) => ({
+      slug,
+      title: (mod.frontmatter.title as string) ?? slug,
+      date: (mod.frontmatter.date as string) ?? '',
+      description: (mod.frontmatter.description as string) ?? '',
+    }))
+    .sort((a, b) => b.date.localeCompare(a.date));
+}
+
+export function formatDate(iso: string): string {
+  const [y, m, d] = iso.split('-').map(Number);
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return `${months[(m ?? 1) - 1]} ${d}, ${y}`;
+}

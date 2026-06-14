@@ -1,0 +1,167 @@
+/* ============================================================
+   SCAFFOLD DESIGN TOKENS
+   Trimmed from the Scaffold Design System v2 (colors_and_type.css).
+   Locked to the Raw identity: off-white paper, ink, signal orange.
+   Mode switches via <html data-mode="light|dark">.
+   ============================================================ */
+
+:root {
+  /* Type families --------------------------------------------- */
+  --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Type scale ------------------------------------------------ */
+  --fs-xs: 11px;
+  --fs-sm: 13px;
+  --fs-md: 14px;
+  --fs-lg: 16px;
+  --fs-xl: 18px;
+  --fs-2xl: 22px;
+  --fs-3xl: 28px;
+  --fs-4xl: 36px;
+  --fs-5xl: 48px;
+  --fs-6xl: 64px;
+  --fs-hero: clamp(48px, 7vw, 96px);
+
+  /* Spacing scale (4px base) ---------------------------------- */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+  --sp-12: 48px; --sp-16: 64px; --sp-20: 80px; --sp-24: 96px;
+
+  /* Grid (blueprint) ------------------------------------------ */
+  --grid-line: color-mix(in srgb, var(--fg) 8%, transparent);
+
+  /* Semantic --------------------------------------------------- */
+  --success: #2e7d4a;
+  --warning: #b88410;
+  --danger: #c41e3a;
+  --info: #2d6fa8;
+}
+
+/* RAW — light (default) -------------------------------------- */
+:root {
+  --accent: #ff4a1c;
+  --accent-hover: #e53a0d;
+  --accent-contrast: #ffffff;
+  --accent-soft: color-mix(in srgb, var(--accent) 12%, var(--bg));
+  --accent-wash: color-mix(in srgb, var(--accent) 6%, var(--bg));
+
+  --bg: #fafaf7;
+  --bg-elev: #ffffff;
+  --bg-sunken: #f2f1ec;
+  --fg: #0a0a0a;
+  --fg-2: #3a3a38;
+  --fg-3: #737371;
+  --fg-muted: #9e9e9c;
+  --border: #e5e5e0;
+  --border-strong: #c4c4be;
+  --border-hair: #eeede8;
+
+  /* Code panel: warm, high-contrast, dev-tool */
+  --code-bg: #141210;
+  --code-fg: #ede5da;
+  --code-kw: #ff7a4a;
+  --code-str: #c8b87a;
+  --code-com: #6b6158;
+  --code-fn: #e8a870;
+  --code-num: #d89a58;
+  --code-punct: #8a7e70;
+}
+
+[data-mode='dark'] {
+  --bg: #0e0e0c;
+  --bg-elev: #181815;
+  --bg-sunken: #060605;
+  --fg: #f5f4ee;
+  --fg-2: #c9c8c1;
+  --fg-3: #89887f;
+  --fg-muted: #5a5952;
+  --border: #2a2a26;
+  --border-strong: #3e3e38;
+  --border-hair: #1e1e1b;
+  --accent: #ff5a2e;
+  --code-bg: #050505;
+  --code-fg: #ede5da;
+  --code-kw: #ff8b5e;
+  --code-str: #d4c584;
+  --code-com: #5a5048;
+  --code-fn: #f0b880;
+  --code-num: #e0a860;
+  --code-punct: #7a6e60;
+}
+
+/* Shiki css-variables theme → design-system code palette ------ */
+:root {
+  --shiki-foreground: var(--code-fg);
+  --shiki-background: var(--code-bg);
+  --shiki-token-keyword: var(--code-kw);
+  --shiki-token-string: var(--code-str);
+  --shiki-token-string-expression: var(--code-str);
+  --shiki-token-comment: var(--code-com);
+  --shiki-token-function: var(--code-fn);
+  --shiki-token-constant: var(--code-num);
+  --shiki-token-parameter: var(--code-fg);
+  --shiki-token-punctuation: var(--code-punct);
+  --shiki-token-link: var(--accent);
+}
+
+/* Elevation --------------------------------------------------- */
+:root {
+  --shadow-3:
+    0 4px 16px color-mix(in srgb, var(--fg) 8%, transparent),
+    0 12px 32px color-mix(in srgb, var(--fg) 10%, transparent);
+}
+
+/* Element defaults -------------------------------------------- */
+html,
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Raw light mode carries a faint 32px blueprint grid */
+[data-mode='light'] body {
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: -1px -1px;
+  background-attachment: fixed;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+  text-wrap: balance;
+  margin: 0;
+}
+h1 { font-size: var(--fs-6xl); }
+h2 { font-size: var(--fs-4xl); }
+h3 { font-size: var(--fs-2xl); letter-spacing: -0.02em; }
+h4 { font-size: var(--fs-lg); letter-spacing: -0.01em; }
+
+p { margin: 0 0 1em; color: var(--fg-2); }
+
+code, kbd, pre { font-family: var(--font-mono); }
+code { font-size: 0.92em; }
+
+hr { border: none; border-top: 1px solid var(--border); margin: var(--sp-8) 0; }
+
+::selection { background: var(--accent); color: var(--accent-contrast); }
+
+.u-mono { font-family: var(--font-mono); font-feature-settings: 'ss01'; }
+.u-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--fg-3);
+}

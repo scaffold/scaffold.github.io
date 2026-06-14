@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en" data-theme="raw" data-mode="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Scaffold — Foundation for the distributed web</title>
+    <meta
+      name="description"
+      content="Scaffold is a browser-native protocol that turns your users into infrastructure. WASM contracts, WebRTC transport, results verified by economic collateral."
+    />
+    <meta property="og:title" content="Scaffold — Foundation for the distributed web" />
+    <meta
+      property="og:description"
+      content="Move the cloud to the client. A browser-native runtime where peers trade compute, verify each other, and settle without a server."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://scaffold.io" />
+    <link rel="icon" type="image/png" href="/logomark-black.png" />
+    <link rel="alternate" type="application/rss+xml" title="Scaffold Blog" href="/blog/feed.xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+    />
+    <script>
+      document.documentElement.dataset.mode = localStorage.getItem('scaffold-mode') || 'light';
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
