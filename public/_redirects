@@ -1,1 +1,5 @@
-/*  /index.html  200
+# Static host (Cloudflare Pages / Netlify) serves prerendered routes
+# (e.g. /how-it-works/index.html) directly; this fallback only applies to
+# non-prerendered paths (the /docs redirect, client-side 404s), which should
+# boot React Router's SPA shell rather than the home page.
+/*  /__spa-fallback.html  200

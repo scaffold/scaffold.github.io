@@ -30,13 +30,17 @@ export const meta: MetaFunction = () => [
   { property: 'og:url', content: 'https://scaffold.io' },
 ];
 
-// Applies the persisted theme before paint so there's no flash and no
-// hydration mismatch (React doesn't render data-mode, so it won't reconcile it).
+// Applies the persisted theme to <html> before paint, so there's no flash of
+// the wrong mode. This intentionally diverges the DOM from the server markup
+// (it adds data-mode), so the <html> element below sets suppressHydrationWarning
+// — otherwise React 19 treats the added attribute as a hydration mismatch and
+// discards the prerendered tree. suppressHydrationWarning scopes to this element's
+// own attributes only, so real content mismatches are still reported.
 const THEME_INIT = `document.documentElement.dataset.mode = localStorage.getItem('scaffold-mode') || 'light';`;
 
 export function Layout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" data-theme="raw">
+    <html lang="en" data-theme="raw" data-mode="light" suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
