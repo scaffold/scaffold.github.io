@@ -14,7 +14,14 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "types": ["vite/client", "node"]
+    "types": ["vite/client", "node"],
+    "rootDirs": [".", "./.react-router/types"]
   },
-  "include": ["src", "plugins", "vite.config.ts"]
+  "include": [
+    "src",
+    "plugins",
+    "vite.config.ts",
+    "react-router.config.ts",
+    ".react-router/types/**/*"
+  ]
 }

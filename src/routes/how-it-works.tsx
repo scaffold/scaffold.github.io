@@ -1,13 +1,14 @@
-import { Link } from 'react-router-dom';
+import { Link, type MetaFunction } from 'react-router';
 import { SectionHead } from '../components/SectionHead';
-import { usePageMeta } from '../lib/usePageMeta';
+import { pageMeta } from '../lib/meta';
 
-export function HowItWorks() {
-  usePageMeta(
+export const meta: MetaFunction = () =>
+  pageMeta(
     'How it works — Scaffold',
     'The life of a Scaffold request: publish a WASM contract, call it with fetch(), and get a collateralized result from the nearest peer.',
   );
 
+export default function HowItWorks() {
   return (
     <main>
       <div className="page-head">

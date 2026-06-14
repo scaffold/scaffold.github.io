@@ -1,9 +1,6 @@
-import { Link } from 'react-router-dom';
-import { usePageMeta } from '../lib/usePageMeta';
+import { Link } from 'react-router';
 
 export function NotFound() {
-  usePageMeta('404 — Scaffold');
-
   return (
     <main>
       <div className="notfound">

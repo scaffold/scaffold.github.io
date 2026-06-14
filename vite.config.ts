@@ -1,8 +1,10 @@
+import { reactRouter } from '@react-router/dev/vite';
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
 import { markdownPlugin } from './plugins/markdown';
 import { rssPlugin } from './plugins/rss';
 
 export default defineConfig({
-  plugins: [react(), markdownPlugin(), rssPlugin()],
+  // reactRouter() provides the React/JSX transform, so no separate
+  // @vitejs/plugin-react is needed. Our content plugins run alongside it.
+  plugins: [reactRouter(), markdownPlugin(), rssPlugin()],
 });

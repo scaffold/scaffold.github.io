@@ -1,14 +1,17 @@
-import { useParams } from 'react-router-dom';
+import { useParams, type MetaFunction } from 'react-router';
 import { formatDate, posts } from '../lib/content';
-import { usePageMeta } from '../lib/usePageMeta';
-import { NotFound } from './NotFound';
+import { NotFound } from '../components/NotFound';
+import { pageMeta } from '../lib/meta';
 
-export function BlogPost() {
+export const meta: MetaFunction = ({ params }) => {
+  const post = params.slug ? posts.get(params.slug) : undefined;
+  const fm = post?.frontmatter as { title?: string; description?: string } | undefined;
+  return pageMeta(fm?.title ? `${fm.title} — Scaffold Blog` : 'Blog — Scaffold', fm?.description);
+};
+
+export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
   const post = slug ? posts.get(slug) : undefined;
-
-  const title = (post?.frontmatter.title as string) ?? 'Blog';
-  usePageMeta(`${title} — Scaffold Blog`, post?.frontmatter.description as string | undefined);
 
   if (!post) return <NotFound />;
   const fm = post.frontmatter as { title?: string; date?: string; author?: string };

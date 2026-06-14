@@ -1,13 +1,16 @@
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useParams, type MetaFunction } from 'react-router';
 import { DOCS_NAV, docs, docTitle } from '../lib/content';
-import { usePageMeta } from '../lib/usePageMeta';
-import { NotFound } from './NotFound';
+import { NotFound } from '../components/NotFound';
+import { pageMeta } from '../lib/meta';
 
-export function DocsPage() {
+export const meta: MetaFunction = ({ params }) => {
+  const slug = params.slug ?? '';
+  return docs.has(slug) ? pageMeta(`${docTitle(slug)} — Scaffold Docs`) : pageMeta('Docs — Scaffold');
+};
+
+export default function DocsPage() {
   const { slug = 'getting-started' } = useParams<{ slug: string }>();
   const doc = docs.get(slug);
-
-  usePageMeta(doc ? `${docTitle(slug)} — Scaffold Docs` : 'Docs — Scaffold');
 
   if (!doc) return <NotFound />;
 

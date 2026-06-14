@@ -20,6 +20,10 @@ export function rssPlugin(): Plugin {
     name: 'scaffold-rss',
     apply: 'build',
     generateBundle() {
+      // In framework mode the build runs per environment (client + ssr);
+      // only emit the feed once, into the client output.
+      if (this.environment && this.environment.name !== 'client') return;
+
       const posts = readdirSync(BLOG_DIR)
         .filter((f) => f.endsWith('.md'))
         .map((file) => {

@@ -1,9 +1,11 @@
+import type { MetaFunction } from 'react-router';
 import { SectionHead } from '../components/SectionHead';
-import { usePageMeta } from '../lib/usePageMeta';
+import { pageMeta } from '../lib/meta';
 
-export function CommunityPage() {
-  usePageMeta('Community — Scaffold', 'Where Scaffold gets built: GitHub, Discord, Bluesky, and the forum.');
+export const meta: MetaFunction = () =>
+  pageMeta('Community — Scaffold', 'Where Scaffold gets built: GitHub, Discord, Bluesky, and the forum.');
 
+export default function CommunityPage() {
   return (
     <main>
       <div className="page-head">

@@ -1,17 +1,25 @@
 import { useEffect, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router';
 
-function getMode(): 'light' | 'dark' {
-  return document.documentElement.dataset.mode === 'dark' ? 'dark' : 'light';
-}
+type Mode = 'light' | 'dark';
 
 export function Nav() {
-  const [mode, setMode] = useState<'light' | 'dark'>(getMode);
+  // SSR/prerender renders with the 'light' default; the inline script in
+  // root.tsx has already applied the real theme to <html> before hydration,
+  // so we adopt it on mount (keeping the first client render matching the
+  // server to avoid a hydration mismatch).
+  const [mode, setMode] = useState<Mode>('light');
 
   useEffect(() => {
-    document.documentElement.dataset.mode = mode;
-    localStorage.setItem('scaffold-mode', mode);
-  }, [mode]);
+    setMode((document.documentElement.dataset.mode as Mode) || 'light');
+  }, []);
+
+  function toggle() {
+    const next: Mode = mode === 'light' ? 'dark' : 'light';
+    setMode(next);
+    document.documentElement.dataset.mode = next;
+    localStorage.setItem('scaffold-mode', next);
+  }
 
   return (
     <nav className="top">
@@ -25,13 +33,13 @@ export function Nav() {
       <ul>
         <li><NavLink to="/how-it-works">How it works</NavLink></li>
         <li><NavLink to="/explorer">Explorer</NavLink></li>
-        <li><NavLink to="/docs">Docs</NavLink></li>
+        <li><NavLink to="/docs/getting-started">Docs</NavLink></li>
         <li><NavLink to="/blog">Blog</NavLink></li>
         <li><NavLink to="/community">Community</NavLink></li>
       </ul>
       <button
         className="modebtn"
-        onClick={() => setMode(mode === 'light' ? 'dark' : 'light')}
+        onClick={toggle}
         title={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`}
       >
         {mode === 'light' ? 'Dark' : 'Light'}

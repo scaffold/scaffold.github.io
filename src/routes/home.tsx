@@ -1,13 +1,14 @@
-import { Link } from 'react-router-dom';
+import { Link, type MetaFunction } from 'react-router';
 import { CodeWindow } from '../components/CodeWindow';
-import { usePageMeta } from '../lib/usePageMeta';
+import { pageMeta } from '../lib/meta';
 
-export function Home() {
-  usePageMeta(
+export const meta: MetaFunction = () =>
+  pageMeta(
     'Scaffold — Foundation for the distributed web',
     'Scaffold is a browser-native protocol that turns your users into infrastructure. WASM contracts, WebRTC transport, results verified by economic collateral.',
   );
 
+export default function Home() {
   return (
     <main>
       {/* ============ HERO ============ */}
