@@ -1,10 +1,12 @@
 import { Link, type MetaFunction } from 'react-router';
 import { CodeWindow } from '../components/CodeWindow';
+import { EmailSignup } from '../components/EmailSignup';
+import { InstallCommand } from '../components/InstallCommand';
 import { pageMeta } from '../lib/meta';
 
 export const meta: MetaFunction = () =>
   pageMeta(
-    'Scaffold — Foundation for the distributed web',
+    'Scaffold — Move the cloud to the client',
     'Scaffold is a browser-native protocol that turns your users into infrastructure. WASM contracts, WebRTC transport, results verified by economic collateral.',
   );
 
@@ -33,10 +35,10 @@ export default function Home() {
                   How it works
                 </Link>
               </div>
+              <EmailSignup />
             </div>
             <div>
               <CodeWindow />
-              <div className="install-note">npm install @scaffold/core</div>
             </div>
           </div>
 
@@ -84,157 +86,136 @@ export default function Home() {
             The user <em>is</em> the cloud.
           </h2>
           <p className="lead-sub">
-            Every modern browser runs WebAssembly, speaks WebRTC, and has compute to spare. Scaffold
-            bridges compute, consensus, and trust — and turns your users into your infrastructure.
+            Every modern browser runs WebAssembly, speaks WebRTC, and has compute to spare. A request
+            shouldn't have to cross a continent to be answered — Scaffold routes it to the nearest
+            capable peer, often a machine on the same street. The network grows with every user who
+            opens your app, and there's no origin to scale or to go down.
           </p>
         </div>
       </section>
 
-      {/* ============ A request shouldn't cross a continent ============ */}
+      {/* ============ Scaffold provides ============ */}
       <section className="band">
         <div className="section-inner">
-          <div className="split-2">
-            <div className="copy">
-              <h2>A request shouldn't cross a continent.</h2>
+          <h2 className="band-title">Scaffold provides four things.</h2>
+          <div className="manifesto">
+            <div className="item">
+              <span className="idx">01 · Mesh</span>
+              <h3>A peer-to-peer mesh.</h3>
               <p>
-                Talking to a datacenter means paying the speed-of-light tax on every round trip. A
-                Scaffold request is routed over WebRTC to the nearest peer that holds the contract —
-                often a machine on the same street, sometimes the same room.
-              </p>
-              <p>
-                Capacity scales the same way: every user who opens your app brings their own hardware
-                to it. The network grows in proportion to demand, with no scaling plan and nothing to
-                go down.
+                Your users connect directly to one another over WebRTC, forming a network with no
+                server in the middle.
               </p>
             </div>
-            <div className="diagram-panel route" aria-hidden="true">
-              <svg viewBox="0 0 560 360" role="img" aria-label="A request through the origin cloud crosses ISP, backbone, exchange, and a distant region; a Scaffold request reaches a nearby peer directly.">
-                {/* Origin-cloud route */}
-                <text x="0" y="22" className="dlabel">VIA THE ORIGIN CLOUD</text>
-                <text x="280" y="50" textAnchor="middle" className="dtiny dmute">~12,000 km round trip</text>
-                <g className="dnode">
-                  <rect x="2" y="64" width="74" height="36" />
-                  <text x="39" y="86" textAnchor="middle">YOU</text>
-                </g>
-                <rect className="dsmall" x="168" y="68" width="28" height="28" />
-                <text x="182" y="114" textAnchor="middle" className="dtiny">ISP</text>
-                <rect className="dsmall" x="278" y="68" width="28" height="28" />
-                <text x="292" y="114" textAnchor="middle" className="dtiny">BACKBONE</text>
-                <rect className="dsmall" x="388" y="68" width="28" height="28" />
-                <text x="402" y="114" textAnchor="middle" className="dtiny">IX</text>
-                <g className="dnode">
-                  <rect x="468" y="64" width="90" height="36" />
-                  <text x="513" y="86" textAnchor="middle">US-EAST-1</text>
-                </g>
-                <path
-                  className="ddot"
-                  d="M76 82 L168 82 M196 82 L278 82 M306 82 L388 82 M416 82 L468 82"
-                />
-
-                {/* Scaffold route */}
-                <text x="0" y="232" className="dlabel">VIA SCAFFOLD</text>
-                <g className="dnode">
-                  <rect x="2" y="252" width="74" height="36" />
-                  <text x="39" y="274" textAnchor="middle">YOU</text>
-                </g>
-                <path className="dsolid" d="M76 270 L176 270" />
-                <g className="dnode accent">
-                  <rect x="176" y="252" width="120" height="36" />
-                  <text x="236" y="274" textAnchor="middle">NEAREST PEER</text>
-                </g>
-                <text x="149" y="312" textAnchor="middle" className="dtiny dmute">the browser next door</text>
-              </svg>
+            <div className="item">
+              <span className="idx">02 · Routing</span>
+              <h3>A request/response protocol.</h3>
+              <p>
+                Every request is answered by the closest, most efficient peers that hold the
+                contract — not by a distant datacenter.
+              </p>
+            </div>
+            <div className="item">
+              <span className="idx">03 · Trust</span>
+              <h3>Collateralization &amp; verification.</h3>
+              <p>
+                Peers stake collateral on the answers they return. Incorrect responses are detected
+                and penalized, with the cost amortized across the network.
+              </p>
+            </div>
+            <div className="item">
+              <span className="idx">04 · Currency</span>
+              <h3>A consensus layer.</h3>
+              <p>
+                A built-in currency settles the low-latency, low-finality micropayments that
+                collateral requires — fast enough to back every request.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ============ Built from primitives (sunken) ============ */}
+      {/* ============ The API — three methods ============ */}
       <section className="band sunken">
         <div className="section-inner">
-          <div className="split-2">
-            <div className="copy">
-              <h2>Built from primitives the web finally has.</h2>
+          <div className="section-head">
+            <div className="num">The API</div>
+            <h2>Three methods.</h2>
+          </div>
+          <div className="api-methods">
+            <div className="m">
+              <div className="sig"><span className="fn">fetch</span>(req) <span className="ret">→ Result</span></div>
               <p>
-                WebAssembly gives every browser a deterministic runtime. WebRTC connects them
-                directly. Web Workers keep contracts off the main thread. Scaffold composes them into
-                a tree of verified compute, where correctness is enforced by collateral — not by a
-                central authority, and not by a blockchain.
+                Ask the network for a value. The request is routed to the nearest peer holding the
+                contract, which runs it and returns a verified, collateralized result.
               </p>
-              <Link to="/how-it-works" className="btn secondary">
-                How it works →
-              </Link>
             </div>
-            <div className="spec-list">
-              <div className="row"><span className="k">API</span><span className="v">fetch()</span></div>
-              <div className="row"><span className="k">Contract runtime</span><span className="v">WebAssembly</span></div>
-              <div className="row"><span className="k">Transport</span><span className="v">WebRTC + WebSockets</span></div>
-              <div className="row"><span className="k">Parallelism</span><span className="v">Web Workers</span></div>
-              <div className="row"><span className="k">Data structure</span><span className="v">A tree of immutable, verified blocks</span></div>
-              <div className="row"><span className="k">Trust vehicle</span><span className="v">Collateral, not consensus</span></div>
+            <div className="m">
+              <div className="sig"><span className="fn">put</span>(bytes) <span className="ret">→ Hash</span></div>
+              <p>
+                Publish a contract or a value to the network. It's addressed by the hash of its
+                bytes, so anyone can fetch it by that address.
+              </p>
+            </div>
+            <div className="m">
+              <div className="sig"><span className="fn">send</span>(msg) <span className="ret">→ void</span></div>
+              <p>
+                Deliver a message to a peer or contract — fire-and-forget, for events, payments, and
+                streaming updates.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ============ Applications change shape ============ */}
+      {/* ============ Contract development environment ============ */}
       <section className="band">
         <div className="section-inner">
-          <h2 className="band-title">Applications change shape under Scaffold.</h2>
-          <div className="app-rows">
-            <div className="row">
-              <span className="label">Social</span>
-              <div>
-                <h3>No origin to silence.</h3>
-                <p>
-                  A signed post resolves to the same content from any peer on the network; the
-                  author's identity is the address. Fully distributed, always up, and controlled by
-                  the user.
-                </p>
-              </div>
+          <div className="split-2">
+            <div className="copy">
+              <span className="ide-tag">In progress</span>
+              <h2>A contract development environment.</h2>
+              <p>
+                Write, compile, publish, and inspect contracts without leaving the browser — then
+                watch them resolve across the live network in the explorer.
+              </p>
+              <Link to="/explorer" className="btn secondary">
+                Open the explorer →
+              </Link>
             </div>
-            <div className="row">
-              <span className="label">Shared state</span>
-              <div>
-                <h3>Multiplayer without a server.</h3>
-                <p>
-                  Deterministic WebAssembly plus quick consensus lets every player's browser agree on
-                  shared state — a game, a document, a whiteboard — with no central authority hosting
-                  the session. The players are the database.
-                </p>
-              </div>
-            </div>
-            <div className="row">
-              <span className="label">Marketplaces</span>
-              <div>
-                <h3>Call your ride.</h3>
-                <p>
-                  A mobile app and a set of contracts handle drivers bidding, pickup, drop-off
-                  verification, and payment — an entire marketplace with zero infrastructure behind
-                  it.
-                </p>
-              </div>
-            </div>
+            <Link
+              to="/explorer"
+              className="ide-placeholder"
+              aria-label="Explorer preview — coming with the testnet"
+            >
+              <span className="status">● Preview</span>
+              <span className="title">Explorer</span>
+              <span className="hint">Live with the public testnet · July 2026</span>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* ============ Final CTA (accent) ============ */}
+      {/* ============ Get started (accent) ============ */}
       <section className="band cta-final">
         <div className="section-inner">
-          <h2>
-            Ship your app by calling <span className="box">fetch()</span>.
-          </h2>
+          <h2>Get started.</h2>
           <p>
-            Scaffold takes care of the rest. No servers to rent, no regions to pick, no bill that
-            grows with your success.
+            One import and a dozen lines of code. No servers to rent, no regions to pick, no bill
+            that grows with your success.
           </p>
+          <InstallCommand command="npm install @scaffold/core" />
           <div className="ctas">
-            <Link to="/docs/getting-started" className="btn on-accent">
-              Get started →
-            </Link>
-            <Link to="/docs" className="btn on-accent-ghost">
-              Read the docs
+            <a
+              href="https://github.com/scaffold"
+              target="_blank"
+              rel="noreferrer"
+              className="btn on-accent"
+            >
+              ★ Star us on GitHub
+            </a>
+            <Link to="/docs/getting-started" className="btn on-accent-ghost">
+              See some examples →
             </Link>
           </div>
         </div>

@@ -191,6 +191,28 @@ section.band.flush { border-top: none; }
   font-family: var(--font-mono); font-size: 12px; color: var(--fg-3); letter-spacing: 0.08em;
 }
 
+/* "Follow our development" email capture (hero) */
+.follow-dev { margin-top: var(--sp-6); max-width: 440px; }
+.follow-dev .label {
+  font-family: var(--font-mono); font-size: 10px; text-transform: uppercase;
+  letter-spacing: 0.14em; color: var(--fg-3); margin-bottom: 10px;
+}
+.follow-dev form { display: flex; border: 1px solid var(--fg); background: var(--bg); }
+.follow-dev input {
+  flex: 1; min-width: 0; appearance: none; background: transparent; border: none;
+  padding: 12px 14px; font-family: var(--font-mono); font-size: 13px; color: var(--fg);
+}
+.follow-dev input::placeholder { color: var(--fg-3); }
+.follow-dev input:focus { outline: none; background: var(--bg-elev); }
+.follow-dev button {
+  appearance: none; cursor: pointer; border: none; border-left: 1px solid var(--fg);
+  background: var(--fg); color: var(--bg);
+  padding: 12px 18px; font-family: var(--font-mono); font-size: 12px;
+  text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap;
+}
+.follow-dev button:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-contrast); }
+.follow-dev .ok { font-family: var(--font-mono); font-size: 12px; color: var(--accent); padding: 6px 0; }
+
 /* ==========================================================
    Statement band (thesis)
    ========================================================== */
@@ -261,6 +283,61 @@ section.cta-final { background: var(--accent); color: var(--accent-contrast); bo
 .cta-final .btn.on-accent:hover { background: transparent; color: var(--accent-contrast); }
 .cta-final .btn.on-accent-ghost { background: transparent; color: var(--accent-contrast); border-color: var(--accent-contrast); }
 .cta-final .btn.on-accent-ghost:hover { background: var(--accent-contrast); color: var(--accent); }
+
+/* Copyable install command (on accent band) */
+.cta-final .install-row {
+  display: flex; align-items: stretch; max-width: 520px;
+  margin: var(--sp-8) 0 0; border: 1px solid var(--accent-contrast);
+}
+.cta-final .install-cmd {
+  flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px;
+  padding: 14px 18px; font-family: var(--font-mono); font-size: 14px;
+  color: var(--accent-contrast); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.cta-final .install-cmd .dollar { opacity: 0.5; }
+.cta-final .copy-btn {
+  appearance: none; cursor: pointer; border: none; border-left: 1px solid var(--accent-contrast);
+  background: var(--accent-contrast); color: var(--accent);
+  padding: 0 20px; font-family: var(--font-mono); font-size: 12px;
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+.cta-final .copy-btn:hover { background: transparent; color: var(--accent-contrast); }
+
+/* ==========================================================
+   API — three methods
+   ========================================================== */
+.api-methods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+.api-methods .m {
+  background: var(--bg); padding: 36px 30px; min-height: 220px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.api-methods .m:hover { background: var(--bg-elev); }
+.api-methods .sig { font-family: var(--font-mono); font-size: 22px; letter-spacing: -0.01em; color: var(--fg); }
+.api-methods .sig .fn { color: var(--accent); }
+.api-methods .sig .ret { color: var(--fg-3); font-size: 14px; }
+.api-methods p { color: var(--fg-2); font-size: var(--fs-md); line-height: 1.6; margin: 0; }
+
+/* ==========================================================
+   Contract development environment
+   ========================================================== */
+.ide-tag {
+  display: inline-block; margin-bottom: var(--sp-5);
+  font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em;
+  color: var(--accent); border: 1px solid var(--accent); padding: 3px 8px;
+}
+.ide-placeholder {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+  min-height: 320px; text-align: center; color: var(--fg-2);
+  border: 1px solid var(--border-strong); transition: border-color 0.15s;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.ide-placeholder:hover { border-color: var(--accent); }
+.ide-placeholder .status { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+.ide-placeholder .title { font-family: var(--font-display); font-size: var(--fs-2xl); color: var(--fg); }
+.ide-placeholder .hint { font-family: var(--font-mono); font-size: 11px; color: var(--fg-3); }
 
 /* Route-comparison diagram */
 .diagram-panel.route svg { width: 100%; height: auto; }
@@ -541,7 +618,7 @@ footer.site .legal {
   nav.top { flex-wrap: wrap; }
   nav.top ul { order: 3; width: 100%; overflow-x: auto; }
   .hero-grid, .section-head, .split-2, .cta-band, .two-col { grid-template-columns: 1fr; }
-  .manifesto, .features { grid-template-columns: 1fr; }
+  .manifesto, .features, .api-methods { grid-template-columns: 1fr; }
   .app-rows .row { grid-template-columns: 1fr; gap: 10px; }
   .hero-spec { grid-template-columns: 1fr 1fr; }
   .hero-spec .cell { border-right: none; border-bottom: 1px solid var(--border); padding-right: 20px; }

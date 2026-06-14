@@ -5,7 +5,7 @@ export function Footer() {
     <footer className="site">
       <div className="finner">
         <div className="big">
-          Foundation <em>for</em> the distributed web.
+          Move the cloud to the <em>client</em>.
           <span
             className="u-mono"
             style={{
