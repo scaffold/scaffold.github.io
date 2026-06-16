@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import type { editor as MonacoEditor } from 'monaco-editor';
+import type { RunResult } from '../lib/runCode';
 import { FILES, LANGS, MONACO_LANG, SOON_LANG, SOURCE, type Lang, type Step } from '../content/heroCode';
 
 const STEPS: { key: Step; label: string }[] = [
@@ -14,6 +15,8 @@ export function CodeWindow() {
   const [step, setStep] = useState<Step>('run');
   const [lang, setLang] = useState<Lang>('rust');
   const [ready, setReady] = useState(false);
+  const [running, setRunning] = useState(false);
+  const [output, setOutput] = useState<RunResult | null>(null);
 
   const hostRef = useRef<HTMLDivElement>(null);
   const editorRef = useRef<MonacoEditor.IStandaloneCodeEditor | null>(null);
@@ -73,6 +76,19 @@ export function CodeWindow() {
     editor.setModel(getModel(monaco, step, lang));
   }, [step, lang, ready]);
 
+  async function runCode() {
+    const editor = editorRef.current;
+    if (!editor) return;
+    setRunning(true);
+    setOutput(null);
+    try {
+      const { runModule } = await import('../lib/runCode');
+      setOutput(await runModule(editor.getValue()));
+    } finally {
+      setRunning(false);
+    }
+  }
+
   function getModel(
     monaco: typeof import('../lib/monaco').monaco,
     s: Step,
@@ -115,19 +131,49 @@ export function CodeWindow() {
         style={{ height: ready ? undefined : 0, display: ready ? 'block' : 'none' }}
       />
 
-      <div className="langbar" role="group" aria-label="Contract language">
-        <span className="langbar-label">Contract language</span>
-        <div className="langbar-btns">
-          {LANGS.map((l) => (
-            <button key={l.id} aria-pressed={lang === l.id} onClick={() => setLang(l.id)}>
-              {l.label}
-            </button>
+      {step === 'run' && output && (
+        <div className="run-output" role="log" aria-label="Run output">
+          {output.logs.map((l, i) => (
+            <div key={i} className={`line ${l.level}`}>
+              {l.text}
+            </div>
           ))}
-          <button className="soon" disabled title={SOON_LANG.title}>
-            {SOON_LANG.label}
-            <sup>{SOON_LANG.note}</sup>
-          </button>
+          {output.error && <div className="line error">⚠ {output.error}</div>}
+          {output.logs.length === 0 && !output.error && <div className="line muted">(no output)</div>}
         </div>
+      )}
+
+      <div className="langbar">
+        <div className="langbar-langs" role="group" aria-label="Contract language">
+          <span className="langbar-label">Contract language</span>
+          <div className="langbar-btns">
+            {LANGS.map((l) => (
+              <button key={l.id} aria-pressed={lang === l.id} onClick={() => setLang(l.id)}>
+                {l.label}
+              </button>
+            ))}
+            <button className="soon" disabled title={SOON_LANG.title}>
+              {SOON_LANG.label}
+              <sup>{SOON_LANG.note}</sup>
+            </button>
+          </div>
+        </div>
+
+        {/* Primary CTA, bottom-right: steps through Contract → Build → Run,
+            and executes the code on the Run tab. */}
+        {step === 'contract' ? (
+          <button className="cta" onClick={() => setStep('build')}>
+            Build →
+          </button>
+        ) : step === 'build' ? (
+          <button className="cta" onClick={() => setStep('run')}>
+            Run →
+          </button>
+        ) : (
+          <button className="cta" onClick={runCode} disabled={running || !ready}>
+            {running ? 'Running…' : '▶ Run'}
+          </button>
+        )}
       </div>
     </div>
   );

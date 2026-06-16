@@ -38,12 +38,25 @@ export const meta: MetaFunction = () => [
 // own attributes only, so real content mismatches are still reported.
 const THEME_INIT = `document.documentElement.dataset.mode = localStorage.getItem('scaffold-mode') || 'light';`;
 
+// Import map so the hero "Run" code's `import … from '@scaffold/core'` resolves
+// to the local scaffold.io package worktree (served via Vite's `/@fs/`). The
+// absolute path is machine-specific and `/@fs/` only exists under Vite dev, so
+// this currently resolves under `npm run dev`; productionizing means pointing it
+// at a published / browser-bundled package. See vite.config.ts.
+const SCAFFOLD_IMPORTMAP = JSON.stringify({
+  imports: {
+    '@scaffold/core':
+      '/@fs/Users/joel/proj/scaffold/scaffold/.claude/worktrees/js-compiler-out-of-bundle/npm/esm/mod.js',
+  },
+});
+
 export function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" data-theme="raw" data-mode="light" suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script type="importmap" dangerouslySetInnerHTML={{ __html: SCAFFOLD_IMPORTMAP }} />
         <Meta />
         <Links />
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT }} />
