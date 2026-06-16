@@ -149,14 +149,21 @@ section.band.flush { border-top: none; }
   font-family: var(--font-mono); font-size: 11px;
   color: color-mix(in srgb, var(--code-fg) 40%, transparent);
 }
-.code-window pre {
-  margin: 0; padding: 28px 32px;
-  font-family: var(--font-mono); font-size: 13px;
-  line-height: 1.75; color: var(--code-fg);
-  overflow-x: auto;
-  font-feature-settings: 'ss01';
-  min-height: 320px;
+/* Prerendered plain-text source, shown until Monaco mounts over it. Metrics
+   mirror the editor (13px / 22px line, ~24px padding) to minimise the swap. */
+.code-window .code-fallback {
+  margin: 0; padding: 24px 26px;
+  font-family: var(--font-mono); font-size: 13px; line-height: 22px;
+  color: var(--code-fg); background: var(--code-bg);
+  overflow-x: auto; min-height: 320px;
+  font-feature-settings: 'ss01'; tab-size: 2;
 }
+
+/* Monaco editor host. min-height reserves space so the window keeps its size
+   before Monaco mounts; fit() then grows it to the content height. */
+.code-window .monaco-host { width: 100%; min-height: 320px; background: var(--code-bg); }
+.code-window .monaco-host .monaco-editor,
+.code-window .monaco-host .monaco-editor .overflow-guard { border-radius: 0; }
 
 /* Contract-language selector — bottom of the code window */
 .code-window .langbar {

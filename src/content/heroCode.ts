@@ -1,8 +1,7 @@
 /**
- * Hand-marked code for the hero code window, using the design system's
- * span classes (kw/str/com/fn/num/punct). The Run tab is identical for
- * every language — callers never care what a contract is written in.
- * Later this becomes editable + runnable in place.
+ * Source for the hero code window. This is the single source of truth — to
+ * change a snippet, just edit the plain text in SOURCE below. Monaco tokenizes
+ * it on the client; there's no separately-maintained highlighted copy.
  */
 
 export type Lang = 'rust' | 'as' | 'go';
@@ -18,92 +17,104 @@ export const LANGS: { id: Lang; label: string }[] = [
 /** Planned-but-not-yet language, shown disabled with a SOON tag. */
 export const SOON_LANG = { label: 'Python', note: 'SOON', title: 'Planned — via WASI' };
 
+/** Filename shown in the window's top-right meta bar. */
 export const FILES: Record<Step, Record<Lang, string>> = {
   contract: { rust: 'lib.rs', as: 'contract.ts', go: 'contract.go' },
   build: { rust: 'build · sh', as: 'build · sh', go: 'build · sh' },
   run: { rust: 'main.ts', as: 'main.ts', go: 'main.ts' },
 };
 
-const RUN_TS = `<span class="kw">import</span> <span class="punct">{</span> Scaffold<span class="punct">,</span> browserConfig <span class="punct">}</span> <span class="kw">from</span> <span class="str">'@scaffold/core'</span><span class="punct">;</span>
+/** Monaco language id per (step, language) — drives syntax highlighting. */
+export const MONACO_LANG: Record<Step, Record<Lang, string>> = {
+  contract: { rust: 'rust', as: 'typescript', go: 'go' },
+  build: { rust: 'shell', as: 'shell', go: 'shell' },
+  run: { rust: 'typescript', as: 'typescript', go: 'typescript' },
+};
 
-<span class="com">// Connect to the Scaffold network.</span>
-<span class="kw">const</span> scaffold <span class="punct">=</span> <span class="kw">new</span> <span class="fn">Scaffold</span><span class="punct">(</span>browserConfig<span class="punct">);</span>
+// ---- Snippets -----------------------------------------------------
+// The Run step is identical for every language — callers never care what a
+// contract is written in.
 
-<span class="com">// Any WASM contract, addressed by its hash.</span>
-<span class="kw">const</span> greeter <span class="punct">=</span> <span class="str">'0xdda8ecfd22ea…'</span><span class="punct">;</span>
+const RUN = `import { Scaffold, browserConfig } from '@scaffold/core';
 
-<span class="com">// Routed to a peer that has the contract; the peer</span>
-<span class="com">// runs it and returns the collateralized result.</span>
-<span class="kw">const</span> hello <span class="punct">=</span> <span class="kw">await</span> scaffold<span class="punct">.</span><span class="fn">fetch</span><span class="punct">({</span>
-  contractHash<span class="punct">:</span> greeter<span class="punct">,</span>
-  params<span class="punct">:</span> <span class="str">'World'</span><span class="punct">,</span>
-<span class="punct">});</span>
+// Connect to the Scaffold network.
+const scaffold = new Scaffold(browserConfig);
 
-<span class="fn">console</span><span class="punct">.</span><span class="fn">log</span><span class="punct">(</span>hello<span class="punct">.</span><span class="fn">text</span><span class="punct">());</span> <span class="com">// → "Hello World!"</span>`;
+// Any WASM contract, addressed by its hash.
+const greeter = '0xdda8ecfd22ea…';
 
-const CONTRACT_RUST = `<span class="com">// A Scaffold contract: a pure, deterministic function,</span>
-<span class="com">// compiled to WASM and addressed by the hash of its bytes.</span>
-<span class="kw">mod</span> scaffold<span class="punct">;</span>
+// Routed to a peer that has the contract; the peer
+// runs it and returns the collateralized result.
+const hello = await scaffold.fetch({
+  contractHash: greeter,
+  params: 'World',
+});
 
-<span class="fn">contract_name!</span><span class="punct">(</span><span class="str">b"Greeter"</span><span class="punct">);</span>
+console.log(hello.text()); // → "Hello World!"`;
 
-<span class="kw">#[no_mangle]</span>
-<span class="kw">pub extern fn</span> <span class="fn">hello</span><span class="punct">()</span> <span class="punct">{</span>
-  <span class="kw">let mut</span> params <span class="punct">=</span> <span class="fn">Vec</span><span class="punct">::</span><span class="fn">new</span><span class="punct">();</span>
-  scaffold<span class="punct">::</span><span class="fn">read_params</span><span class="punct">(&amp;</span><span class="kw">mut</span> params<span class="punct">);</span>
+const CONTRACT_RUST = `// A Scaffold contract: a pure, deterministic function,
+// compiled to WASM and addressed by the hash of its bytes.
+mod scaffold;
 
-  <span class="kw">let</span> name <span class="punct">=</span> <span class="fn">String</span><span class="punct">::</span><span class="fn">from_utf8</span><span class="punct">(</span>params<span class="punct">).</span><span class="fn">unwrap</span><span class="punct">();</span>
-  scaffold<span class="punct">::</span><span class="fn">require_body</span><span class="punct">(</span><span class="fn">format!</span><span class="punct">(</span><span class="str">"Hello {}!"</span><span class="punct">,</span> name<span class="punct">).</span><span class="fn">as_bytes</span><span class="punct">());</span>
-<span class="punct">}</span>`;
+contract_name!(b"Greeter");
 
-const CONTRACT_AS = `<span class="com">// A Scaffold contract in AssemblyScript — TypeScript</span>
-<span class="com">// syntax, no runtime, compiled straight to WASM by asc.</span>
-<span class="kw">import</span> <span class="punct">{</span> readParams<span class="punct">,</span> requireBody<span class="punct">,</span> contractName <span class="punct">}</span> <span class="kw">from</span> <span class="str">'./scaffold'</span><span class="punct">;</span>
+#[no_mangle]
+pub extern fn hello() {
+  let mut params = Vec::new();
+  scaffold::read_params(&mut params);
 
-<span class="fn">contractName</span><span class="punct">(</span><span class="str">'Greeter'</span><span class="punct">);</span>
+  let name = String::from_utf8(params).unwrap();
+  scaffold::require_body(format!("Hello {}!", name).as_bytes());
+}`;
 
-<span class="kw">export function</span> <span class="fn">hello</span><span class="punct">():</span> <span class="kw">void</span> <span class="punct">{</span>
-  <span class="kw">const</span> name <span class="punct">=</span> <span class="fn">String.UTF8.decode</span><span class="punct">(</span><span class="fn">readParams</span><span class="punct">());</span>
-  <span class="fn">requireBody</span><span class="punct">(</span><span class="fn">String.UTF8.encode</span><span class="punct">(</span><span class="str">\`Hello \${name}!\`</span><span class="punct">));</span>
-<span class="punct">}</span>`;
+const CONTRACT_AS = `// A Scaffold contract in AssemblyScript — TypeScript
+// syntax, no runtime, compiled straight to WASM by asc.
+import { readParams, requireBody, contractName } from './scaffold';
 
-const CONTRACT_GO = `<span class="com">// A Scaffold contract in Go, compiled to WASM with TinyGo.</span>
-<span class="com">// Ordinary Go: \`go test\` and benchmarks work as you'd expect.</span>
-<span class="kw">package</span> main
+contractName('Greeter');
 
-<span class="kw">import</span> <span class="str">"scaffold"</span>
+export function hello(): void {
+  const name = String.UTF8.decode(readParams());
+  requireBody(String.UTF8.encode(\`Hello \${name}!\`));
+}`;
 
-<span class="com">//export hello</span>
-<span class="kw">func</span> <span class="fn">hello</span><span class="punct">()</span> <span class="punct">{</span>
-  name <span class="punct">:=</span> <span class="kw">string</span><span class="punct">(</span>scaffold<span class="punct">.</span><span class="fn">ReadParams</span><span class="punct">())</span>
-  scaffold<span class="punct">.</span><span class="fn">RequireBody</span><span class="punct">([]</span><span class="kw">byte</span><span class="punct">(</span><span class="str">"Hello "</span> <span class="punct">+</span> name <span class="punct">+</span> <span class="str">"!"</span><span class="punct">))</span>
-<span class="punct">}</span>
+const CONTRACT_GO = `// A Scaffold contract in Go, compiled to WASM with TinyGo.
+// Ordinary Go: \`go test\` and benchmarks work as you'd expect.
+package main
 
-<span class="kw">func</span> <span class="fn">main</span><span class="punct">()</span> <span class="punct">{}</span>`;
+import "scaffold"
 
-const BUILD_RUST = `<span class="com"># Compile the contract to WASM</span>
-cargo build <span class="kw">--release</span> <span class="kw">--target</span> wasm32-unknown-unknown
+//export hello
+func hello() {
+  name := string(scaffold.ReadParams())
+  scaffold.RequireBody([]byte("Hello " + name + "!"))
+}
 
-<span class="com"># Publish it to the network</span>
+func main() {}`;
+
+const BUILD_RUST = `# Compile the contract to WASM
+cargo build --release --target wasm32-unknown-unknown
+
+# Publish it to the network
 scaffold put target/wasm32-unknown-unknown/release/greeter.wasm
-<span class="com"># → 0xdda8ecfd22ea2b9fd670cd43cadd553e…</span>`;
+# → 0xdda8ecfd22ea2b9fd670cd43cadd553e…`;
 
-const BUILD_AS = `<span class="com"># Compile the contract to WASM</span>
-asc contract.ts <span class="kw">-O3</span> <span class="kw">--runtime</span> stub <span class="kw">-o</span> greeter.wasm
+const BUILD_AS = `# Compile the contract to WASM
+asc contract.ts -O3 --runtime stub -o greeter.wasm
 
-<span class="com"># Publish it to the network</span>
+# Publish it to the network
 scaffold put greeter.wasm
-<span class="com"># → 0xdda8ecfd22ea2b9fd670cd43cadd553e…</span>`;
+# → 0xdda8ecfd22ea2b9fd670cd43cadd553e…`;
 
-const BUILD_GO = `<span class="com"># Compile the contract to WASM with TinyGo</span>
-tinygo build <span class="kw">-o</span> greeter.wasm <span class="kw">-target=</span>wasm-unknown ./
+const BUILD_GO = `# Compile the contract to WASM with TinyGo
+tinygo build -o greeter.wasm -target=wasm-unknown ./
 
-<span class="com"># Publish it to the network</span>
+# Publish it to the network
 scaffold put greeter.wasm
-<span class="com"># → 0xdda8ecfd22ea2b9fd670cd43cadd553e…</span>`;
+# → 0xdda8ecfd22ea2b9fd670cd43cadd553e…`;
 
-export const CODE: Record<Step, Record<Lang, string>> = {
+export const SOURCE: Record<Step, Record<Lang, string>> = {
   contract: { rust: CONTRACT_RUST, as: CONTRACT_AS, go: CONTRACT_GO },
   build: { rust: BUILD_RUST, as: BUILD_AS, go: BUILD_GO },
-  run: { rust: RUN_TS, as: RUN_TS, go: RUN_TS },
+  run: { rust: RUN, as: RUN, go: RUN },
 };
