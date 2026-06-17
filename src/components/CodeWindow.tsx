@@ -9,7 +9,18 @@ const STEPS: { key: Step; label: string }[] = [
   { key: 'run', label: 'Run' },
 ];
 
-const MIN_HEIGHT = 320;
+// Hold a constant editor height = the tallest snippet (most lines across all
+// tabs/languages), so switching tabs or languages never resizes the window.
+// LINE_HEIGHT / V_PADDING mirror EDITOR_OPTIONS in lib/monaco.ts (lineHeight +
+// padding top+bottom); the +12 covers a possible horizontal scrollbar.
+const LINE_HEIGHT = 22;
+const V_PADDING = 48;
+const MAX_LINES = Math.max(
+  ...Object.values(SOURCE)
+    .flatMap((byLang) => Object.values(byLang))
+    .map((src) => src.split('\n').length),
+);
+const MIN_HEIGHT = MAX_LINES * LINE_HEIGHT + V_PADDING + 12;
 
 export function CodeWindow() {
   const [step, setStep] = useState<Step>('run');
@@ -124,7 +135,11 @@ export function CodeWindow() {
       {/* SOURCE is the single source of truth: the plain text is prerendered
           here, then Monaco mounts over it (tokenizing the same SOURCE) on the
           client. The host reserves height so there's no layout jump. */}
-      {!ready && <pre className="code-fallback">{SOURCE[step][lang]}</pre>}
+      {!ready && (
+        <pre className="code-fallback" style={{ minHeight: MIN_HEIGHT }}>
+          {SOURCE[step][lang]}
+        </pre>
+      )}
       <div
         ref={hostRef}
         className="monaco-host"
@@ -148,7 +163,7 @@ export function CodeWindow() {
           <span className="langbar-label">Contract language</span>
           <div className="langbar-btns">
             {LANGS.map((l) => (
-              <button key={l.id} aria-pressed={lang === l.id} onClick={() => setLang(l.id)}>
+              <button key={l.id} aria-pressed={lang === l.id} onClick={() => {setLang(l.id); setStep('contract');}}>
                 {l.label}
               </button>
             ))}

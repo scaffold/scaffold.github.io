@@ -209,7 +209,12 @@ section.band.flush { border-top: none; }
   color: color-mix(in srgb, var(--code-fg) 62%, transparent);
 }
 .code-window .langbar-btns button:hover:not(.soon) { color: var(--code-fg); border-color: color-mix(in srgb, var(--code-fg) 32%, transparent); }
-.code-window .langbar-btns button[aria-pressed='true'] { background: var(--accent); border-color: var(--accent); color: var(--accent-contrast); }
+/* Neutral "selected" state (not a CTA) so the accent Run button leads the eye. */
+.code-window .langbar-btns button[aria-pressed='true'] {
+  background: color-mix(in srgb, var(--code-fg) 12%, transparent);
+  border-color: color-mix(in srgb, var(--code-fg) 38%, transparent);
+  color: var(--code-fg);
+}
 .code-window .langbar-btns button.soon { cursor: default; color: color-mix(in srgb, var(--code-fg) 30%, transparent); }
 .code-window .langbar-btns button.soon sup { font-size: 8px; margin-left: 4px; letter-spacing: 0.1em; }
 .code-window .kw { color: var(--code-kw); }
