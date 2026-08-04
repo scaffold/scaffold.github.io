@@ -15,7 +15,11 @@ export const LANGS: { id: Lang; label: string }[] = [
 ];
 
 /** Planned-but-not-yet language, shown disabled with a SOON tag. */
-export const SOON_LANG = { label: 'Python', note: 'SOON', title: 'Planned — via WASI' };
+export const SOON_LANG = {
+  label: 'Python',
+  note: 'SOON',
+  title: 'Planned — via WASI',
+};
 
 /** Filename shown in the window's top-right meta bar. */
 export const FILES: Record<Step, Record<Lang, string>> = {
@@ -35,22 +39,27 @@ export const MONACO_LANG: Record<Step, Record<Lang, string>> = {
 // The Run step is identical for every language — callers never care what a
 // contract is written in.
 
-const RUN = `import { Scaffold, browserConfig } from '@scaffold/core';
+const RUN = `import { Scaffold, makeBrowserConfig } from 'scaffold.io';
 
 // Connect to the Scaffold network.
-const scaffold = new Scaffold(browserConfig);
+const scaffold = new Scaffold(makeBrowserConfig());
 
 // Any WASM contract, addressed by its hash.
-const greeter = '0xdda8ecfd22ea…';
+const contract = '3338be694f50c5f338814986cdf0686453a888b84f424d792af4b9202398f392';
+
+// Contracts natively process byte arrays, but expose serializers to make development easier
+const params = await scaffold.serializeParams(contract, { name: 'World' });
 
 // Routed to a peer that has the contract; the peer
 // runs it and returns the collateralized result.
-const hello = await scaffold.fetch({
-  contractHash: greeter,
-  params: 'World',
-});
-
-console.log(hello.text()); // → "Hello World!"`;
+await scaffold.fetch({
+  contract,
+  params,
+  onResult: async (result) => {
+    const { message } = await result.parse();
+    console.log(message); // → "Hello World!"
+  },
+});`;
 
 const CONTRACT_RUST = `// A Scaffold contract: a pure, deterministic function,
 // compiled to WASM and addressed by the hash of its bytes.

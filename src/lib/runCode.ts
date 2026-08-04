@@ -30,7 +30,10 @@ function format(v: unknown): string {
 export async function runModule(source: string): Promise<RunResult> {
   const logs: RunResult['logs'] = [];
   const levels: LogLevel[] = ['log', 'info', 'warn', 'error'];
-  const consoleObj = console as unknown as Record<LogLevel, (...args: unknown[]) => void>;
+  const consoleObj = console as unknown as Record<
+    LogLevel,
+    (...args: unknown[]) => void
+  >;
   const original = {} as Record<LogLevel, (...args: unknown[]) => void>;
 
   for (const level of levels) {
@@ -50,7 +53,10 @@ export async function runModule(source: string): Promise<RunResult> {
     await import(/* @vite-ignore */ url);
     return { logs };
   } catch (e) {
-    return { logs, error: e instanceof Error ? `${e.name}: ${e.message}` : String(e) };
+    return {
+      logs,
+      error: e instanceof Error ? `${e.name}: ${e.message}` : String(e),
+    };
   } finally {
     for (const level of levels) consoleObj[level] = original[level];
     if (url) URL.revokeObjectURL(url);

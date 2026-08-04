@@ -30,5 +30,8 @@
     "shiki": "^1.29.2",
     "typescript": "^5.8.3",
     "vite": "^6.3.5"
+  },
+  "prettier": {
+    "singleQuote": true
   }
 }

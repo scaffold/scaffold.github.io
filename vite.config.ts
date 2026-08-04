@@ -7,8 +7,7 @@ import { rssPlugin } from './plugins/rss';
 // the hero code's `@scaffold/core` import map can resolve to it. Dev/local only
 // and machine-specific — see the import map in src/root.tsx. (TODO: replace with
 // a published / browser-bundled package for production.)
-const SCAFFOLD_PKG_DIR =
-  '/Users/joel/proj/scaffold/scaffold/.claude/worktrees/js-compiler-out-of-bundle/npm';
+const SCAFFOLD_PKG_DIR = '/Users/joel/proj/scaffold/scaffold/npm';
 
 export default defineConfig({
   // reactRouter() provides the React/JSX transform, so no separate

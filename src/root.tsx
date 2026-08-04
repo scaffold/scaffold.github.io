@@ -11,12 +11,21 @@ const FONTS =
 
 export const links: LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-  { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
+  {
+    rel: 'preconnect',
+    href: 'https://fonts.gstatic.com',
+    crossOrigin: 'anonymous',
+  },
   { rel: 'stylesheet', href: FONTS },
   { rel: 'stylesheet', href: tokensHref },
   { rel: 'stylesheet', href: siteHref },
   { rel: 'icon', type: 'image/png', href: '/logomark-black.png' },
-  { rel: 'alternate', type: 'application/rss+xml', title: 'Scaffold Blog', href: '/blog/feed.xml' },
+  {
+    rel: 'alternate',
+    type: 'application/rss+xml',
+    title: 'Scaffold Blog',
+    href: '/blog/feed.xml',
+  },
 ];
 
 export const meta: MetaFunction = () => [
@@ -45,8 +54,7 @@ const THEME_INIT = `document.documentElement.dataset.mode = localStorage.getItem
 // at a published / browser-bundled package. See vite.config.ts.
 const SCAFFOLD_IMPORTMAP = JSON.stringify({
   imports: {
-    '@scaffold/core':
-      '/@fs/Users/joel/proj/scaffold/scaffold/.claude/worktrees/js-compiler-out-of-bundle/npm/esm/mod.js',
+    'scaffold.io': '/@fs/Users/joel/proj/scaffold/scaffold/npm/esm/mod.js',
   },
 });
 
@@ -56,7 +64,10 @@ export function Layout({ children }: { children: ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <script type="importmap" dangerouslySetInnerHTML={{ __html: SCAFFOLD_IMPORTMAP }} />
+        <script
+          type="importmap"
+          dangerouslySetInnerHTML={{ __html: SCAFFOLD_IMPORTMAP }}
+        />
         <Meta />
         <Links />
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT }} />
