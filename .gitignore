@@ -4,3 +4,5 @@ build/
 .react-router/
 *.local
 .DS_Store
+
+/TODO.v2.md

@@ -19,13 +19,17 @@ export default function Home() {
           <div className="hero-grid">
             <div>
               <h1>
-                <span className="l">Move the cloud</span>
-                <span className="l">to the <em>client</em>.</span>
+                <span className="l">
+                  Move the <em>cloud</em>
+                </span>
+                <span className="l">
+                  to the <em>client</em>.
+                </span>
               </h1>
               <p className="sub">
-                Scaffold is a browser-native protocol that turns your users into infrastructure.
-                Contracts are WebAssembly, transport is WebRTC, and every result is backed by
-                economic collateral. Your first app is one import and a dozen lines of code.
+                Scaffold is a protocol that runs in the browser and turns your
+                users into infrastructure. Write your contracts in WebAssembly,
+                and Scaffold manages the rest.
               </p>
               <div className="ctas">
                 <Link to="/docs/getting-started" className="btn primary">
@@ -43,54 +47,23 @@ export default function Home() {
           </div>
 
           <div className="hero-spec">
-            <div className="cell"><span className="k">Runtime</span><span className="v">WASM</span></div>
-            <div className="cell"><span className="k">Transport</span><span className="v">WebRTC + WS</span></div>
-            <div className="cell"><span className="k">Consensus</span><span className="v">Tree of verified compute</span></div>
-            <div className="cell"><span className="k">License</span><span className="v">Apache 2.0</span></div>
-          </div>
-        </div>
-      </section>
-
-      {/* ============ The cloud is a not-so-necessary evil ============ */}
-      <section className="band">
-        <div className="section-inner">
-          <div className="two-col">
-            <h2>The cloud is a not‑so‑necessary evil.</h2>
-            <div className="body">
-              <p>
-                Cloud costs are now the #2 expense at midsize IT companies — behind only payroll. On
-                average, organizations spend 10% of revenues on cloud services; AWS alone made over
-                $110B last year.
-                <a
-                  className="fn-ref"
-                  href="https://www.cloudzero.com/blog/cloud-computing-statistics/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  1
-                </a>
-              </p>
-              <p>
-                All of it buys the same thing: computers that sit far away from your users. Scaffold
-                is a way to build products that don't run on the conventional cloud at all.
-              </p>
+            <div className="cell">
+              <span className="k">Connected peers</span>
+              <span className="v">2 WebSocket + 5 WebRTC</span>
+            </div>
+            <div className="cell">
+              <span className="k">WASM contracts executed</span>
+              <span className="v">123 generated + 42 verified</span>
+            </div>
+            <div className="cell">
+              <span className="k">Blocks received</span>
+              <span className="v">100 blocks / 5 MB</span>
+            </div>
+            <div className="cell">
+              <span className="k">Total DAG size</span>
+              <span className="v">1467 outputs</span>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* ============ The user is the cloud (inverted) ============ */}
-      <section className="band invert">
-        <div className="section-inner">
-          <h2 className="lead">
-            The user <em>is</em> the cloud.
-          </h2>
-          <p className="lead-sub">
-            Every modern browser runs WebAssembly, speaks WebRTC, and has compute to spare. A request
-            shouldn't have to cross a continent to be answered — Scaffold routes it to the nearest
-            capable peer, often a machine on the same street. The network grows with every user who
-            opens your app, and there's no origin to scale or to go down.
-          </p>
         </div>
       </section>
 
@@ -103,32 +76,32 @@ export default function Home() {
               <span className="idx">01 · Mesh</span>
               <h3>A peer-to-peer mesh.</h3>
               <p>
-                Your users connect directly to one another over WebRTC, forming a network with no
-                server in the middle.
+                Your users connect directly to one another over WebRTC, forming
+                a network with no server in the middle.
               </p>
             </div>
             <div className="item">
               <span className="idx">02 · Routing</span>
               <h3>A request/response protocol.</h3>
               <p>
-                Every request is answered by the closest, most efficient peers that hold the
-                contract — not by a distant datacenter.
+                Every request is answered by the closest, most efficient peers
+                that hold the contract.
               </p>
             </div>
             <div className="item">
               <span className="idx">03 · Trust</span>
               <h3>Collateralization &amp; verification.</h3>
               <p>
-                Peers stake collateral on the answers they return. Incorrect responses are detected
-                and penalized, with the cost amortized across the network.
+                Peers stake collateral on the answers they return. Incorrect
+                responses are detected and penalized.
               </p>
             </div>
             <div className="item">
               <span className="idx">04 · Currency</span>
               <h3>A consensus layer.</h3>
               <p>
-                A built-in currency settles the low-latency, low-finality micropayments that
-                collateral requires — fast enough to back every request.
+                A built-in currency focused on high-frequency, low-throughput
+                transactions backs the micropayments that collateral requires.
               </p>
             </div>
           </div>
@@ -140,28 +113,38 @@ export default function Home() {
         <div className="section-inner">
           <div className="section-head">
             <div className="num">The API</div>
-            <h2>Three methods.</h2>
+            <h2>There's only three methods.</h2>
           </div>
           <div className="api-methods">
             <div className="m">
-              <div className="sig"><span className="fn">fetch</span>(req) <span className="ret">→ Result</span></div>
+              <div className="sig">
+                <span className="fn">fetch</span>(req){' '}
+                <span className="ret">→ Result</span>
+              </div>
               <p>
-                Ask the network for a value. The request is routed to the nearest peer holding the
-                contract, which runs it and returns a verified, collateralized result.
+                Ask the network for a value. The request is routed to the
+                nearest peer holding the contract, which runs it and returns a
+                verified, collateralized result.
               </p>
             </div>
             <div className="m">
-              <div className="sig"><span className="fn">put</span>(bytes) <span className="ret">→ Hash</span></div>
+              <div className="sig">
+                <span className="fn">put</span>(bytes){' '}
+                <span className="ret">→ Hash</span>
+              </div>
               <p>
-                Publish a contract or a value to the network. It's addressed by the hash of its
-                bytes, so anyone can fetch it by that address.
+                Publish a contract or a value to the network. It's addressed by
+                the hash of its bytes, so anyone can fetch it by that address.
               </p>
             </div>
             <div className="m">
-              <div className="sig"><span className="fn">send</span>(msg) <span className="ret">→ void</span></div>
+              <div className="sig">
+                <span className="fn">send</span>(msg){' '}
+                <span className="ret">→ void</span>
+              </div>
               <p>
-                Deliver a message to a peer or contract — fire-and-forget, for events, payments, and
-                streaming updates.
+                Deliver a message to a peer or contract — fire-and-forget, for
+                events, payments, and streaming updates.
               </p>
             </div>
           </div>
@@ -176,8 +159,9 @@ export default function Home() {
               <span className="ide-tag">In progress</span>
               <h2>A contract development environment.</h2>
               <p>
-                Write, compile, publish, and inspect contracts without leaving the browser — then
-                watch them resolve across the live network in the explorer.
+                Write, compile, publish, and inspect contracts without leaving
+                the browser — then watch them resolve across the live network in
+                the explorer.
               </p>
               <Link to="/explorer" className="btn secondary">
                 Open the explorer →
@@ -190,7 +174,9 @@ export default function Home() {
             >
               <span className="status">● Preview</span>
               <span className="title">Explorer</span>
-              <span className="hint">Live with the public testnet · July 2026</span>
+              <span className="hint">
+                Live with the public testnet · July 2026
+              </span>
             </Link>
           </div>
         </div>
@@ -201,8 +187,8 @@ export default function Home() {
         <div className="section-inner">
           <h2>Get started.</h2>
           <p>
-            One import and a dozen lines of code. No servers to rent, no regions to pick, no bill
-            that grows with your success.
+            One import and a dozen lines of code. No servers to rent, no regions
+            to pick, no bill that grows with your success.
           </p>
           <InstallCommand command="npm install @scaffold/core" />
           <div className="ctas">

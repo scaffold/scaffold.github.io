@@ -3,7 +3,10 @@ import { formatDate, sortedPosts } from '../lib/content';
 import { pageMeta } from '../lib/meta';
 
 export const meta: MetaFunction = () =>
-  pageMeta('Blog — Scaffold', 'Notes from the Scaffold protocol — moving the cloud to the client.');
+  pageMeta(
+    'Blog — Scaffold',
+    'Notes from the Scaffold protocol — moving the cloud to the client.',
+  );
 
 export default function BlogIndex() {
   const posts = sortedPosts();
@@ -16,13 +19,7 @@ export default function BlogIndex() {
             <span>Scaffold</span>
             <span>Blog</span>
           </div>
-          <h1>
-            Field <em>notes</em>.
-          </h1>
-          <p className="sub">
-            Progress reports, protocol design notes, and the occasional argument about
-            distributed systems. <a href="/blog/feed.xml" style={{ textDecoration: 'underline' }}>RSS</a>.
-          </p>
+          <h1>Design and dev thoughts</h1>
         </div>
       </div>
 

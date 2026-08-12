@@ -48,7 +48,7 @@ const scaffold = new Scaffold(makeBrowserConfig());
 const contract = '3338be694f50c5f338814986cdf0686453a888b84f424d792af4b9202398f392';
 
 // Contracts natively process byte arrays, but expose serializers to make development easier
-const params = await scaffold.serializeParams(contract, { name: 'World' });
+const params = await scaffold.serializeParamsObj(contract, { name: 'World' });
 
 // Routed to a peer that has the contract; the peer
 // runs it and returns the collateralized result.
