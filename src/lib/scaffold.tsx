@@ -48,12 +48,15 @@ function subscribe(listener: () => void) {
 }
 
 async function boot(): Promise<Scaffold> {
-  const [{ Scaffold, makeBrowserConfig }, { MetricsRole }, { WebsocketClientTransport }] =
-    await Promise.all([
-      import('scaffold.io'),
-      import('scaffold.io/roles/MetricsRole.ts'),
-      import('scaffold.io/plugins/WebsocketClientTransport.ts'),
-    ]);
+  const [
+    { Scaffold, makeBrowserConfig },
+    { MetricsRole },
+    { WebsocketClientTransport },
+  ] = await Promise.all([
+    import('scaffold.io'),
+    import('scaffold.io/roles/MetricsRole.ts'),
+    import('scaffold.io/plugins/WebsocketClientTransport.ts'),
+  ]);
 
   const config = makeBrowserConfig();
   const scaffold = new Scaffold({
@@ -64,7 +67,7 @@ async function boot(): Promise<Scaffold> {
   scaffold.startTransport(new WebsocketClientTransport(), (signal) => {
     console.log(`WebSocket client announce: ${signal}`);
   });
-  scaffold.connect('ws://127.0.0.1:8314/');
+  scaffold.connect('wss://relay.scaffold.io/');
 
   const ctx = scaffold.getContext();
 

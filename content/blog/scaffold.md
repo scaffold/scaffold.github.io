@@ -2,6 +2,7 @@
 title: Scaffold
 date: '2024-01-08'
 author: Joel
+published: false
 ---
 
 This is the primary model of computation today:

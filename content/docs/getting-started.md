@@ -12,7 +12,7 @@ Scaffold is primarily a browser library, but also provides a CLI for local devel
 Let's start with a very simple contract. `3338be694f50c5f338814986cdf0686453a888b84f424d792af4b9202398f392` simply says hello to the name you provide.
 
 ```bash
-> npx scaffold.io --bootstrap_urls ws://127.0.0.1:8314/ \
+> npx scaffold.io --bootstrap_urls wss://relay.scaffold.io/ \
 >   fetch 3338be694f50c5f338814986cdf0686453a888b84f424d792af4b9202398f392 world
 Hello, world!
 ```
@@ -20,7 +20,7 @@ Hello, world!
 In this example, "world" is the params we're passing to the contract, and "Hello, world!" is the result. But sometimes, the contract can't compute the result without some extra help:
 
 ```bash
-> npx scaffold.io --bootstrap_urls ws://127.0.0.1:8314/ \
+> npx scaffold.io --bootstrap_urls wss://relay.scaffold.io/ \
 >   fetch 02f6096a69fd3ef5222b99fb9c2ee03c5824f6b637a867b1040a929f22f56c59 7f455bca6d76cafa81a79b746038e33b1bef9ec41e87180db8becf80b22f549a
 # No output
 ```
@@ -28,7 +28,7 @@ In this example, "world" is the params we're passing to the contract, and "Hello
 Here, the first hash refers to the blob contract. This contract must return data hashing to the second hash. It's impossible for now, because Scaffold doesn't know the plaintext. We can use `put()` to tell Scaffold what the second hash [`7f455bca...`](<https://gchq.github.io/CyberChef/#recipe=SHA3('256')&input=Q29udGVudCBJIHdhbnQgdG8gc3RvcmUgb24gdGhlIFNjYWZmb2xkIG5ldHdvcms>) refers to:
 
 ```bash
-> npx scaffold.io --bootstrap_urls ws://127.0.0.1:8314/ \
+> npx scaffold.io --bootstrap_urls wss://relay.scaffold.io/ \
 >   put 02f6096a69fd3ef5222b99fb9c2ee03c5824f6b637a867b1040a929f22f56c59 7f455bca6d76cafa81a79b746038e33b1bef9ec41e87180db8becf80b22f549a 'Content I want to store on the Scaffold network'
 {
   "type": "put_canonical",
@@ -39,7 +39,7 @@ Here, the first hash refers to the blob contract. This contract must return data
 A new block has been created; for this example the block hash is not important. But we can now run the same `fetch()` we tried earlier:
 
 ```bash
-> npx scaffold.io --bootstrap_urls ws://127.0.0.1:8314/ \
+> npx scaffold.io --bootstrap_urls wss://relay.scaffold.io/ \
 >   fetch 02f6096a69fd3ef5222b99fb9c2ee03c5824f6b637a867b1040a929f22f56c59 7f455bca6d76cafa81a79b746038e33b1bef9ec41e87180db8becf80b22f549a
 Content I want to store on the Scaffold network
 ```

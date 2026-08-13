@@ -43,6 +43,7 @@ export interface PostMeta {
   title: string;
   date: string;
   description: string;
+  published: boolean;
 }
 
 export function sortedPosts(): PostMeta[] {
@@ -52,6 +53,7 @@ export function sortedPosts(): PostMeta[] {
       title: (mod.frontmatter.title as string) ?? slug,
       date: (mod.frontmatter.date as string) ?? '',
       description: (mod.frontmatter.description as string) ?? '',
+      published: (mod.frontmatter.published as boolean) ?? true,
     }))
     .sort((a, b) => b.date.localeCompare(a.date));
 }

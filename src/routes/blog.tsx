@@ -26,15 +26,22 @@ export default function BlogIndex() {
       <section className="band flush" style={{ paddingTop: 0 }}>
         <div className="section-inner">
           <div className="post-list">
-            {posts.map((post) => (
-              <Link to={`/blog/${post.slug}`} className="post" key={post.slug}>
-                <span className="date">{formatDate(post.date)}</span>
-                <div>
-                  <h3>{post.title}</h3>
-                  <p>{post.description}</p>
-                </div>
-              </Link>
-            ))}
+            {posts.map(
+              (post) =>
+                post.published && (
+                  <Link
+                    to={`/blog/${post.slug}`}
+                    className="post"
+                    key={post.slug}
+                  >
+                    <span className="date">{formatDate(post.date)}</span>
+                    <div>
+                      <h3>{post.title}</h3>
+                      <p>{post.description}</p>
+                    </div>
+                  </Link>
+                ),
+            )}
           </div>
         </div>
       </section>
