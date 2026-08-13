@@ -3,6 +3,7 @@ import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router';
 import type { LinksFunction, MetaFunction } from 'react-router';
 import { Nav } from './components/Nav';
 import { Footer } from './components/Footer';
+import { ScaffoldProvider } from './lib/scaffold';
 import tokensHref from './styles/tokens.css?url';
 import siteHref from './styles/site.css?url';
 
@@ -83,10 +84,10 @@ export function Layout({ children }: { children: ReactNode }) {
 
 export default function App() {
   return (
-    <>
+    <ScaffoldProvider>
       <Nav />
       <Outlet />
       <Footer />
-    </>
+    </ScaffoldProvider>
   );
 }

@@ -3,6 +3,7 @@ import { CodeWindow } from '../components/CodeWindow';
 import { EmailSignup } from '../components/EmailSignup';
 import { InstallCommand } from '../components/InstallCommand';
 import { pageMeta } from '../lib/meta';
+import { useScaffoldMetrics, type Metrics } from '../lib/scaffold';
 
 export const meta: MetaFunction = () =>
   pageMeta(
@@ -10,7 +11,52 @@ export const meta: MetaFunction = () =>
     'Scaffold is a browser-native protocol that turns your users into infrastructure. WASM contracts, WebRTC transport, results verified by economic collateral.',
   );
 
+/** Shown in place of a figure the node hasn't reported yet — never a stand-in zero. */
+const NOT_YET = '—';
+
+function count(n: number): string {
+  return n.toLocaleString('en-US');
+}
+
+function bytes(n: number): string {
+  if (n < 1000) return `${count(n)} B`;
+  const units = ['kB', 'MB', 'GB', 'TB'];
+  let value = n / 1000;
+  let unit = 0;
+  while (value >= 1000 && unit < units.length - 1) {
+    value /= 1000;
+    unit++;
+  }
+  return `${value < 10 ? value.toFixed(1) : Math.round(value)} ${units[unit]}`;
+}
+
+/** "2 WebSocket + 5 WebRTC", or a plain total before any transport is running. */
+function peers(m: Metrics): string {
+  const webSocket =
+    m.connectedPeersByPlugin.get('WebsocketClientTransport') ?? 0;
+  const webRtc = m.connectedPeersByPlugin.get('WebrtcTransport') ?? 0;
+  return `${count(webSocket)} WebSocket + ${count(webRtc)} WebRTC`;
+}
+
 export default function Home() {
+  // Live figures from the node this page is running (src/lib/scaffold.tsx);
+  // null until it files its first report, and on the prerendered HTML.
+  const m = useScaffoldMetrics();
+  const spec: { k: string; v: string | null }[] = [
+    { k: 'Connected peers', v: m && peers(m) },
+    {
+      k: 'WASM contracts executed',
+      v:
+        m &&
+        `${count(m.blocksGenerated)} generated + ${count(m.blocksVerified)} verified`,
+    },
+    {
+      k: 'Blocks received',
+      v: m && `${count(m.blocksReceived)} blocks / ${bytes(m.bytesReceived)}`,
+    },
+    { k: 'Total DAG size', v: m && `${count(m.totalDagOutputs)} outputs` },
+  ];
+
   return (
     <main>
       {/* ============ HERO ============ */}
@@ -39,7 +85,7 @@ export default function Home() {
                   How it works
                 </Link>
               </div>
-              <EmailSignup />
+              {/*<EmailSignup />*/}
             </div>
             <div>
               <CodeWindow />
@@ -47,22 +93,12 @@ export default function Home() {
           </div>
 
           <div className="hero-spec">
-            <div className="cell">
-              <span className="k">Connected peers</span>
-              <span className="v">2 WebSocket + 5 WebRTC</span>
-            </div>
-            <div className="cell">
-              <span className="k">WASM contracts executed</span>
-              <span className="v">123 generated + 42 verified</span>
-            </div>
-            <div className="cell">
-              <span className="k">Blocks received</span>
-              <span className="v">100 blocks / 5 MB</span>
-            </div>
-            <div className="cell">
-              <span className="k">Total DAG size</span>
-              <span className="v">1467 outputs</span>
-            </div>
+            {spec.map((cell) => (
+              <div className="cell" key={cell.k}>
+                <span className="k">{cell.k}</span>
+                <span className="v">{cell.v ?? NOT_YET}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -190,10 +226,10 @@ export default function Home() {
             One import and a dozen lines of code. No servers to rent, no regions
             to pick, no bill that grows with your success.
           </p>
-          <InstallCommand command="npm install @scaffold/core" />
+          <InstallCommand command="npm install scaffold.io" />
           <div className="ctas">
             <a
-              href="https://github.com/scaffold"
+              href="https://github.com/scaffold/scaffold"
               target="_blank"
               rel="noreferrer"
               className="btn on-accent"

@@ -16,6 +16,7 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router": "^7.6.0",
+    "scaffold.io": "file:../scaffold/npm",
     "sucrase": "^3.35.1"
   },
   "devDependencies": {

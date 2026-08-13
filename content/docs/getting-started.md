@@ -1,17 +1,11 @@
 ---
 title: Getting started
-description: Make your first Scaffold contract call in under ten minutes.
+description: Make your first Scaffold contract call.
 ---
 
 # Getting started
 
-Scaffold is wrapped inside a single method: `fetch()`. This guide takes you from
-an empty directory to calling a WebAssembly contract on the network.
-
-> **Pre-testnet note.** The public testnet launches **July 31, 2026**. Until then,
-> `@scaffold/core` runs against a local development network — everything below
-> works today on your machine, and switches to the public network at launch with
-> no code changes.
+Scaffold is primarily a browser library, but also provides a CLI for local development and testing. We will use both in this guide.
 
 ## Install
 
