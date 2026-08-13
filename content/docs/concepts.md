@@ -17,7 +17,7 @@ Output predicates are also how you request a computation. The predicate carries 
 
 ## The block graph
 
-As mentioned previously, blocks are connected by their claims and outputs, and the resulting structure forms a directed acyclic graph (DAG). Furthermore, the graph is organized into a forest; a log(N)-sized set of trees. You can imagine this as a list of trees of exponentially decreasing size, with older blocks being in larger trees to the left, and newer blocks being added to smaller trees to the right. As trees grow, they merge into larger trees. This process is called "aggregation", and it's the foundation of efficient "views" of very large sets of blocks.
+As mentioned previously, blocks are connected by their claims and outputs, and the resulting structure forms a directed acyclic graph (DAG). Furthermore, the graph is organized into a forest; a O(log(N))-sized set of trees. You can imagine this as a list of trees of exponentially decreasing size, with older blocks being in larger trees to the left, and newer blocks being added to smaller trees to the right. As trees grow, they merge into larger trees. This process is called "aggregation", and it's the foundation of efficient "views" of very large sets of blocks.
 
 The block graph is intentionally sparse. Most leaf blocks and small aggregations will be forgotten relatively quickly, while larger aggregation blocks will persist longer and on more peers.
 
