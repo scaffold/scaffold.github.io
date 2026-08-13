@@ -48,14 +48,23 @@ export const meta: MetaFunction = () => [
 // own attributes only, so real content mismatches are still reported.
 const THEME_INIT = `document.documentElement.dataset.mode = localStorage.getItem('scaffold-mode') || 'light';`;
 
-// Import map so the hero "Run" code's `import … from '@scaffold/core'` resolves
-// to the local scaffold.io package worktree (served via Vite's `/@fs/`). The
-// absolute path is machine-specific and `/@fs/` only exists under Vite dev, so
-// this currently resolves under `npm run dev`; productionizing means pointing it
-// at a published / browser-bundled package. See vite.config.ts.
+// Import map so the hero "Run" code's `import … from 'scaffold.io'` resolves in
+// the browser. runCode.ts imports the snippet as a blob: URL, so the specifier
+// is resolved natively by the page — it never goes through Vite, which is why a
+// real network URL is needed here rather than a bundler alias.
+//
+// jsDelivr's `+esm` endpoint serves the package Rollup-bundled into a single
+// self-contained module (the published `esm/mod.js` is a 158-file tree of
+// relative imports, so linking it directly would cost 158 requests). Note that
+// esm.sh does NOT work for this package: its entry references a ./Scaffold.mjs
+// that 404s, tripping on the `.ts` keys in the package's exports map.
+//
+// __SCAFFOLD_VERSION__ is inlined by Vite from the scaffold.io dependency in
+// package.json (see vite.config.ts), so the CDN build always matches the
+// installed one.
 const SCAFFOLD_IMPORTMAP = JSON.stringify({
   imports: {
-    'scaffold.io': '/@fs/Users/joel/proj/scaffold/scaffold/npm/esm/mod.js',
+    'scaffold.io': `https://cdn.jsdelivr.net/npm/scaffold.io@${__SCAFFOLD_VERSION__}/+esm`,
   },
 });
 

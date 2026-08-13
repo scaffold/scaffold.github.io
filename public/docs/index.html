@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Docs — Scaffold</title>
+    <!--
+      /docs is a redirect route, so react-router.config.ts can't prerender it
+      (prerendering emits HTML, not a redirect). Without this file GitHub Pages
+      would find no docs/index.html, fall through to 404.html, and resolve the
+      redirect client-side off an HTTP 404. This static stub keeps /docs a 200.
+
+      The canonical link points at the target so search engines fold this URL
+      into it; the 0-second meta refresh is treated as a permanent redirect.
+    -->
+    <link rel="canonical" href="https://scaffold.io/docs/getting-started" />
+    <meta http-equiv="refresh" content="0; url=/docs/getting-started" />
+  </head>
+  <body>
+    <p>Redirecting to <a href="/docs/getting-started">Getting started</a>…</p>
+  </body>
+</html>
