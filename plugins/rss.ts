@@ -29,9 +29,20 @@ export function rssPlugin(): Plugin {
         .map((file) => {
           const { data } = matter(readFileSync(`${BLOG_DIR}/${file}`, 'utf8'));
           const slug = file.replace(/\.md$/, '');
-          return { slug, ...(data as { title?: string; date?: string; description?: string }) };
+          return {
+            slug,
+            ...(data as {
+              title?: string;
+              date?: string;
+              description?: string;
+              published?: boolean;
+            }),
+          };
         })
-        .filter((p) => p.title && p.date)
+        // Drafts are hidden from the index and skipped by the prerender, so the
+        // feed must drop them too — otherwise subscribers get the one page that
+        // isn't supposed to be public. See react-router.config.ts.
+        .filter((p) => p.title && p.date && p.published !== false)
         .sort((a, b) => String(b.date).localeCompare(String(a.date)));
 
       const items = posts

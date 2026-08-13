@@ -17,7 +17,7 @@ export function Footer() {
               marginTop: 24,
             }}
           >
-            v0.1.0
+            v{__SCAFFOLD_VERSION__}
           </span>
         </div>
         <div>

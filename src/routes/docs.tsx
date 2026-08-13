@@ -3,9 +3,13 @@ import { DOCS_NAV, docs, docTitle } from '../lib/content';
 import { NotFound } from '../components/NotFound';
 import { pageMeta } from '../lib/meta';
 
-export const meta: MetaFunction = ({ params }) => {
+export const meta: MetaFunction = ({ params, location }) => {
   const slug = params.slug ?? '';
-  return docs.has(slug) ? pageMeta(`${docTitle(slug)} — Scaffold Docs`) : pageMeta('Docs — Scaffold');
+  const doc = docs.get(slug);
+  // Unknown slug renders <NotFound />, so the title has to agree with the body.
+  if (!doc) return pageMeta('404 — Scaffold');
+  const { description } = doc.frontmatter as { description?: string };
+  return pageMeta(`${docTitle(slug)} — Scaffold Docs`, description, location.pathname);
 };
 
 export default function DocsPage() {

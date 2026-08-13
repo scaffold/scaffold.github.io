@@ -2,10 +2,11 @@ import { Link, type MetaFunction } from 'react-router';
 import { SectionHead } from '../components/SectionHead';
 import { pageMeta } from '../lib/meta';
 
-export const meta: MetaFunction = () =>
+export const meta: MetaFunction = ({ location }) =>
   pageMeta(
     'How it works — Scaffold',
     'The life of a Scaffold request: publish a WASM contract, call it with fetch(), and get a collateralized result from the nearest peer.',
+    location.pathname,
   );
 
 /*

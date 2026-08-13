@@ -3,10 +3,17 @@ import { formatDate, posts } from '../lib/content';
 import { NotFound } from '../components/NotFound';
 import { pageMeta } from '../lib/meta';
 
-export const meta: MetaFunction = ({ params }) => {
+export const meta: MetaFunction = ({ params, location }) => {
   const post = params.slug ? posts.get(params.slug) : undefined;
-  const fm = post?.frontmatter as { title?: string; description?: string } | undefined;
-  return pageMeta(fm?.title ? `${fm.title} — Scaffold Blog` : 'Blog — Scaffold', fm?.description);
+  // Unknown slug renders <NotFound />, so the title has to agree with the body —
+  // in production that includes drafts, which are dropped from `posts`.
+  if (!post) return pageMeta('404 — Scaffold');
+  const fm = post.frontmatter as { title?: string; description?: string };
+  return pageMeta(
+    fm.title ? `${fm.title} — Scaffold Blog` : 'Blog — Scaffold',
+    fm.description,
+    location.pathname,
+  );
 };
 
 export default function BlogPost() {

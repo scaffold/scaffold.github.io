@@ -27,7 +27,7 @@ export function Nav() {
         <img className="mark dark" src="/logomark-black.png" alt="Scaffold" />
         <img className="mark light" src="/logomark-white.png" alt="" />
         <span className="brandname">Scaffold</span>
-        <span className="v">v0.1.0</span>
+        <span className="v">v{__SCAFFOLD_VERSION__}</span>
       </Link>
       <div className="sp" />
       <ul>

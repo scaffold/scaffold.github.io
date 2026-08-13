@@ -21,9 +21,21 @@ export const docs = bySlug(
   import.meta.glob('../../content/docs/*.md', { eager: true }),
   import.meta.glob('../../content/spec/*.md', { eager: true }),
 );
-export const posts = bySlug(
+const allPosts = bySlug(
   import.meta.glob('../../content/blog/*.md', { eager: true }),
 );
+
+/**
+ * Drafts are dropped from the production bundle. The prerender already skips
+ * them (react-router.config.ts), but without this the SPA fallback would still
+ * render one client-side for anyone who visits the URL directly. They stay
+ * available under `npm run dev` so a draft can be previewed at its own URL.
+ */
+export const posts = import.meta.env.PROD
+  ? new Map(
+      [...allPosts].filter(([, mod]) => mod.frontmatter.published !== false),
+    )
+  : allPosts;
 
 /** Sidebar order + grouping. Titles come from each doc's frontmatter. */
 export const DOCS_NAV: { label: string; slugs: string[] }[] = [

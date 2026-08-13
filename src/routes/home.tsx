@@ -5,10 +5,11 @@ import { InstallCommand } from '../components/InstallCommand';
 import { pageMeta } from '../lib/meta';
 import { useScaffoldMetrics, type Metrics } from '../lib/scaffold';
 
-export const meta: MetaFunction = () =>
+export const meta: MetaFunction = ({ location }) =>
   pageMeta(
     'Scaffold — Move the cloud to the client',
     'Scaffold is a browser-native protocol that turns your users into infrastructure. WASM contracts, WebRTC transport, results verified by economic collateral.',
+    location.pathname,
   );
 
 /** Shown in place of a figure the node hasn't reported yet — never a stand-in zero. */

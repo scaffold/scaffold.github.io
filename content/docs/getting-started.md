@@ -14,10 +14,10 @@ Let's start with a very simple contract. `3338be694f50c5f338814986cdf0686453a888
 ```bash
 > npx scaffold.io --bootstrap_urls wss://relay.scaffold.io/ \
 >   fetch 3338be694f50c5f338814986cdf0686453a888b84f424d792af4b9202398f392 world
-Hello, world!
+Hello world!
 ```
 
-In this example, "world" is the params we're passing to the contract, and "Hello, world!" is the result. But sometimes, the contract can't compute the result without some extra help:
+In this example, "world" is the params we're passing to the contract, and "Hello world!" is the result. But sometimes, the contract can't compute the result without some extra help:
 
 ```bash
 > npx scaffold.io --bootstrap_urls wss://relay.scaffold.io/ \

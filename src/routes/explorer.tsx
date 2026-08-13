@@ -1,8 +1,12 @@
 import type { MetaFunction } from 'react-router';
 import { pageMeta } from '../lib/meta';
 
-export const meta: MetaFunction = () =>
-  pageMeta('Explorer — Scaffold', 'Live view of the Scaffold network. Opens with the public testnet in July 2026.');
+export const meta: MetaFunction = ({ location }) =>
+  pageMeta(
+    'Explorer — Scaffold',
+    'Live view of the Scaffold network. Opens with the public testnet in July 2026.',
+    location.pathname,
+  );
 
 export default function ExplorerPage() {
   return (

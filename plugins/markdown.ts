@@ -86,11 +86,33 @@ function createRenderer(highlighter: Highlighter) {
 
 export function markdownPlugin(): Plugin {
   let md: MarkdownIt | null = null;
+  let isProduction = false;
 
   return {
     name: 'scaffold-markdown',
+    configResolved(config) {
+      isProduction = config.isProduction;
+    },
     async transform(src, id) {
       if (!id.endsWith('.md')) return null;
+
+      const { data: fm } = matter(src);
+
+      // A draft's body must not reach the client bundle at all. `posts` is built
+      // with an eager import.meta.glob, so filtering that map (src/lib/content.ts)
+      // stops the page rendering but still ships the prose inside a JS chunk for
+      // anyone who greps it. Emit the frontmatter and an empty body instead —
+      // dev keeps the real content so drafts stay previewable.
+      if (isProduction && fm.published === false) {
+        return {
+          code: [
+            `export const frontmatter = ${JSON.stringify(fm)};`,
+            `export const html = "";`,
+            `export const toc = [];`,
+          ].join('\n'),
+          map: null,
+        };
+      }
 
       if (!md) md = createRenderer(await getHighlighter());
       const { data, content } = matter(src);

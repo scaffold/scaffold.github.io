@@ -2,8 +2,12 @@ import type { MetaFunction } from 'react-router';
 import { SectionHead } from '../components/SectionHead';
 import { pageMeta } from '../lib/meta';
 
-export const meta: MetaFunction = () =>
-  pageMeta('Community — Scaffold', 'Where Scaffold gets built: GitHub, Discord, Bluesky, and the forum.');
+export const meta: MetaFunction = ({ location }) =>
+  pageMeta(
+    'Community — Scaffold',
+    'Where Scaffold gets built: GitHub, Discord, Bluesky, and the forum.',
+    location.pathname,
+  );
 
 export default function CommunityPage() {
   return (

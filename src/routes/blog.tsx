@@ -2,10 +2,11 @@ import { Link, type MetaFunction } from 'react-router';
 import { formatDate, sortedPosts } from '../lib/content';
 import { pageMeta } from '../lib/meta';
 
-export const meta: MetaFunction = () =>
+export const meta: MetaFunction = ({ location }) =>
   pageMeta(
     'Blog — Scaffold',
     'Notes from the Scaffold protocol — moving the cloud to the client.',
+    location.pathname,
   );
 
 export default function BlogIndex() {

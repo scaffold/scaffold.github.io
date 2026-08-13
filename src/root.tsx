@@ -20,7 +20,21 @@ export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: FONTS },
   { rel: 'stylesheet', href: tokensHref },
   { rel: 'stylesheet', href: siteHref },
-  { rel: 'icon', type: 'image/png', href: '/logomark-black.png' },
+  // The mark is monochrome, so a single icon disappears against one of the two
+  // browser chromes. Light first: browsers that ignore `media` on icon links
+  // fall back to it rather than serving white-on-white.
+  {
+    rel: 'icon',
+    type: 'image/png',
+    href: '/logomark-black.png',
+    media: '(prefers-color-scheme: light)',
+  },
+  {
+    rel: 'icon',
+    type: 'image/png',
+    href: '/logomark-white.png',
+    media: '(prefers-color-scheme: dark)',
+  },
   {
     rel: 'alternate',
     type: 'application/rss+xml',
