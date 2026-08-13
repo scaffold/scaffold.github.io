@@ -1,11 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
 import type { editor as MonacoEditor } from 'monaco-editor';
 import type { RunResult } from '../lib/runCode';
-import { FILES, LANGS, MONACO_LANG, SOON_LANG, SOURCE, type Lang, type Step } from '../content/heroCode';
+import {
+  FILES,
+  LANGS,
+  MONACO_LANG,
+  SOON_LANG,
+  SOURCE,
+  type Lang,
+  type Step,
+} from '../content/heroCode';
 
 const STEPS: { key: Step; label: string }[] = [
-  { key: 'contract', label: 'Contract' },
-  { key: 'build', label: 'Build' },
+  // { key: 'contract', label: 'Contract' },
+  // { key: 'build', label: 'Build' },
   { key: 'run', label: 'Run' },
 ];
 
@@ -64,7 +72,10 @@ export function CodeWindow() {
 
       // Re-theme when the site flips light/dark (Nav toggles <html data-mode>).
       observer = new MutationObserver(() => m.applyScaffoldTheme());
-      observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-mode'] });
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-mode'],
+      });
     })();
 
     return () => {
@@ -116,7 +127,11 @@ export function CodeWindow() {
 
   return (
     <div className="code-window">
-      <div className="chrome" role="tablist" aria-label="Build a Scaffold app in three steps">
+      <div
+        className="chrome"
+        role="tablist"
+        aria-label="Build a Scaffold app in three steps"
+      >
         {STEPS.map((s) => (
           <button
             key={s.key}
@@ -143,7 +158,10 @@ export function CodeWindow() {
       <div
         ref={hostRef}
         className="monaco-host"
-        style={{ height: ready ? undefined : 0, display: ready ? 'block' : 'none' }}
+        style={{
+          height: ready ? undefined : 0,
+          display: ready ? 'block' : 'none',
+        }}
       />
 
       {step === 'run' && output && (
@@ -154,16 +172,29 @@ export function CodeWindow() {
             </div>
           ))}
           {output.error && <div className="line error">⚠ {output.error}</div>}
-          {output.logs.length === 0 && !output.error && <div className="line muted">(no output)</div>}
+          {output.logs.length === 0 && !output.error && (
+            <div className="line muted">(no output)</div>
+          )}
         </div>
       )}
 
       <div className="langbar">
-        <div className="langbar-langs" role="group" aria-label="Contract language">
+        <div
+          className="langbar-langs"
+          role="group"
+          aria-label="Contract language"
+        >
           <span className="langbar-label">Contract language</span>
           <div className="langbar-btns">
             {LANGS.map((l) => (
-              <button key={l.id} aria-pressed={lang === l.id} onClick={() => {setLang(l.id); setStep('contract');}}>
+              <button
+                key={l.id}
+                aria-pressed={lang === l.id}
+                onClick={() => {
+                  setLang(l.id);
+                  setStep('contract');
+                }}
+              >
                 {l.label}
               </button>
             ))}
@@ -185,7 +216,11 @@ export function CodeWindow() {
             Run →
           </button>
         ) : (
-          <button className="cta" onClick={runCode} disabled={running || !ready}>
+          <button
+            className="cta"
+            onClick={runCode}
+            disabled={running || !ready}
+          >
             {running ? 'Running…' : '▶ Run'}
           </button>
         )}
