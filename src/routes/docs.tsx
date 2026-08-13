@@ -36,11 +36,13 @@ export default function DocsPage() {
           {doc.toc.length > 0 && (
             <>
               <div className="toc-label">On this page</div>
-              {doc.toc.map((entry) => (
-                <a key={entry.id} href={`#${entry.id}`} className={entry.level === 3 ? 'lvl-3' : ''}>
-                  {entry.text}
-                </a>
-              ))}
+              <nav className="toc-links">
+                {doc.toc.map((entry) => (
+                  <a key={entry.id} href={`#${entry.id}`} className={entry.level === 3 ? 'lvl-3' : ''}>
+                    {entry.text}
+                  </a>
+                ))}
+              </nav>
             </>
           )}
         </aside>

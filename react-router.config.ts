@@ -27,6 +27,7 @@ export default {
       '/community',
       '/blog',
       ...slugs('docs').map((s) => `/docs/${s}`),
+      ...slugs('spec').map((s) => `/docs/${s}`),
       ...slugs('blog').map((s) => `/blog/${s}`),
     ];
   },

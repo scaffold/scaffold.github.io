@@ -263,7 +263,7 @@ section.band.flush { border-top: none; }
 section.band.sunken { background: var(--bg-sunken); }
 section.band.invert { background: var(--fg); color: var(--bg); border-top: none; }
 
-.band-title { font-size: var(--fs-5xl); letter-spacing: -0.035em; line-height: 1; margin-bottom: var(--sp-12); max-width: 20ch; }
+.band-title { font-size: var(--fs-5xl); letter-spacing: -0.035em; line-height: 1; margin-bottom: var(--sp-12); }
 
 /* Heading-left / body-right */
 .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-16); align-items: start; }
@@ -546,11 +546,19 @@ section.cta-final { background: var(--accent); color: var(--accent-contrast); bo
 .docs-side a { display: block; padding: 6px 0 6px 10px; font-size: var(--fs-sm); color: var(--fg-2); border-left: 1px solid var(--border); }
 .docs-side a:hover { color: var(--fg); border-left-color: var(--border-strong); }
 .docs-side a.active { color: var(--accent); border-left-color: var(--accent); }
-.docs-toc { position: sticky; top: 96px; }
+/* Long tables of contents scroll on their own so the whole list stays reachable. */
+.docs-toc {
+  position: sticky; top: 96px;
+  display: flex; flex-direction: column; max-height: calc(100vh - 96px - var(--sp-8));
+}
 .docs-toc .toc-label {
   font-family: var(--font-mono); font-size: 10px; text-transform: uppercase;
   letter-spacing: 0.14em; color: var(--fg-3); margin-bottom: 8px;
   border-bottom: 1px solid var(--border); padding-bottom: 6px;
+}
+.docs-toc .toc-links {
+  min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+  scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent;
 }
 .docs-toc a { display: block; padding: 4px 0; font-size: 12px; color: var(--fg-3); }
 .docs-toc a:hover { color: var(--fg); }
@@ -559,7 +567,7 @@ section.cta-final { background: var(--accent); color: var(--accent-contrast); bo
 /* ==========================================================
    Prose (docs + blog bodies)
    ========================================================== */
-.prose { max-width: 72ch; }
+.prose { max-width: 144ch; }
 .prose > h1:first-child { font-size: var(--fs-5xl); margin-bottom: var(--sp-6); letter-spacing: -0.035em; }
 .prose h2 { font-size: var(--fs-3xl); margin: var(--sp-12) 0 var(--sp-4); }
 .prose h3 { font-size: var(--fs-xl); margin: var(--sp-8) 0 var(--sp-3); }

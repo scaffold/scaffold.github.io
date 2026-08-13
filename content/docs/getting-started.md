@@ -5,57 +5,51 @@ description: Make your first Scaffold contract call.
 
 # Getting started
 
-Scaffold is primarily a browser library, but also provides a CLI for local development and testing. We will use both in this guide.
-
-## Install
-
-```bash
-npm install @scaffold/core
-```
-
-The package runs in every modern browser, Deno, and Node. No native dependencies —
-the runtime is WebAssembly all the way down.
+Scaffold is primarily a browser library, but also provides a CLI for local development and testing. We will use the CLI in this guide, but the same concepts apply when using the browser library.
 
 ## Connect to the network
 
-```typescript
-import { Scaffold, browserConfig } from '@scaffold/core';
+Let's start with a very simple contract. `3338be694f50c5f338814986cdf0686453a888b84f424d792af4b9202398f392` simply says hello to the name you provide.
 
-// Connect to the Scaffold network.
-const scaffold = new Scaffold(browserConfig);
+```bash
+> npx scaffold.io --bootstrap_urls ws://127.0.0.1:8314/ \
+>   fetch 3338be694f50c5f338814986cdf0686453a888b84f424d792af4b9202398f392 world
+Hello, world!
 ```
 
-`browserConfig` dials seed peers over WebSockets, then upgrades to WebRTC mesh
-connections as it discovers peers. In Node or Deno, use `serverConfig` instead —
-servers connect like any other client.
+In this example, "world" is the params we're passing to the contract, and "Hello, world!" is the result. But sometimes, the contract can't compute the result without some extra help:
 
-## Call a contract
-
-Every contract is addressed by the hash of its WASM bytes. Calling one looks like
-a fetch:
-
-```typescript
-// Any WASM contract, addressed by its hash.
-const greeter = '0xdda8ecfd22ea…';
-
-// The request routes to a peer that has the contract;
-// the peer runs it and returns the collateralized result.
-const hello = await scaffold.fetch({
-  contractHash: greeter,
-  params: 'World',
-});
-
-console.log(hello.text()); // → "Hello World!"
+```bash
+> npx scaffold.io --bootstrap_urls ws://127.0.0.1:8314/ \
+>   fetch 02f6096a69fd3ef5222b99fb9c2ee03c5824f6b637a867b1040a929f22f56c59 7f455bca6d76cafa81a79b746038e33b1bef9ec41e87180db8becf80b22f549a
+# No output
 ```
 
-The call runs on-device if the contract is cached locally, otherwise on the
-nearest peer that has it. Either way, the result comes back with collateral
-staked on its correctness — see [Concepts](/docs/concepts) for how verification
-works.
+Here, the first hash refers to the blob contract. This contract must return data hashing to the second hash. It's impossible for now, because Scaffold doesn't know the plaintext. We can use `put()` to tell Scaffold what the second hash [`7f455bca...`](<https://gchq.github.io/CyberChef/#recipe=SHA3('256')&input=Q29udGVudCBJIHdhbnQgdG8gc3RvcmUgb24gdGhlIFNjYWZmb2xkIG5ldHdvcms>) refers to:
+
+```bash
+> npx scaffold.io --bootstrap_urls ws://127.0.0.1:8314/ \
+>   put 02f6096a69fd3ef5222b99fb9c2ee03c5824f6b637a867b1040a929f22f56c59 7f455bca6d76cafa81a79b746038e33b1bef9ec41e87180db8becf80b22f549a 'Content I want to store on the Scaffold network'
+{
+  "type": "put_canonical",
+  "hash": "c000c6b059d8a928dc654b700e97b98103028e6c9f7543b5f595dfec70af49da"
+}
+```
+
+A new block has been created; for this example the block hash is not important. But we can now run the same `fetch()` we tried earlier:
+
+```bash
+> npx scaffold.io --bootstrap_urls ws://127.0.0.1:8314/ \
+>   fetch 02f6096a69fd3ef5222b99fb9c2ee03c5824f6b637a867b1040a929f22f56c59 7f455bca6d76cafa81a79b746038e33b1bef9ec41e87180db8becf80b22f549a
+Content I want to store on the Scaffold network
+```
 
 ## Write your own contract
 
-Contracts are plain WebAssembly. The Rust SDK is the most complete today:
+> Coming soon!
+
+<!--
+Contracts are plain WebAssembly. Let's use rust:
 
 ```rust
 // Import the scaffold library
@@ -83,15 +77,11 @@ scaffold put target/wasm32-unknown-unknown/release/greeter.wasm
 # → 0xdda8ecfd22ea2b9fd670cd43cadd553e…
 ```
 
-`scaffold put` returns the contract's hash — its permanent, content-addressed
-identity on the network. Anyone holding that hash can call it; nobody can change
-what it does.
+`scaffold put` returns the contract's hash — its permanent, content-addressed identity on the network. Anyone holding that hash can call it.
 
-See [Writing contracts](/docs/writing-contracts) for the full contract ABI,
-AssemblyScript support, and patterns beyond hello-world.
+See [Writing contracts](/docs/writing-contracts) for the full contract ABI, Zig + AssemblyScript support, and patterns beyond hello-world.
+-->
 
 ## Next steps
 
 - [Concepts](/docs/concepts) — contracts, blocks, collateral, and the tree.
-- [Writing contracts](/docs/writing-contracts) — the contract ABI in depth.
-- [FAQ](/docs/faq) — "is this a blockchain?" and other fair questions.

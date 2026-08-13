@@ -17,7 +17,7 @@ export function Footer() {
               marginTop: 24,
             }}
           >
-            v0.1.0 · Testnet July 2026
+            v0.1.0
           </span>
         </div>
         <div>
@@ -30,9 +30,6 @@ export function Footer() {
               <Link to="/docs/concepts">Concepts</Link>
             </li>
             <li>
-              <Link to="/docs/writing-contracts">Writing contracts</Link>
-            </li>
-            <li>
               <Link to="/docs/faq">FAQ</Link>
             </li>
           </ul>
@@ -41,16 +38,7 @@ export function Footer() {
           <h5>Site</h5>
           <ul>
             <li>
-              <Link to="/how-it-works">How it works</Link>
-            </li>
-            <li>
-              <Link to="/explorer">Explorer</Link>
-            </li>
-            <li>
               <Link to="/blog">Blog</Link>
-            </li>
-            <li>
-              <Link to="/community">Community</Link>
             </li>
           </ul>
         </div>
@@ -59,7 +47,7 @@ export function Footer() {
           <ul>
             <li>
               <a
-                href="https://github.com/scaffold"
+                href="https://github.com/scaffold/scaffold"
                 target="_blank"
                 rel="noreferrer"
               >

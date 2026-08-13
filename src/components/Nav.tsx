@@ -31,11 +31,24 @@ export function Nav() {
       </Link>
       <div className="sp" />
       <ul>
-        <li><NavLink to="/how-it-works">How it works</NavLink></li>
-        <li><NavLink to="/explorer">Explorer</NavLink></li>
-        <li><NavLink to="/docs/getting-started">Docs</NavLink></li>
-        <li><NavLink to="/blog">Blog</NavLink></li>
-        <li><NavLink to="/community">Community</NavLink></li>
+        <li>
+          <NavLink to="/docs/getting-started">Docs</NavLink>
+        </li>
+        <li>
+          <NavLink to="/docs/whitepaper">Whitepaper</NavLink>
+        </li>
+        <li>
+          <NavLink to="/blog">Blog</NavLink>
+        </li>
+        <li>
+          <a
+            href="https://github.com/scaffold/scaffold"
+            target="_blank"
+            rel="noreferrer"
+          >
+            GitHub
+          </a>
+        </li>
       </ul>
       <button
         className="modebtn"

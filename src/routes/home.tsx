@@ -81,9 +81,9 @@ export default function Home() {
                 <Link to="/docs/getting-started" className="btn primary">
                   Get started →
                 </Link>
-                <Link to="/how-it-works" className="btn secondary">
+                {/*<Link to="/how-it-works" className="btn secondary">
                   How it works
-                </Link>
+                </Link>*/}
               </div>
               {/*<EmailSignup />*/}
             </div>
@@ -145,6 +145,7 @@ export default function Home() {
       </section>
 
       {/* ============ The API — three methods ============ */}
+      {/*
       <section className="band sunken">
         <div className="section-inner">
           <div className="section-head">
@@ -186,8 +187,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      */}
 
       {/* ============ Contract development environment ============ */}
+      {/*
       <section className="band">
         <div className="section-inner">
           <div className="split-2">
@@ -217,8 +220,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      */}
 
       {/* ============ Get started (accent) ============ */}
+      {/*
       <section className="band cta-final">
         <div className="section-inner">
           <h2>Get started.</h2>
@@ -241,7 +246,7 @@ export default function Home() {
             </Link>
           </div>
         </div>
-      </section>
+      </section>*/}
     </main>
   );
 }
