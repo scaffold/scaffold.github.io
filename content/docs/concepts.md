@@ -29,7 +29,7 @@ Let's say a double-claim is missed and gets aggregated into the canonical forest
 
 ## Contracts
 
-Contracts are central to almost everything that Scaffold does. They are used to generate blocks, verify received blocks, and weight subsets of the block grapht to determine consensus. A contract can be understood as a simple `run(env: ContractEnv): void` method that either succeeds or throws an error. The contract calls methods of the `env` object to interact with Scaffold.
+Contracts are central to almost everything that Scaffold does. They are used to generate blocks, verify received blocks, and weight subsets of the block graph to determine consensus. A contract can be understood as a simple `run(env: ContractEnv): void` method that either succeeds or throws an error. The contract calls methods of the `env` object to interact with Scaffold.
 
 There are two modes that contracts operate under, that are mostly invisible to the contract itself: generation and verification. A contract running in generation mode will call methods on the `env` object and, assuming the contract completes, will result in a new block being generated and published to the network. Let's say another Scaffold instance or peer receives the new block. It will call the same contract in verification mode, which will call the exact same sequence of methods on the new `env` object. Scaffold will either accept or reject the block based on whether the contract completes successfully and whether the called methods exactly match the provided block.
 

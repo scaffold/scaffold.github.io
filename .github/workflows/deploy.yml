@@ -46,8 +46,7 @@ jobs:
         run: npm run build
 
       - name: Add SPA fallback for Pages
-        # Pages ignores public/_redirects (that's a Cloudflare/Netlify file) and
-        # instead serves 404.html for any path with no matching file. Routes that
+        # Pages serves 404.html for any path with no matching file. Routes that
         # aren't prerendered — the /docs redirect and client-side 404s — need to
         # boot React Router's SPA shell, so point 404.html at it.
         #

@@ -28,13 +28,24 @@ npm run preview    # serve the production build
   order lives in `src/lib/content.ts` (`DOCS_NAV`).
 - `plugins/markdown.ts` — Vite plugin: markdown → HTML at build time with
   Shiki highlighting wired to the design system's `--code-*` palette.
-- `plugins/rss.ts` — emits `dist/blog/feed.xml` at build time.
+- `plugins/rss.ts` — emits `build/client/blog/feed.xml` at build time.
 
 ## Deployment
 
-Static output in `dist/`, with `public/_redirects` providing the SPA
-fallback for Cloudflare Pages / Netlify. The site is a client-rendered SPA
-for now; prerendering routes for SEO is a planned follow-up.
+Static output in `build/client/`. Every route listed in
+`react-router.config.ts` is prerendered to HTML; the rest are client-only
+and boot React Router's SPA shell.
+
+Both hosts serve that shell the same way — as `404.html`, which is what
+they fall back to when no asset matches:
+
+- GitHub Pages (live) — `.github/workflows/deploy.yml`, on push to `main`.
+- Cloudflare Pages — build command `bash scripts/build-cloudflare.sh`,
+  output directory `build/client`, `NODE_VERSION=22`.
+
+Do not add a `_redirects` file. It does nothing on GitHub Pages, and on
+Cloudflare its `/*` splat matches even prerendered paths and loops on the
+`.html` → extensionless 308 — see the comment in the build script.
 
 ## Future
 
