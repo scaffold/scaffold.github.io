@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { reactRouter } from '@react-router/dev/vite';
 import { defineConfig } from 'vite';
 import { markdownPlugin } from './plugins/markdown';
+import { rawMarkdownPlugin } from './plugins/raw-markdown';
 import { rssPlugin } from './plugins/rss';
 
 // The hero runner resolves `scaffold.io` through a page-level import map that
@@ -16,7 +17,7 @@ const scaffoldVersion = pkg.dependencies['scaffold.io'].replace(/^[^\d]*/, '');
 export default defineConfig({
   // reactRouter() provides the React/JSX transform, so no separate
   // @vitejs/plugin-react is needed. Our content plugins run alongside it.
-  plugins: [reactRouter(), markdownPlugin(), rssPlugin()],
+  plugins: [reactRouter(), markdownPlugin(), rawMarkdownPlugin(), rssPlugin()],
   define: {
     __SCAFFOLD_VERSION__: JSON.stringify(scaffoldVersion),
   },

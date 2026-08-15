@@ -28,6 +28,9 @@ npm run preview    # serve the production build
   order lives in `src/lib/content.ts` (`DOCS_NAV`).
 - `plugins/markdown.ts` — Vite plugin: markdown → HTML at build time with
   Shiki highlighting wired to the design system's `--code-*` palette.
+- `plugins/raw-markdown.ts` — emits the raw markdown behind every published
+  page (`/docs/faq.md` beside the prerendered `/docs/faq`), plus `/llms.txt`
+  and `/llms-full.txt`.
 - `plugins/rss.ts` — emits `build/client/blog/feed.xml` at build time.
 
 ## Deployment
@@ -46,6 +49,22 @@ they fall back to when no asset matches:
 Do not add a `_redirects` file. It does nothing on GitHub Pages, and on
 Cloudflare its `/*` splat matches even prerendered paths and loops on the
 `.html` → extensionless 308 — see the comment in the build script.
+
+### Markdown for machines
+
+Every published page is served twice: as HTML at its route, and as its source
+markdown at the same path plus `.md`. `/llms.txt` indexes those `.md` URLs and
+`/llms-full.txt` concatenates them.
+
+They're plain static files, so both hosts serve them with no configuration and
+they cache like any other asset. That is the reason for the extra URL rather
+than content negotiation on `Accept: text/markdown` — a static host can't vary
+one URL by request header, and Cloudflare's edge cache only honours `Vary:
+Accept-Encoding`, so a negotiated single URL risks handing HTML to a client
+that asked for markdown.
+
+Adding a doc prints a build warning until it's placed in `DOCS_ORDER`
+(`plugins/raw-markdown.ts`) next to its `DOCS_NAV` entry.
 
 ## Future
 
