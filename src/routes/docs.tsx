@@ -1,6 +1,7 @@
 import { NavLink, useParams, type MetaFunction } from 'react-router';
 import { DOCS_NAV, docs, docTitle } from '../lib/content';
 import { NotFound } from '../components/NotFound';
+import { Prose } from '../components/Prose';
 import { pageMeta } from '../lib/meta';
 
 export const meta: MetaFunction = ({ params, location }) => {
@@ -34,7 +35,7 @@ export default function DocsPage() {
           ))}
         </aside>
 
-        <article className="prose" dangerouslySetInnerHTML={{ __html: doc.html }} />
+        <Prose html={doc.html} />
 
         <aside className="docs-toc">
           {doc.toc.length > 0 && (

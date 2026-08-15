@@ -1,6 +1,7 @@
 import { useParams, type MetaFunction } from 'react-router';
 import { formatDate, posts } from '../lib/content';
 import { NotFound } from '../components/NotFound';
+import { Prose } from '../components/Prose';
 import { pageMeta } from '../lib/meta';
 
 export const meta: MetaFunction = ({ params, location }) => {
@@ -33,7 +34,7 @@ export default function BlogPost() {
           </div>
           <h1>{fm.title}</h1>
         </div>
-        <article className="prose" dangerouslySetInnerHTML={{ __html: post.html }} />
+        <Prose html={post.html} />
       </div>
     </main>
   );

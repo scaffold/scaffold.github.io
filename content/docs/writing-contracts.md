@@ -91,7 +91,7 @@ easy path.
 
 ## Publish
 
-```bash
+```bash output=2
 scaffold put greeter.wasm
 # → 0xdda8ecfd22ea2b9fd670cd43cadd553e…
 ```

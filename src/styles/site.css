@@ -587,6 +587,43 @@ section.cta-final { background: var(--accent); color: var(--accent-contrast); bo
   padding: 20px 24px; margin: var(--sp-6) 0;
   font-size: 13px; line-height: 1.7; overflow-x: auto;
 }
+
+/* Code blocks — shell prompts and program output are along for the ride only.
+   plugins/markdown.ts strips `> ` before highlighting and re-emits it as
+   .prompt; `output=N` on the fence tags a line .output. Both are unselectable
+   here, and both are already excluded from the button's data-copy payload, so
+   dragging a selection and clicking copy agree on what counts as the command. */
+.prose .code-block { position: relative; }
+.prose .code-block .prompt,
+.prose .code-block .line.output { user-select: none; -webkit-user-select: none; }
+.prose .code-block .prompt { color: color-mix(in srgb, var(--code-fg) 32%, transparent); }
+/* Shiki writes an inline color on every token span, hence !important. */
+.prose .code-block .line.output,
+.prose .code-block .line.output span {
+  color: color-mix(in srgb, var(--code-fg) 52%, transparent) !important;
+  font-style: normal !important;
+}
+
+.prose .code-copy {
+  position: absolute; top: 9px; right: 9px;
+  display: grid; place-items: center; width: 28px; height: 28px;
+  appearance: none; cursor: pointer; user-select: none; -webkit-user-select: none;
+  background: var(--code-bg);
+  border: 1px solid color-mix(in srgb, var(--code-fg) 18%, transparent);
+  color: color-mix(in srgb, var(--code-fg) 55%, transparent);
+  transition: color 0.15s, border-color 0.15s, opacity 0.15s;
+}
+.prose .code-copy:hover { color: var(--code-fg); border-color: color-mix(in srgb, var(--code-fg) 40%, transparent); }
+.prose .code-copy .i-check { display: none; }
+.prose .code-copy.copied { color: var(--accent); border-color: var(--accent); }
+.prose .code-copy.copied .i-copy { display: none; }
+.prose .code-copy.copied .i-check { display: block; }
+/* Out of the way until hover — but only where hovering exists. */
+@media (hover: hover) {
+  .prose .code-copy { opacity: 0; }
+  .prose .code-block:hover .code-copy,
+  .prose .code-copy:focus-visible { opacity: 1; }
+}
 .prose blockquote {
   margin: var(--sp-6) 0; padding: 4px 20px;
   border-left: 2px solid var(--accent);
